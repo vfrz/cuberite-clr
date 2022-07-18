@@ -151,7 +151,7 @@ target_sources(
 )
 
 set(FOLDERS
-	Bindings BlockEntities Blocks Entities
+	Bindings BlockEntities Blocks CLR Entities
 	Generating HTTP Items mbedTLS++ Mobs Noise
 	OSSupport Physics Protocol Registries Simulator
 	Simulator/IncrementalRedstoneSimulator UI WorldStorage
