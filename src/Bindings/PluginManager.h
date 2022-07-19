@@ -6,7 +6,9 @@
 #include "../Defines.h"
 #include "../FunctionRef.h"
 
-
+#include <CLR/ClrLoader.h>
+#include <CLR/Wrappers/ClrPlayerWrapper.h>
+#include <CLR/Wrappers/ClrRootWrapper.h>
 
 
 
@@ -44,6 +46,8 @@ typedef std::vector<cPluginPtr> cPluginPtrs;
 class cPluginManager
 {
 public:
+
+  	//ClrLoader clrLoader;
 
 	enum CommandResult
 	{

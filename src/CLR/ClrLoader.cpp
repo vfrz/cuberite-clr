@@ -37,20 +37,20 @@ load_assembly_and_get_function_pointer_fn
 ClrLoader::GetLoadAssemblyAndGetFunctionPointerFn(const char *runtime_config_path) {
     // Load .NET Core
     void *load_assembly_and_get_function_pointer = nullptr;
-    hostfxr_handle cxt = nullptr;
-    int rc = init_fptr(runtime_config_path, nullptr, &cxt);
-    if (rc != 0 || cxt == nullptr) {
+	hostfxr_handle handle = nullptr;
+    int rc = init_fptr(runtime_config_path, nullptr, &handle);
+    if (rc != 0 || handle == nullptr) {
         std::cerr << "Init failed: " << std::hex << std::showbase << rc << std::endl;
-        close_fptr(cxt);
+        close_fptr(handle);
         return nullptr;
     }
 
     // Get the load assembly function pointer
-    rc = get_delegate_fptr(cxt, hdt_load_assembly_and_get_function_pointer, &load_assembly_and_get_function_pointer);
+    rc = get_delegate_fptr(handle, hdt_load_assembly_and_get_function_pointer, &load_assembly_and_get_function_pointer);
     if (rc != 0 || load_assembly_and_get_function_pointer == nullptr)
         std::cerr << "Get delegate failed: " << std::hex << std::showbase << rc << std::endl;
 
-    close_fptr(cxt);
+    close_fptr(handle);
     return (load_assembly_and_get_function_pointer_fn) load_assembly_and_get_function_pointer;
 }
 

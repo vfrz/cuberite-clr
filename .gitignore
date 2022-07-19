@@ -92,7 +92,6 @@ src/AllFiles.lst
 *.vcxproj.filters
 *.opensdf
 *.sdf
-*.sln
 *.VC.opendb
 *.VC.db
 *.idb

@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+		<GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+		<PublishTrimmed>false</PublishTrimmed>
+		<EnableDynamicLoading>True</EnableDynamicLoading>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+		<TieredCompilation>False</TieredCompilation>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CuberiteClr.Sdk\CuberiteClr.Sdk.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="McMaster.NETCore.Plugins" Version="2.0.0-beta.130" />
+    </ItemGroup>
+
+</Project>
