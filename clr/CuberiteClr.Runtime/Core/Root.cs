@@ -4,10 +4,14 @@ namespace CuberiteClr.Runtime.Core;
 
 public unsafe class Root : IRoot
 {
-	public void RootBroadcastChat(string message, MessageType messageType = MessageType.Custom)
+	public static IRoot Instance { get; } = new Root();
+
+	private Root()
 	{
-		var pointer = *(CuberiteClrManager.WrappersFunctionsPtr + WrappersFunctionsOffsets.Root.BroadcastChat);
-		var broadcastChatFunction = (delegate* unmanaged[Cdecl]<string, MessageType, void>) (void*) pointer;
-		broadcastChatFunction(message, messageType);
+	}
+
+	public void BroadcastChat(string message, MessageType messageType = MessageType.Custom)
+	{
+		WrappersFunctions.root_broadcast_chat(message, messageType);
 	}
 }

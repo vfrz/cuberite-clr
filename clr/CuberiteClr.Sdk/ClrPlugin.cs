@@ -7,6 +7,8 @@ public abstract class ClrPlugin
 {
 	public IRoot Root { get; }
 
+	public virtual int Priority { get; set; } = 0;
+
 	public ClrPlugin(IRoot root)
 	{
 		Root = root;

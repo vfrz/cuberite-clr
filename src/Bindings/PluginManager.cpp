@@ -41,8 +41,11 @@ cPluginManager::cPluginManager(cDeadlockDetect & a_DeadlockDetect) :
 		"CuberiteClr.Runtime.CuberiteClrManager+InitializeDelegate, CuberiteClr.Runtime",
 		(void**)&initializeFunction);
 
-	wrappers_functions[0] = (void*) &ClrPlayerWrapper::entities_player_get_name;
-	wrappers_functions[50] = (void*) &ClrRootWrapper::root_broadcast_chat;
+	wrappers_functions[0] = (void*) &ClrWrapper::entities_player_get_health;
+	wrappers_functions[1] = (void*) &ClrWrapper::entities_player_set_health;
+	wrappers_functions[2] = (void*) &ClrWrapper::entities_player_get_name;
+	wrappers_functions[3] = (void*) &ClrWrapper::entities_player_get_uuid;
+	wrappers_functions[50] = (void*) &ClrWrapper::root_broadcast_chat;
 
 	clr_functions = initializeFunction(&wrappers_functions);
 }
@@ -727,9 +730,9 @@ bool cPluginManager::CallHookPlayerAnimation(cPlayer & a_Player, int a_Animation
 
 bool cPluginManager::CallHookPlayerBreakingBlock(cPlayer & a_Player, Vector3i a_BlockPos, eBlockFace a_BlockFace, BLOCKTYPE a_BlockType, NIBBLETYPE a_BlockMeta)
 {
-	auto playerBreakingBlockFunction = (bool(*)(void *, int, int, int, eBlockFace, BLOCKTYPE))(*(clr_functions + 1));
+	auto playerBreakingBlockFunction = (bool(*)(void *, int, int, int, eBlockFace, BLOCKTYPE, NIBBLETYPE))(*(clr_functions + 1));
 
-	if (playerBreakingBlockFunction(&a_Player, a_BlockPos.x, a_BlockPos.y, a_BlockPos.z, a_BlockFace, a_BlockType))
+	if (playerBreakingBlockFunction(&a_Player, a_BlockPos.x, a_BlockPos.y, a_BlockPos.z, a_BlockFace, a_BlockType, a_BlockMeta))
 		return true;
 
 	return GenericCallHook(HOOK_PLAYER_BREAKING_BLOCK, [&](cPlugin * a_Plugin)
@@ -745,9 +748,9 @@ bool cPluginManager::CallHookPlayerBreakingBlock(cPlayer & a_Player, Vector3i a_
 
 bool cPluginManager::CallHookPlayerBrokenBlock(cPlayer & a_Player, Vector3i a_BlockPos, eBlockFace a_BlockFace, BLOCKTYPE a_BlockType, NIBBLETYPE a_BlockMeta)
 {
-	auto playerBrokenBlockFunction = (bool(*)(void *, int, int, int, eBlockFace, BLOCKTYPE))(*clr_functions);
+	auto playerBrokenBlockFunction = (bool(*)(void *, int, int, int, eBlockFace, BLOCKTYPE, NIBBLETYPE))(*clr_functions);
 
-	if (playerBrokenBlockFunction(&a_Player, a_BlockPos.x, a_BlockPos.y, a_BlockPos.z, a_BlockFace, a_BlockType))
+	if (playerBrokenBlockFunction(&a_Player, a_BlockPos.x, a_BlockPos.y, a_BlockPos.z, a_BlockFace, a_BlockType, a_BlockMeta))
 		return true;
 
 	return GenericCallHook(HOOK_PLAYER_BROKEN_BLOCK, [&](cPlugin * a_Plugin)

@@ -1,4 +1,5 @@
 using System;
+using CuberiteClr.Runtime.Core;
 using CuberiteClr.Runtime.Extensions;
 using CuberiteClr.Runtime.Interop;
 using CuberiteClr.Sdk.Entities;
@@ -11,11 +12,23 @@ public unsafe class Player : InteropReference, IPlayer
 	{
 	}
 
+	public float GetHealth()
+	{
+		return WrappersFunctions.entities_player_get_health(Handle);
+	}
+
+	public void SetHealth(float health)
+	{
+		WrappersFunctions.entities_player_set_health(Handle, health);
+	}
+
 	public string GetName()
 	{
-		var pointer = *(CuberiteClrManager.WrappersFunctionsPtr + WrappersFunctionsOffsets.Entities.Player.GetName);
-		var getPlayerNameFunction = (delegate* unmanaged[Cdecl]<IntPtr, IntPtr>) (void*) pointer;
-		var playerName = getPlayerNameFunction(Handle).ReadStringAuto();
-		return playerName;
+		return WrappersFunctions.entities_player_get_name(Handle).ReadStringAuto();
+	}
+
+	public Guid GetUUID()
+	{
+		return WrappersFunctions.entities_player_get_uuid(Handle);
 	}
 }

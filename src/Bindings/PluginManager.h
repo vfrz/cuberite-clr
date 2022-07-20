@@ -7,9 +7,7 @@
 #include "../FunctionRef.h"
 
 #include <CLR/ClrLoader.h>
-#include <CLR/Wrappers/ClrPlayerWrapper.h>
-#include <CLR/Wrappers/ClrRootWrapper.h>
-
+#include <CLR/ClrWrapper.h>
 
 
 // fwd:

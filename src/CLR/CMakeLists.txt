@@ -8,11 +8,8 @@ target_sources(
         ClrLoader.h
         ClrLoader.cpp
 
-        Wrappers/ClrPlayerWrapper.cpp
-        Wrappers/ClrPlayerWrapper.h
-
-        Wrappers/ClrRootWrapper.cpp
-        Wrappers/ClrRootWrapper.h
+        ClrWrapper.cpp
+        ClrWrapper.h
 )
 
 if (UNIX AND NOT APPLE)
