@@ -18,22 +18,30 @@ public abstract class ClrPlugin
 		Logger = logger;
 	}
 
-	public virtual bool PlayerBreakingBlock(IPlayer player, int x, int y, int z, BlockFace face, BlockType type, byte meta)
+	// Global
+	public virtual bool OnTick(float timeDelta)
 	{
 		return false;
 	}
 
-	public virtual bool PlayerBrokenBlock(IPlayer player, int x, int y, int z, BlockFace face, BlockType type, byte meta)
+	public virtual bool OnChatMessage(IPlayer player, string message)
 	{
 		return false;
 	}
 
-	public virtual bool Tick(float timeDelta)
+	// Player
+	public virtual bool OnPlayerBreakingBlock(IPlayer player, int x, int y, int z, BlockFace face, BlockType type, byte meta)
 	{
 		return false;
 	}
 
-	public virtual bool WorldTick(IWorld world, float timeDelta)
+	public virtual bool OnPlayerBrokenBlock(IPlayer player, int x, int y, int z, BlockFace face, BlockType type, byte meta)
+	{
+		return false;
+	}
+
+	// World
+	public virtual bool OnWorldTick(IWorld world, float timeDelta)
 	{
 		return false;
 	}

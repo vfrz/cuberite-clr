@@ -10,7 +10,7 @@
 
 
 typedef void** (CORECLR_DELEGATE_CALLTYPE *clr_initialize_fn)(void * functions);
-void* wrappers_functions[256];
+void* wrappers_functions[512];
 void** clr_functions;
 
 
@@ -46,17 +46,29 @@ cPluginManager::cPluginManager(cDeadlockDetect & a_DeadlockDetect) :
 	wrappers_functions[4] = (void*)&ClrWrapper::cuberite_log_debug;
 
 	// Entity
-	wrappers_functions[10] = (void*)&ClrWrapper::entity_get_health;
-	wrappers_functions[11] = (void*)&ClrWrapper::entity_set_health;
+	wrappers_functions[32] = (void*)&ClrWrapper::entity_get_health;
+	wrappers_functions[33] = (void*)&ClrWrapper::entity_set_health;
+
+	// Inventory
+	wrappers_functions[92] = (void*)&ClrWrapper::inventory_add_item;
 
 	// Player
-	wrappers_functions[50] = (void*)&ClrWrapper::player_get_name;
-	wrappers_functions[51] = (void*)&ClrWrapper::player_get_uuid;
+	wrappers_functions[128] = (void*)&ClrWrapper::player_get_game_mode;
+	wrappers_functions[129] = (void*)&ClrWrapper::player_set_game_mode;
+	wrappers_functions[130] = (void*)&ClrWrapper::player_get_inventory;
+	wrappers_functions[131] = (void*)&ClrWrapper::player_get_name;
+	wrappers_functions[132] = (void*)&ClrWrapper::player_set_visible;
+	wrappers_functions[133] = (void*)&ClrWrapper::player_get_uuid;
+	wrappers_functions[134] = (void*)&ClrWrapper::player_get_client_handle;
 
 	// Root
-	wrappers_functions[100] = (void*) &ClrWrapper::root_broadcast_chat;
+	wrappers_functions[192] = (void*) &ClrWrapper::root_broadcast_chat;
 
 	// World
+
+	// Objects creation
+	wrappers_functions[256] = (void*) &ClrWrapper::create_item;
+	wrappers_functions[257] = (void*) &ClrWrapper::delete_item;
 
 	clr_functions = initializeFunction(&wrappers_functions);
 }
@@ -391,6 +403,11 @@ bool cPluginManager::CallHookChat(cPlayer & a_Player, AString & a_Message)
 		LOGINFO("Player %s issued an unknown command: \"%s\"", a_Player.GetName().c_str(), a_Message.c_str());
 		return true;  // Cancel sending
 	}
+
+	auto onChatFunction = (bool(*)(cPlayer *, const char * message))(*(clr_functions + 0));
+
+	if (onChatFunction(&a_Player, a_Message.c_str()))
+		return true;
 
 	return GenericCallHook(HOOK_CHAT, [&](cPlugin * a_Plugin)
 		{
@@ -741,9 +758,9 @@ bool cPluginManager::CallHookPlayerAnimation(cPlayer & a_Player, int a_Animation
 
 bool cPluginManager::CallHookPlayerBreakingBlock(cPlayer & a_Player, Vector3i a_BlockPos, eBlockFace a_BlockFace, BLOCKTYPE a_BlockType, NIBBLETYPE a_BlockMeta)
 {
-	auto playerBreakingBlockFunction = (bool(*)(void *, int, int, int, eBlockFace, BLOCKTYPE, NIBBLETYPE))(*(clr_functions + 1));
+	auto onPlayerBreakingBlockFunction = (bool(*)(cPlayer *, int, int, int, eBlockFace, BLOCKTYPE, NIBBLETYPE))(*(clr_functions + 1));
 
-	if (playerBreakingBlockFunction(&a_Player, a_BlockPos.x, a_BlockPos.y, a_BlockPos.z, a_BlockFace, a_BlockType, a_BlockMeta))
+	if (onPlayerBreakingBlockFunction(&a_Player, a_BlockPos.x, a_BlockPos.y, a_BlockPos.z, a_BlockFace, a_BlockType, a_BlockMeta))
 		return true;
 
 	return GenericCallHook(HOOK_PLAYER_BREAKING_BLOCK, [&](cPlugin * a_Plugin)
@@ -759,9 +776,9 @@ bool cPluginManager::CallHookPlayerBreakingBlock(cPlayer & a_Player, Vector3i a_
 
 bool cPluginManager::CallHookPlayerBrokenBlock(cPlayer & a_Player, Vector3i a_BlockPos, eBlockFace a_BlockFace, BLOCKTYPE a_BlockType, NIBBLETYPE a_BlockMeta)
 {
-	auto playerBrokenBlockFunction = (bool(*)(void *, int, int, int, eBlockFace, BLOCKTYPE, NIBBLETYPE))(*clr_functions);
+	auto onPlayerBrokenBlockFunction = (bool(*)(cPlayer *, int, int, int, eBlockFace, BLOCKTYPE, NIBBLETYPE))(*(clr_functions + 0));
 
-	if (playerBrokenBlockFunction(&a_Player, a_BlockPos.x, a_BlockPos.y, a_BlockPos.z, a_BlockFace, a_BlockType, a_BlockMeta))
+	if (onPlayerBrokenBlockFunction(&a_Player, a_BlockPos.x, a_BlockPos.y, a_BlockPos.z, a_BlockFace, a_BlockType, a_BlockMeta))
 		return true;
 
 	return GenericCallHook(HOOK_PLAYER_BROKEN_BLOCK, [&](cPlugin * a_Plugin)

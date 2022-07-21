@@ -1,30 +1,15 @@
 #include "ClrWrapper.h"
 
 // Cuberite internal
-void ClrWrapper::cuberite_log(char * message)
-{
-	LOG(message);
-}
+void ClrWrapper::cuberite_log(char * message) { LOG(message); }
 
-void ClrWrapper::cuberite_log_info(char * message)
-{
-	LOGINFO(message);
-}
+void ClrWrapper::cuberite_log_info(char * message) { LOGINFO(message); }
 
-void ClrWrapper::cuberite_log_warning(char * message)
-{
-	LOGWARNING(message);
-}
+void ClrWrapper::cuberite_log_warning(char * message) { LOGWARNING(message); }
 
-void ClrWrapper::cuberite_log_error(char * message)
-{
-	LOGERROR(message);
-}
+void ClrWrapper::cuberite_log_error(char * message) { LOGERROR(message); }
 
-void ClrWrapper::cuberite_log_debug(char * message)
-{
-	LOGD(message);
-}
+void ClrWrapper::cuberite_log_debug(char * message) { LOGD(message); }
 
 // Entity
 float ClrWrapper::entity_get_health(cEntity * entity)
@@ -47,6 +32,14 @@ bool ClrWrapper::entity_is_invisible(cEntity * entity)
 	return false;
 }
 
+// Inventory
+char ClrWrapper::inventory_add_item(cInventory * inventory, cItem * item)
+{
+	if (inventory != nullptr)
+		return inventory->AddItem(*item);
+	return 0;
+}
+
 // Player
 eGameMode ClrWrapper::player_get_game_mode(cPlayer * player)
 {
@@ -55,10 +48,17 @@ eGameMode ClrWrapper::player_get_game_mode(cPlayer * player)
 	return eGameMode::eGameMode_NotSet;
 }
 
-void player_set_game_mode(cPlayer * player, eGameMode gameMode)
+void ClrWrapper::player_set_game_mode(cPlayer * player, eGameMode gameMode)
 {
 	if (player != nullptr)
 		player->SetGameMode(gameMode);
+}
+
+const cInventory * ClrWrapper::player_get_inventory(cPlayer * player)
+{
+	if (player != nullptr)
+		return &player->GetInventory();
+	return nullptr;
 }
 
 const char * ClrWrapper::player_get_name(cPlayer * player)
@@ -115,25 +115,31 @@ BLOCKTYPE ClrWrapper::world_get_block(cWorld * world, int x, int y, int z)
 	return ENUM_BLOCK_TYPE::E_BLOCK_AIR;
 }
 
-void ClrWrapper::world_set_block(cWorld * world, int x, int y, int z, BLOCKTYPE type, NIBBLETYPE meta)
+void ClrWrapper::world_set_block(
+	cWorld * world, int x, int y, int z, BLOCKTYPE type, NIBBLETYPE meta)
 {
 	if (world != nullptr)
 		world->SetBlock(Vector3i(x, y, z), type, meta);
 }
 
-void ClrWrapper::world_broadcast_chat(cWorld * world, char * message, cClientHandle * except, eMessageType messageType)
+void ClrWrapper::world_broadcast_chat(
+	cWorld * world, char * message, cClientHandle * except,
+	eMessageType messageType)
 {
 	if (world != nullptr)
 		world->BroadcastChat(message, except, messageType);
 }
 
-void ClrWrapper::world_dig_block(cWorld * world, int x, int y, int z, cEntity * digger)
+void ClrWrapper::world_dig_block(
+	cWorld * world, int x, int y, int z, cEntity * digger)
 {
 	if (world != nullptr)
 		world->DigBlock(Vector3i(x, y, z), digger);
 }
 
-void ClrWrapper::world_do_explosion_at(cWorld * world, double size, double x, double y, double z, bool canCauseFire, eExplosionSource source, void * sourceData)
+void ClrWrapper::world_do_explosion_at(
+	cWorld * world, double size, double x, double y, double z,
+	bool canCauseFire, eExplosionSource source, void * sourceData)
 {
 	if (world != nullptr)
 		world->DoExplosionAt(size, x, y, z, canCauseFire, source, sourceData);
@@ -158,3 +164,16 @@ void ClrWrapper::world_set_weather(cWorld * world, eWeather weather)
 	if (world != nullptr)
 		world->SetWeather(weather);
 }
+
+// Objects creation
+const cItem * ClrWrapper::create_item(
+	short itemType, char itemCount, short itemDamage, char * enchantments,
+	char * customName, char ** loreTable, int loreTableLength)
+{
+	const cItem * item = new cItem(
+		itemType, itemCount, itemDamage, enchantments, customName,
+		AStringVector(loreTable, loreTable + loreTableLength));
+	return item;
+}
+
+void ClrWrapper::delete_item(cItem * item) { delete item; }

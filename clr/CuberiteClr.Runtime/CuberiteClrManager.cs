@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Loader;
 using CuberiteClr.Runtime.Core;
 using CuberiteClr.Runtime.Entities;
+using CuberiteClr.Runtime.Extensions;
 using CuberiteClr.Runtime.Interop;
 using CuberiteClr.Sdk;
 using CuberiteClr.Sdk.Types;
@@ -29,6 +30,10 @@ public unsafe class CuberiteClrManager
 
 		_clrFunctions = new[]
 		{
+			// Core
+			Marshal.GetFunctionPointerForDelegate<OnChatMessageDelegate>(OnChatMessage),
+
+			// Player
 			Marshal.GetFunctionPointerForDelegate<OnPlayerBrokenBlockDelegate>(OnPlayerBrokenBlock),
 			Marshal.GetFunctionPointerForDelegate<OnPlayerBreakingBlockDelegate>(OnPlayerBreakingBlock)
 		};
@@ -81,15 +86,23 @@ public unsafe class CuberiteClrManager
 		return false;
 	}
 
-	private delegate bool OnPlayerBreakingBlockDelegate(IntPtr playerPtr, int x, int y, int z, BlockFace face, BlockType type, byte meta);
-	private static bool OnPlayerBreakingBlock(IntPtr playerPtr, int x, int y, int z, BlockFace face, BlockType type, byte meta)
+	// Global
+	private delegate bool OnChatMessageDelegate(IntPtr player, IntPtr message);
+	private static bool OnChatMessage(IntPtr player, IntPtr message)
 	{
-		return CallBooleanFunction(plugin => plugin.PlayerBreakingBlock(new Player(playerPtr), x, y, z, face, type, meta));
+		return CallBooleanFunction(plugin => plugin.OnChatMessage(new Player(player), message.ReadStringAuto()));
 	}
 
-	private delegate bool OnPlayerBrokenBlockDelegate(IntPtr playerPtr, int x, int y, int z, BlockFace face, BlockType type, byte meta);
-	private static bool OnPlayerBrokenBlock(IntPtr playerPtr, int x, int y, int z, BlockFace face, BlockType type, byte meta)
+	// Player
+	private delegate bool OnPlayerBreakingBlockDelegate(IntPtr player, int x, int y, int z, BlockFace face, BlockType type, byte meta);
+	private static bool OnPlayerBreakingBlock(IntPtr player, int x, int y, int z, BlockFace face, BlockType type, byte meta)
 	{
-		return CallBooleanFunction(plugin => plugin.PlayerBrokenBlock(new Player(playerPtr), x, y, z, face, type, meta));
+		return CallBooleanFunction(plugin => plugin.OnPlayerBreakingBlock(new Player(player), x, y, z, face, type, meta));
+	}
+
+	private delegate bool OnPlayerBrokenBlockDelegate(IntPtr player, int x, int y, int z, BlockFace face, BlockType type, byte meta);
+	private static bool OnPlayerBrokenBlock(IntPtr player, int x, int y, int z, BlockFace face, BlockType type, byte meta)
+	{
+		return CallBooleanFunction(plugin => plugin.OnPlayerBrokenBlock(new Player(player), x, y, z, face, type, meta));
 	}
 }
