@@ -1,4 +1,4 @@
-namespace CuberiteClr.Sdk.Core;
+namespace CuberiteClr.Sdk.Types;
 
 public enum BlockType : byte
 {

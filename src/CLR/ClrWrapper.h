@@ -5,21 +5,44 @@
 
 namespace ClrWrapper
 {
-
-
 extern "C"
 {
-	// Player
-	float entities_player_get_health(cPlayer * player);
-	void entities_player_set_health(cPlayer * player, float health);
-	const char * entities_player_get_name(cPlayer * player);
-	std::array<Byte, 16> entities_player_get_uuid(cPlayer * player);
+	// Cuberite internal
+	void cuberite_log(char * message);
+	void cuberite_log_info(char * message);
+	void cuberite_log_warning(char * message);
+	void cuberite_log_error(char * message);
+	void cuberite_log_debug(char * message);
 
+	// Entity
+	float entity_get_health(cEntity * entity);
+	void entity_set_health(cEntity * entity, float health);
+	bool entity_is_invisible(cEntity * entity);
+
+	// Player
+	eGameMode player_get_game_mode(cPlayer * player);
+	void player_set_game_mode(cPlayer * player, eGameMode gameMode);
+	const char * player_get_name(cPlayer * player);
+	void player_set_visible(cPlayer * player, bool visible);
+	std::array<Byte, 16> player_get_uuid(cPlayer * player);
+	const cClientHandle * player_get_client_handle(cPlayer * player);
 
 	// Root
 	void root_broadcast_chat(char * message, eMessageType messageType);
+
+	// World
+	bool world_are_command_blocks_enabled(cWorld * world);
+	void world_set_command_blocks_enabled(cWorld * world, bool enabled);
+	BLOCKTYPE world_get_block(cWorld * world, int x, int y, int z);
+	void world_set_block(cWorld * world, int x, int y, int z, BLOCKTYPE type, NIBBLETYPE meta);
+	void world_broadcast_chat(cWorld * world, char * message, cClientHandle * except, eMessageType messageType);
+	void world_dig_block(cWorld * world, int x, int y, int z, cEntity * digger);
+	void world_do_explosion_at(cWorld * world, double size, double x, double y, double z, bool canCauseFire, eExplosionSource source, void * sourceData);
+	eGameMode world_get_game_mode(cWorld * world);
+	eWeather world_get_weather(cWorld * world);
+	void world_set_weather(cWorld * world, eWeather weather);
 }
-}
+}  // namespace ClrWrapper
 
 
 #endif

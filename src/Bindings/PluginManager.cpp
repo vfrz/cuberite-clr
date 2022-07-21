@@ -4,13 +4,10 @@
 #include "PluginManager.h"
 #include "Plugin.h"
 #include "PluginLua.h"
-#include "../Item.h"
 #include "../Root.h"
 #include "../Server.h"
 #include "../CommandOutput.h"
 
-#include "../IniFile.h"
-#include "../Entities/Player.h"
 
 typedef void** (CORECLR_DELEGATE_CALLTYPE *clr_initialize_fn)(void * functions);
 void* wrappers_functions[256];
@@ -41,11 +38,25 @@ cPluginManager::cPluginManager(cDeadlockDetect & a_DeadlockDetect) :
 		"CuberiteClr.Runtime.CuberiteClrManager+InitializeDelegate, CuberiteClr.Runtime",
 		(void**)&initializeFunction);
 
-	wrappers_functions[0] = (void*) &ClrWrapper::entities_player_get_health;
-	wrappers_functions[1] = (void*) &ClrWrapper::entities_player_set_health;
-	wrappers_functions[2] = (void*) &ClrWrapper::entities_player_get_name;
-	wrappers_functions[3] = (void*) &ClrWrapper::entities_player_get_uuid;
-	wrappers_functions[50] = (void*) &ClrWrapper::root_broadcast_chat;
+	// Cuberite internal
+	wrappers_functions[0] = (void*)&ClrWrapper::cuberite_log;
+	wrappers_functions[1] = (void*)&ClrWrapper::cuberite_log_info;
+	wrappers_functions[2] = (void*)&ClrWrapper::cuberite_log_warning;
+	wrappers_functions[3] = (void*)&ClrWrapper::cuberite_log_error;
+	wrappers_functions[4] = (void*)&ClrWrapper::cuberite_log_debug;
+
+	// Entity
+	wrappers_functions[10] = (void*)&ClrWrapper::entity_get_health;
+	wrappers_functions[11] = (void*)&ClrWrapper::entity_set_health;
+
+	// Player
+	wrappers_functions[50] = (void*)&ClrWrapper::player_get_name;
+	wrappers_functions[51] = (void*)&ClrWrapper::player_get_uuid;
+
+	// Root
+	wrappers_functions[100] = (void*) &ClrWrapper::root_broadcast_chat;
+
+	// World
 
 	clr_functions = initializeFunction(&wrappers_functions);
 }

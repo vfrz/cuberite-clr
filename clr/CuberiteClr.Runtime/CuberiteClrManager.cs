@@ -7,8 +7,9 @@ using System.Runtime.InteropServices;
 using System.Runtime.Loader;
 using CuberiteClr.Runtime.Core;
 using CuberiteClr.Runtime.Entities;
+using CuberiteClr.Runtime.Interop;
 using CuberiteClr.Sdk;
-using CuberiteClr.Sdk.Core;
+using CuberiteClr.Sdk.Types;
 
 namespace CuberiteClr.Runtime;
 
@@ -42,7 +43,7 @@ public unsafe class CuberiteClrManager
 
 	private static void LoadPlugins()
 	{
-		Console.WriteLine("Loading CLR plugins");
+		Logger.Instance.Log("Loading CLR plugins...");
 
 		if (!Directory.Exists(PluginDirectory))
 			Directory.CreateDirectory(PluginDirectory);
@@ -64,12 +65,12 @@ public unsafe class CuberiteClrManager
 				.ToList();
 
 			loadedPlugins.AddRange(pluginTypes
-				.Select(type => (ClrPlugin) Activator.CreateInstance(type, Root.Instance)));
+				.Select(type => (ClrPlugin) Activator.CreateInstance(type, Root.Instance, Logger.Instance)));
 		}
 
 		LoadedPlugins = loadedPlugins.OrderByDescending(plugin => plugin.Priority).ToArray();
 
-		Console.WriteLine($"Loaded {LoadedPlugins.Length} CLR plugin(s)");
+		Logger.Instance.Log($"Loaded {LoadedPlugins.Length} CLR plugin(s)");
 	}
 
 	private static bool CallBooleanFunction(Func<ClrPlugin, bool> call)

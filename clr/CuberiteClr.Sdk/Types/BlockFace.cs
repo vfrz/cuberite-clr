@@ -1,4 +1,4 @@
-namespace CuberiteClr.Sdk.Core;
+namespace CuberiteClr.Sdk.Types;
 
 public enum BlockFace
 {
@@ -16,9 +16,5 @@ public enum BlockFace
 	North = Zm, // Interacting with the northern face of the block
 	South = Zp, // Interacting with the southern face of the block
 	West = Xm, // Interacting with the western  face of the block
-	East = Xp, // Interacting with the eastern  face of the block
-
-	// Bounds, used for range-checking:
-	Min = -1,
-	Max = 5,
+	East = Xp // Interacting with the eastern  face of the block
 }

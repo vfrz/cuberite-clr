@@ -1,3 +1,5 @@
+using CuberiteClr.Sdk.Types;
+
 namespace CuberiteClr.Sdk.Core;
 
 public interface IRoot

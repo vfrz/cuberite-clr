@@ -1,4 +1,4 @@
-namespace CuberiteClr.Sdk.Core;
+namespace CuberiteClr.Sdk.Types;
 
 public enum MessageType
 {
@@ -12,11 +12,5 @@ public enum MessageType
 	PrivateMessage, // Player to player messaging identifier
 	Join, // A player has joined the server
 	Leave, // A player has left the server
-	MaxPlusOne, // The first invalid type, used for checking on LuaAPI boundaries
-
-	// Common aliases:
-	Fail = Failure,
-	Error = Failure,
-	Info = Information,
-	PM = PrivateMessage,
+	MaxPlusOne // The first invalid type, used for checking on LuaAPI boundaries
 }

@@ -1,4 +1,6 @@
+using CuberiteClr.Runtime.Interop;
 using CuberiteClr.Sdk.Core;
+using CuberiteClr.Sdk.Types;
 
 namespace CuberiteClr.Runtime.Core;
 

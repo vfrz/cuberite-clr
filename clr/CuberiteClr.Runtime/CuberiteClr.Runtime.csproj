@@ -1,16 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
 		<GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
 		<PublishTrimmed>false</PublishTrimmed>
 		<EnableDynamicLoading>True</EnableDynamicLoading>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 		<TieredCompilation>False</TieredCompilation>
-    </PropertyGroup>
+	</PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\CuberiteClr.Sdk\CuberiteClr.Sdk.csproj" />
-    </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\CuberiteClr.Sdk\CuberiteClr.Sdk.csproj"/>
+	</ItemGroup>
 
 </Project>

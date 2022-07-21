@@ -1,12 +1,13 @@
 ﻿using CuberiteClr.Sdk;
 using CuberiteClr.Sdk.Core;
 using CuberiteClr.Sdk.Entities;
+using CuberiteClr.Sdk.Types;
 
 namespace TestPlugin;
 
 public class DevTestPlugin : ClrPlugin
 {
-	public DevTestPlugin(IRoot root) : base(root)
+	public DevTestPlugin(IRoot root, ILogger logger) : base(root, logger)
 	{
 	}
 
