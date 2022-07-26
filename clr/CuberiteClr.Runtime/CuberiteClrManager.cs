@@ -26,7 +26,7 @@ public unsafe class CuberiteClrManager
 
 	private static void* Initialize(IntPtr* wrappersFunctionsPtr)
 	{
-		WrappersFunctions.Initialize(wrappersFunctionsPtr);
+		WrapperFunctions.Initialize(wrappersFunctionsPtr);
 
 		_clrFunctions = new[]
 		{

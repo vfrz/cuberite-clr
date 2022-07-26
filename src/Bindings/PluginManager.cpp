@@ -10,7 +10,6 @@
 
 
 typedef void** (CORECLR_DELEGATE_CALLTYPE *clr_initialize_fn)(void * functions);
-void* wrappers_functions[512];
 void** clr_functions;
 
 
@@ -38,39 +37,9 @@ cPluginManager::cPluginManager(cDeadlockDetect & a_DeadlockDetect) :
 		"CuberiteClr.Runtime.CuberiteClrManager+InitializeDelegate, CuberiteClr.Runtime",
 		(void**)&initializeFunction);
 
-	// Cuberite internal
-	wrappers_functions[0] = (void*)&ClrWrapper::cuberite_log;
-	wrappers_functions[1] = (void*)&ClrWrapper::cuberite_log_info;
-	wrappers_functions[2] = (void*)&ClrWrapper::cuberite_log_warning;
-	wrappers_functions[3] = (void*)&ClrWrapper::cuberite_log_error;
-	wrappers_functions[4] = (void*)&ClrWrapper::cuberite_log_debug;
+	auto wrappers_functions = ClrWrapper::get_wrapper_functions();
 
-	// Entity
-	wrappers_functions[32] = (void*)&ClrWrapper::entity_get_health;
-	wrappers_functions[33] = (void*)&ClrWrapper::entity_set_health;
-
-	// Inventory
-	wrappers_functions[92] = (void*)&ClrWrapper::inventory_add_item;
-
-	// Player
-	wrappers_functions[128] = (void*)&ClrWrapper::player_get_game_mode;
-	wrappers_functions[129] = (void*)&ClrWrapper::player_set_game_mode;
-	wrappers_functions[130] = (void*)&ClrWrapper::player_get_inventory;
-	wrappers_functions[131] = (void*)&ClrWrapper::player_get_name;
-	wrappers_functions[132] = (void*)&ClrWrapper::player_set_visible;
-	wrappers_functions[133] = (void*)&ClrWrapper::player_get_uuid;
-	wrappers_functions[134] = (void*)&ClrWrapper::player_get_client_handle;
-
-	// Root
-	wrappers_functions[192] = (void*) &ClrWrapper::root_broadcast_chat;
-
-	// World
-
-	// Objects creation
-	wrappers_functions[256] = (void*) &ClrWrapper::create_item;
-	wrappers_functions[257] = (void*) &ClrWrapper::delete_item;
-
-	clr_functions = initializeFunction(&wrappers_functions);
+	clr_functions = initializeFunction(&wrappers_functions[0]);
 }
 
 
@@ -758,7 +727,7 @@ bool cPluginManager::CallHookPlayerAnimation(cPlayer & a_Player, int a_Animation
 
 bool cPluginManager::CallHookPlayerBreakingBlock(cPlayer & a_Player, Vector3i a_BlockPos, eBlockFace a_BlockFace, BLOCKTYPE a_BlockType, NIBBLETYPE a_BlockMeta)
 {
-	auto onPlayerBreakingBlockFunction = (bool(*)(cPlayer *, int, int, int, eBlockFace, BLOCKTYPE, NIBBLETYPE))(*(clr_functions + 1));
+	auto onPlayerBreakingBlockFunction = (bool(*)(cPlayer *, int, int, int, eBlockFace, BLOCKTYPE, NIBBLETYPE))(*(clr_functions + 2));
 
 	if (onPlayerBreakingBlockFunction(&a_Player, a_BlockPos.x, a_BlockPos.y, a_BlockPos.z, a_BlockFace, a_BlockType, a_BlockMeta))
 		return true;
@@ -776,7 +745,7 @@ bool cPluginManager::CallHookPlayerBreakingBlock(cPlayer & a_Player, Vector3i a_
 
 bool cPluginManager::CallHookPlayerBrokenBlock(cPlayer & a_Player, Vector3i a_BlockPos, eBlockFace a_BlockFace, BLOCKTYPE a_BlockType, NIBBLETYPE a_BlockMeta)
 {
-	auto onPlayerBrokenBlockFunction = (bool(*)(cPlayer *, int, int, int, eBlockFace, BLOCKTYPE, NIBBLETYPE))(*(clr_functions + 0));
+	auto onPlayerBrokenBlockFunction = (bool(*)(cPlayer *, int, int, int, eBlockFace, BLOCKTYPE, NIBBLETYPE))(*(clr_functions + 1));
 
 	if (onPlayerBrokenBlockFunction(&a_Player, a_BlockPos.x, a_BlockPos.y, a_BlockPos.z, a_BlockFace, a_BlockType, a_BlockMeta))
 		return true;

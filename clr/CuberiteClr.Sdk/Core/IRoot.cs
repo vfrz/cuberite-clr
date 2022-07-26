@@ -6,6 +6,8 @@ public interface IRoot
 {
 	public void BroadcastChat(string message, MessageType type = MessageType.Custom);
 
+	public IWorld GetDefaultWorld();
+
 	// Objects creation
 	public IItem CreateItem(short type, byte count = 1, short damage = 0, string enchantments = "",
 		string customName = "", string[] loreTable = null);

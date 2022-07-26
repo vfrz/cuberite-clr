@@ -22,7 +22,7 @@ public unsafe class Item : InteropReference, IItem, IDisposable
 		if (_disposed)
 			return;
 
-		WrappersFunctions.delete_item(Handle);
+		WrapperFunctions.delete_item(Handle);
 		_disposed = true;
 
 		GC.SuppressFinalize(this);

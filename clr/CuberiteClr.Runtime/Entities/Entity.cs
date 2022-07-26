@@ -12,11 +12,11 @@ public unsafe class Entity : InteropReference, IEntity
 
 	public float GetHealth()
 	{
-		return WrappersFunctions.entity_get_health(Handle);
+		return WrapperFunctions.entity_get_health(Handle);
 	}
 
 	public void SetHealth(float health)
 	{
-		WrappersFunctions.entity_set_health(Handle, health);
+		WrapperFunctions.entity_set_health(Handle, health);
 	}
 }

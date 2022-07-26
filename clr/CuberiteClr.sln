@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CuberiteClr.Sdk", "Cuberite
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPlugin", "TestPlugin\TestPlugin.csproj", "{410CE9ED-24B1-4959-9CF8-CF46CDC12F02}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CuberiteClr.Generator", "CuberiteClr.Generator\CuberiteClr.Generator.csproj", "{B73D740F-8C63-440E-A105-7A2A7F613841}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{410CE9ED-24B1-4959-9CF8-CF46CDC12F02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{410CE9ED-24B1-4959-9CF8-CF46CDC12F02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{410CE9ED-24B1-4959-9CF8-CF46CDC12F02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B73D740F-8C63-440E-A105-7A2A7F613841}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B73D740F-8C63-440E-A105-7A2A7F613841}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B73D740F-8C63-440E-A105-7A2A7F613841}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B73D740F-8C63-440E-A105-7A2A7F613841}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

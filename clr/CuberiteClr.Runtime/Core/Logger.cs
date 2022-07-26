@@ -13,26 +13,26 @@ public unsafe class Logger : ILogger
 
 	public void Log(string message)
 	{
-		WrappersFunctions.cuberite_log(message);
+		WrapperFunctions.cuberite_log(message);
 	}
 
 	public void LogInfo(string message)
 	{
-		WrappersFunctions.cuberite_log_info(message);
+		WrapperFunctions.cuberite_log_info(message);
 	}
 
 	public void LogWarning(string message)
 	{
-		WrappersFunctions.cuberite_log_warn(message);
+		WrapperFunctions.cuberite_log_warning(message);
 	}
 
 	public void LogError(string message)
 	{
-		WrappersFunctions.cuberite_log_error(message);
+		WrapperFunctions.cuberite_log_error(message);
 	}
 
 	public void LogDebug(string message)
 	{
-		WrappersFunctions.cuberite_log_debug(message);
+		WrapperFunctions.cuberite_log_debug(message);
 	}
 }

@@ -94,6 +94,11 @@ void ClrWrapper::root_broadcast_chat(char * message, eMessageType messageType)
 	cRoot::Get()->BroadcastChat(message, messageType);
 }
 
+cWorld * ClrWrapper::root_get_default_world()
+{
+	return cRoot::Get()->GetDefaultWorld();
+}
+
 // World
 bool ClrWrapper::world_are_command_blocks_enabled(cWorld * world)
 {

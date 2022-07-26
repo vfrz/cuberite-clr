@@ -14,6 +14,6 @@ public unsafe class Inventory : InteropReference, IInventory
 	public byte AddItem(IItem item)
 	{
 		var itemHandle = item.GetInteropReference().Handle;
-		return WrappersFunctions.inventory_add_item(Handle, itemHandle);
+		return WrapperFunctions.inventory_add_item(Handle, itemHandle);
 	}
 }

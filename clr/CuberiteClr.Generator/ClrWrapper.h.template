@@ -1,0 +1,21 @@
+// This file is auto-generated, please do not modify manually
+#pragma once
+
+#include "Entities/Player.h"
+
+namespace ClrWrapper
+{
+extern "C"
+{
+{Declarations}
+}
+
+inline std::vector<void *> get_wrapper_functions()
+{
+	std::vector<void *> wrappers_functions({FunctionsCount});
+
+{Assignations}
+
+	return wrappers_functions;
+}
+}  // namespace ClrWrapper
