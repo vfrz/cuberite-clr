@@ -1,4 +1,5 @@
 using System;
+using CuberiteClr.Runtime.Extensions;
 using CuberiteClr.Runtime.Interop;
 using CuberiteClr.Sdk.Core;
 
@@ -12,7 +13,7 @@ public unsafe class Inventory : InteropReference, IInventory
 
 	public byte AddItem(IItem item)
 	{
-		var itemHandle = ((Item) item).Handle; // Maybe find a way to avoid cast
+		var itemHandle = item.GetInteropReference().Handle;
 		return WrappersFunctions.inventory_add_item(Handle, itemHandle);
 	}
 }
