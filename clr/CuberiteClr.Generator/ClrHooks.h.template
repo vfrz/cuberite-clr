@@ -1,0 +1,16 @@
+// This file is auto-generated, please do not modify manually
+#pragma once
+
+#include "../Root.h"
+
+{TypeDefinitions}
+
+class ClrHooks
+{
+  public:
+{Declarations}
+	inline void initializeHooks(void ** hooks)
+	{
+{Initializations}
+	}
+};

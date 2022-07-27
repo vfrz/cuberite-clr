@@ -69,6 +69,12 @@ public static unsafe class CuberiteClrManager
 		Logger.Instance.Log($"Loaded {LoadedPlugins.Length} CLR plugin(s)");
 	}
 
+	private static void CallVoidFunction(Action<ClrPlugin> call)
+	{
+		for (var i = 0; i < LoadedPlugins.Length; i++)
+			call(LoadedPlugins[i]);
+	}
+
 	private static bool CallBooleanFunction(Func<ClrPlugin, bool> call)
 	{
 		for (var i = 0; i < LoadedPlugins.Length; i++)
@@ -77,18 +83,33 @@ public static unsafe class CuberiteClrManager
 		return false;
 	}
 
-	internal static bool OnChatMessage(IntPtr player, IntPtr message)
+	public static bool OnChat(IntPtr player, IntPtr message)
 	{
-		return CallBooleanFunction(plugin => plugin.OnChatMessage(new Player(player), message.ReadStringAuto()));
+		return CallBooleanFunction(plugin => plugin.OnChat(new Player(player), message.ReadStringAuto()));
 	}
 
-	internal static bool OnPlayerBreakingBlock(IntPtr player, int x, int y, int z, BlockFace face, BlockType type, byte meta)
+	public static bool OnPlayerBreakingBlock(IntPtr player, int x, int y, int z, BlockFace face, BlockType type, byte meta)
 	{
 		return CallBooleanFunction(plugin => plugin.OnPlayerBreakingBlock(new Player(player), x, y, z, face, type, meta));
 	}
 
-	internal static bool OnPlayerBrokenBlock(IntPtr player, int x, int y, int z, BlockFace face, BlockType type, byte meta)
+	public static bool OnPlayerBrokenBlock(IntPtr player, int x, int y, int z, BlockFace face, BlockType type, byte meta)
 	{
 		return CallBooleanFunction(plugin => plugin.OnPlayerBrokenBlock(new Player(player), x, y, z, face, type, meta));
+	}
+
+	public static void OnTick(float delta)
+	{
+		CallVoidFunction(plugin => plugin.OnTick(delta));
+	}
+
+	public static bool OnWorldTick(IntPtr world, float delta, float lastTickDuration)
+	{
+		return CallBooleanFunction(plugin => plugin.OnWorldTick(new World(world), delta, lastTickDuration));
+	}
+
+	public static bool OnPlayerSpawned(IntPtr player)
+	{
+		return CallBooleanFunction(plugin => plugin.OnPlayerSpawned(new Player(player)));
 	}
 }

@@ -12,7 +12,7 @@ public class DevTestPlugin : ClrPlugin
 	{
 	}
 
-	public override bool OnChatMessage(IPlayer player, string message)
+	public override bool OnChat(IPlayer player, string message)
 	{
 		if (message == "cactus pls")
 		{
@@ -27,12 +27,6 @@ public class DevTestPlugin : ClrPlugin
 		{
 			Root.GetDefaultWorld().SetWeather(Weather.Sunny);
 		}
-		return false;
-	}
-
-	public override bool OnPlayerBreakingBlock(IPlayer player, int x, int y, int z, BlockFace face, BlockType type, byte meta)
-	{
-		//Root.BroadcastChat($"Player '{player.GetUUID()}' is breaking a block ({type}) at position: {x}:{y}:{z}");
 		return false;
 	}
 }

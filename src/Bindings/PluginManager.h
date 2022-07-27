@@ -444,7 +444,7 @@ private:
 	/** The deadlock detect in which all plugins should track their CSs. */
 	cDeadlockDetect & m_DeadlockDetect;
 
-	ClrHooks m_hooks;
+	ClrHooks m_ClrHooks;
 
 
 	cPluginManager(cDeadlockDetect & a_DeadlockDetect);

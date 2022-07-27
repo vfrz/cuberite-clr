@@ -19,6 +19,7 @@ public static class Program
 			.WithNamingConvention(HyphenatedNamingConvention.Instance)
 			.Build();
 
+		//  Wrapper functions
 		var wrapperFunctionsYaml = await File.ReadAllTextAsync("wrapper-functions.yaml");
 
 		var wrapperFunctions = deserializer.Deserialize<WrapperFunction[]>(wrapperFunctionsYaml);
@@ -40,7 +41,73 @@ public static class Program
 			.Replace("{Assignations}", clrWrapperHAssignations);
 		await File.WriteAllTextAsync("../../src/CLR/ClrWrapper.h", clrWrapperH);
 
+		// Hooks
+		var hooksYaml = await File.ReadAllTextAsync("hooks.yaml");
+		var hooks = deserializer.Deserialize<Dictionary<string, Hook>>(hooksYaml);
+
+		var hooksCsTemplate = await File.ReadAllTextAsync("Hooks.cs.template");
+		var hooksCsDelegates = GenerateHooksCsDelegates(hooks);
+		var hooksCsMarshallingFunctionPointers = GenerateHooksCsMarshallingFunctionPointers(hooks);
+		var hooksCs = hooksCsTemplate
+			.Replace("{Delegates}", hooksCsDelegates)
+			.Replace("{MarshallingFunctionPointers}", hooksCsMarshallingFunctionPointers);
+		await File.WriteAllTextAsync("../CuberiteClr.Runtime/Interop/Hooks.cs", hooksCs);
+
+		var clrHooksHTemplate = await File.ReadAllTextAsync("ClrHooks.h.template");
+		var clrHooksHTypeDefinitions = GenerateClrHooksHTypeDefinitions(hooks);
+		var clrHooksHDeclarations = GenerateClrHooksHDeclarations(hooks);
+		var clrHooksHInitializations = GenerateClrHooksHInitializations(hooks);
+		var clrHooksH = clrHooksHTemplate
+			.Replace("{TypeDefinitions}", clrHooksHTypeDefinitions)
+			.Replace("{Declarations}", clrHooksHDeclarations)
+			.Replace("{Initializations}", clrHooksHInitializations);
+		await File.WriteAllTextAsync("../../src/CLR/ClrHooks.h", clrHooksH);
+
 		Console.WriteLine("Generation successful!");
+	}
+
+	private static string GenerateClrHooksHInitializations(Dictionary<string, Hook> hooks)
+	{
+		var builder = new StringBuilder();
+		var i = 0;
+		foreach (var hook in hooks)
+		{
+			builder.Append("\t\t");
+			var args = hook.Value.Args
+				.Select(arg => arg.Value);
+			builder.Append($"{hook.Key} = ({hook.Value.Return}(*)({string.Join(',', args)}))(*(hooks + {i}));");
+			builder.Append('\n');
+			i++;
+		}
+
+		return builder.ToString();
+	}
+
+	private static string GenerateClrHooksHDeclarations(Dictionary<string, Hook> hooks)
+	{
+		var builder = new StringBuilder();
+		foreach (var hook in hooks)
+		{
+			builder.Append('\t');
+			builder.Append($"{hook.Key}Def {hook.Key};");
+			builder.Append('\n');
+		}
+
+		return builder.ToString();
+	}
+
+	private static string GenerateClrHooksHTypeDefinitions(Dictionary<string,Hook> hooks)
+	{
+		var builder = new StringBuilder();
+		foreach (var hook in hooks)
+		{
+			var args = hook.Value.Args
+				.Select(arg => arg.Value);
+			builder.Append($"typedef {hook.Value.Return} (*{hook.Key}Def) ({string.Join(',', args)});");
+			builder.Append('\n');
+		}
+
+		return builder.ToString();
 	}
 
 	private static readonly Dictionary<string, string> _cppToCsTypesMap = new()
@@ -60,10 +127,39 @@ public static class Program
 		{"eGameMode", "GameMode"},
 		{"eMessageType", "MessageType"},
 		{"eExplosionSource", "ExplosionSource"},
+		{"eBlockFace", "BlockFace"},
 		{"eWeather", "Weather"},
 		{"BLOCKTYPE", "BlockType"},
 		{"NIBBLETYPE", "byte"},
 	};
+
+	private static string GenerateHooksCsMarshallingFunctionPointers(Dictionary<string,Hook> hooks)
+	{
+		var builder = new StringBuilder();
+		foreach (var hook in hooks)
+		{
+			builder.Append("\t\t\t");
+			builder.Append($"Marshal.GetFunctionPointerForDelegate<{hook.Key}Delegate>(CuberiteClrManager.{hook.Key}),");
+			builder.Append('\n');
+		}
+
+		return builder.ToString();
+	}
+
+	private static string GenerateHooksCsDelegates(Dictionary<string, Hook> hooks)
+	{
+		var builder = new StringBuilder();
+		foreach (var hook in hooks)
+		{
+			builder.Append('\t');
+			var args = hook.Value.Args
+				.Select(arg => $"{MapCppToCsType(arg.Value)} {arg.Key}");
+			builder.Append($"private delegate {MapCppToCsType(hook.Value.Return)} {hook.Key}Delegate({string.Join(',', args)});");
+			builder.Append('\n');
+		}
+
+		return builder.ToString();
+	}
 
 	private static string MapCppToCsType(string type)
 	{
@@ -86,8 +182,7 @@ public static class Program
 			var args = function.Args
 				.Select(arg => $"{arg.Type} {arg.Name}");
 			builder.Append($"{function.Return} {function.Name}({string.Join(',', args)});");
-			if (i < functions.Length - 1)
-				builder.Append('\n');
+			builder.Append('\n');
 		}
 
 		return builder.ToString();
@@ -101,8 +196,7 @@ public static class Program
 			var function = functions[i];
 			builder.Append('\t');
 			builder.Append($"wrappers_functions[{i}] = (void *)&ClrWrapper::{function.Name};");
-			if (i < functions.Length - 1)
-				builder.Append('\n');
+			builder.Append('\n');
 		}
 
 		return builder.ToString();
@@ -119,8 +213,7 @@ public static class Program
 				.Select(arg => MapCppToCsType(arg.Type))
 				.Concat(new[] {MapCppToCsType(function.Return)});
 			builder.Append($"public static delegate* unmanaged[Cdecl]<{string.Join(',', generics)}> {function.Name};");
-			if (i < functions.Length - 1)
-				builder.Append('\n');
+			builder.Append('\n');
 		}
 
 		return builder.ToString();
@@ -137,8 +230,7 @@ public static class Program
 				.Select(arg => MapCppToCsType(arg.Type))
 				.Concat(new[] {MapCppToCsType(function.Return)});
 			builder.Append($"{function.Name} = (delegate* unmanaged[Cdecl]<{string.Join(',', generics)}>) *(ptr + {i});");
-			if (i < functions.Length - 1)
-				builder.Append('\n');
+			builder.Append('\n');
 		}
 
 		return builder.ToString();

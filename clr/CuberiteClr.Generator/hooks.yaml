@@ -1,0 +1,44 @@
+# Core
+OnTick:
+  return: void
+  args:
+    delta: float
+OnChat:
+  return: bool
+  args:
+    player: cPlayer *
+    message: const char *
+
+# Player
+OnPlayerBreakingBlock:
+  return: bool
+  args:
+    player: cPlayer *
+    x: int
+    y: int
+    z: int
+    face: eBlockFace
+    type: BLOCKTYPE
+    meta: NIBBLETYPE
+OnPlayerBrokenBlock:
+  return: bool
+  args:
+    player: cPlayer *
+    x: int
+    y: int
+    z: int
+    face: eBlockFace
+    type: BLOCKTYPE
+    meta: NIBBLETYPE
+OnPlayerSpawned:
+  return: bool
+  args:
+    player: cPlayer *
+
+# World
+OnWorldTick:
+  return: bool
+  args:
+    world: cWorld *
+    delta: float
+    lastTickDuration: float

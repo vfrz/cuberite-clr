@@ -17,12 +17,11 @@ public abstract class ClrPlugin
 	}
 
 	// Global
-	public virtual bool OnTick(float timeDelta)
+	public virtual void OnTick(float delta)
 	{
-		return false;
 	}
 
-	public virtual bool OnChatMessage(IPlayer player, string message)
+	public virtual bool OnChat(IPlayer player, string message)
 	{
 		return false;
 	}
@@ -38,8 +37,13 @@ public abstract class ClrPlugin
 		return false;
 	}
 
+	public virtual bool OnPlayerSpawned(IPlayer player)
+	{
+		return false;
+	}
+
 	// World
-	public virtual bool OnWorldTick(IWorld world, float timeDelta)
+	public virtual bool OnWorldTick(IWorld world, float delta, float lastTickDuration)
 	{
 		return false;
 	}

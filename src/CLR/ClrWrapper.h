@@ -37,6 +37,7 @@ extern "C"
 	void world_set_weather(cWorld * world,eWeather weather);
 	const cItem * create_item(short type,char count,short damage,char * enchantments,char * customName,char ** loreTable,int loreTableLength);
 	void delete_item(cItem * item);
+
 }
 
 inline std::vector<void *> get_wrapper_functions()
@@ -73,6 +74,7 @@ inline std::vector<void *> get_wrapper_functions()
 	wrappers_functions[27] = (void *)&ClrWrapper::world_set_weather;
 	wrappers_functions[28] = (void *)&ClrWrapper::create_item;
 	wrappers_functions[29] = (void *)&ClrWrapper::delete_item;
+
 
 	return wrappers_functions;
 }

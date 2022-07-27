@@ -12,7 +12,6 @@ target_sources(
         ClrWrapper.cpp
 
         ClrHooks.h
-        ClrHooks.cpp
 )
 
 if (UNIX AND NOT APPLE)

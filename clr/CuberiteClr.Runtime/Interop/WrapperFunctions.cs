@@ -37,6 +37,7 @@ public static unsafe class WrapperFunctions
 	public static delegate* unmanaged[Cdecl]<short,byte,short,string,string,IntPtr,int,IntPtr> create_item;
 	public static delegate* unmanaged[Cdecl]<IntPtr,void> delete_item;
 
+
 	public static void Initialize(IntPtr* ptr)
 	{
 		cuberite_log = (delegate* unmanaged[Cdecl]<string,void>) *(ptr + 0);
@@ -69,5 +70,6 @@ public static unsafe class WrapperFunctions
 		world_set_weather = (delegate* unmanaged[Cdecl]<IntPtr,Weather,void>) *(ptr + 27);
 		create_item = (delegate* unmanaged[Cdecl]<short,byte,short,string,string,IntPtr,int,IntPtr>) *(ptr + 28);
 		delete_item = (delegate* unmanaged[Cdecl]<IntPtr,void>) *(ptr + 29);
+
 	}
 }

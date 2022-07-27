@@ -206,7 +206,7 @@
       type: eWeather
 
 # Object creation
-- create_item:
+- name: create_item
   return: const cItem *
   args:
     - name: type

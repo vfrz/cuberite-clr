@@ -45,8 +45,8 @@ cPluginManager::cPluginManager(cDeadlockDetect & a_DeadlockDetect) :
 
 	auto hooks = initializeFunction(&wrappers_functions[0]);
 
-	m_hooks = ClrHooks();
-	m_hooks.initializeHooks(hooks);
+	m_ClrHooks = ClrHooks();
+	m_ClrHooks.initializeHooks(hooks);
 }
 
 
@@ -239,6 +239,8 @@ void cPluginManager::Tick(float a_Dt)
 		ReloadPluginsNow();
 	}
 
+	m_ClrHooks.OnTick(a_Dt);
+
 	auto Plugins = m_Hooks.find(HOOK_TICK);
 	if (Plugins == m_Hooks.end())
 	{
@@ -380,7 +382,7 @@ bool cPluginManager::CallHookChat(cPlayer & a_Player, AString & a_Message)
 		return true;  // Cancel sending
 	}
 
-	if (m_hooks.OnChat(&a_Player, a_Message.c_str()))
+	if (m_ClrHooks.OnChat(&a_Player, a_Message.c_str()))
 		return true;
 
 	return GenericCallHook(HOOK_CHAT, [&](cPlugin * a_Plugin)
@@ -732,7 +734,7 @@ bool cPluginManager::CallHookPlayerAnimation(cPlayer & a_Player, int a_Animation
 
 bool cPluginManager::CallHookPlayerBreakingBlock(cPlayer & a_Player, Vector3i a_BlockPos, eBlockFace a_BlockFace, BLOCKTYPE a_BlockType, NIBBLETYPE a_BlockMeta)
 {
-	if (m_hooks.OnPlayerBreakingBlock(&a_Player, a_BlockPos.x, a_BlockPos.y, a_BlockPos.z, a_BlockFace, a_BlockType, a_BlockMeta))
+	if (m_ClrHooks.OnPlayerBreakingBlock(&a_Player, a_BlockPos.x, a_BlockPos.y, a_BlockPos.z, a_BlockFace, a_BlockType, a_BlockMeta))
 		return true;
 
 	return GenericCallHook(HOOK_PLAYER_BREAKING_BLOCK, [&](cPlugin * a_Plugin)
@@ -748,7 +750,7 @@ bool cPluginManager::CallHookPlayerBreakingBlock(cPlayer & a_Player, Vector3i a_
 
 bool cPluginManager::CallHookPlayerBrokenBlock(cPlayer & a_Player, Vector3i a_BlockPos, eBlockFace a_BlockFace, BLOCKTYPE a_BlockType, NIBBLETYPE a_BlockMeta)
 {
-	if (m_hooks.OnPlayerBrokenBlock(&a_Player, a_BlockPos.x, a_BlockPos.y, a_BlockPos.z, a_BlockFace, a_BlockType, a_BlockMeta))
+	if (m_ClrHooks.OnPlayerBrokenBlock(&a_Player, a_BlockPos.x, a_BlockPos.y, a_BlockPos.z, a_BlockFace, a_BlockType, a_BlockMeta))
 		return true;
 
 	return GenericCallHook(HOOK_PLAYER_BROKEN_BLOCK, [&](cPlugin * a_Plugin)
@@ -959,6 +961,9 @@ bool cPluginManager::CallHookPlayerShooting(cPlayer & a_Player)
 
 bool cPluginManager::CallHookPlayerSpawned(cPlayer & a_Player)
 {
+	if (m_ClrHooks.OnPlayerSpawned(&a_Player))
+		return true;
+
 	return GenericCallHook(HOOK_PLAYER_SPAWNED, [&](cPlugin * a_Plugin)
 		{
 			return a_Plugin->OnPlayerSpawned(a_Player);
@@ -1268,6 +1273,9 @@ bool cPluginManager::CallHookWorldStarted(cWorld & a_World)
 
 bool cPluginManager::CallHookWorldTick(cWorld & a_World, std::chrono::milliseconds a_Dt, std::chrono::milliseconds a_LastTickDurationMSec)
 {
+	if (m_ClrHooks.OnWorldTick(&a_World, a_Dt.count(), a_LastTickDurationMSec.count()))
+		return true;
+
 	return GenericCallHook(HOOK_WORLD_TICK, [&](cPlugin * a_Plugin)
 		{
 			return a_Plugin->OnWorldTick(a_World, a_Dt, a_LastTickDurationMSec);
