@@ -22,7 +22,7 @@ public static class Program
 		//  Wrapper functions
 		var wrapperFunctionsYaml = await File.ReadAllTextAsync("wrapper-functions.yaml");
 
-		var wrapperFunctions = deserializer.Deserialize<WrapperFunction[]>(wrapperFunctionsYaml);
+		var wrapperFunctions = deserializer.Deserialize<Dictionary<string, WrapperFunction>>(wrapperFunctionsYaml);
 
 		var wrapperFunctionsCsTemplate = await File.ReadAllTextAsync("WrapperFunctions.cs.template");
 		var wrapperFunctionsCsDeclarations = GenerateWrapperFunctionsCsDeclarations(wrapperFunctions);
@@ -36,7 +36,7 @@ public static class Program
 		var clrWrapperHDeclarations = GenerateClrWrapperHDeclarations(wrapperFunctions);
 		var clrWrapperHAssignations = GenerateClrWrapperHAssignations(wrapperFunctions);
 		var clrWrapperH = clrWrapperHTemplate
-			.Replace("{FunctionsCount}", wrapperFunctions.Length.ToString())
+			.Replace("{FunctionsCount}", wrapperFunctions.Keys.Count.ToString())
 			.Replace("{Declarations}", clrWrapperHDeclarations)
 			.Replace("{Assignations}", clrWrapperHAssignations);
 		await File.WriteAllTextAsync("../../src/CLR/ClrWrapper.h", clrWrapperH);
@@ -172,65 +172,65 @@ public static class Program
 		throw new Exception($"Unknown type: {type}");
 	}
 
-	private static string GenerateClrWrapperHDeclarations(WrapperFunction[] functions)
+	private static string GenerateClrWrapperHDeclarations(Dictionary<string, WrapperFunction> functions)
 	{
 		var builder = new StringBuilder();
-		for (var i = 0; i < functions.Length; i++)
+		foreach (var function in functions)
 		{
-			var function = functions[i];
 			builder.Append('\t');
-			var args = function.Args
-				.Select(arg => $"{arg.Type} {arg.Name}");
-			builder.Append($"{function.Return} {function.Name}({string.Join(',', args)});");
+			var args = function.Value.Args
+				.Select(arg => $"{arg.Value} {arg.Key}");
+			builder.Append($"{function.Value.Return} {function.Key}({string.Join(',', args)});");
 			builder.Append('\n');
 		}
 
 		return builder.ToString();
 	}
 
-	private static string GenerateClrWrapperHAssignations(WrapperFunction[] functions)
+	private static string GenerateClrWrapperHAssignations(Dictionary<string, WrapperFunction> functions)
 	{
 		var builder = new StringBuilder();
-		for (var i = 0; i < functions.Length; i++)
+		var i = 0;
+		foreach (var function in functions)
 		{
-			var function = functions[i];
 			builder.Append('\t');
-			builder.Append($"wrappers_functions[{i}] = (void *)&ClrWrapper::{function.Name};");
+			builder.Append($"wrappers_functions[{i}] = (void *)&ClrWrapper::{function.Key};");
+			builder.Append('\n');
+			i++;
+		}
+
+		return builder.ToString();
+	}
+
+	private static string GenerateWrapperFunctionsCsDeclarations(Dictionary<string, WrapperFunction> functions)
+	{
+		var builder = new StringBuilder();
+		foreach (var function in functions)
+		{
+			builder.Append('\t');
+			var generics = function.Value.Args
+				.Select(arg => MapCppToCsType(arg.Value))
+				.Concat(new[] {MapCppToCsType(function.Value.Return)});
+			builder.Append($"public static delegate* unmanaged[Cdecl]<{string.Join(',', generics)}> {function.Key};");
 			builder.Append('\n');
 		}
 
 		return builder.ToString();
 	}
 
-	private static string GenerateWrapperFunctionsCsDeclarations(WrapperFunction[] functions)
+	private static string GenerateWrapperFunctionsCsInitializations(Dictionary<string, WrapperFunction> functions)
 	{
 		var builder = new StringBuilder();
-		for (var i = 0; i < functions.Length; i++)
+		var i = 0;
+		foreach (var function in functions)
 		{
-			var function = functions[i];
-			builder.Append('\t');
-			var generics = function.Args
-				.Select(arg => MapCppToCsType(arg.Type))
-				.Concat(new[] {MapCppToCsType(function.Return)});
-			builder.Append($"public static delegate* unmanaged[Cdecl]<{string.Join(',', generics)}> {function.Name};");
-			builder.Append('\n');
-		}
-
-		return builder.ToString();
-	}
-
-	private static string GenerateWrapperFunctionsCsInitializations(WrapperFunction[] functions)
-	{
-		var builder = new StringBuilder();
-		for (var i = 0; i < functions.Length; i++)
-		{
-			var function = functions[i];
 			builder.Append("\t\t");
-			var generics = function.Args
-				.Select(arg => MapCppToCsType(arg.Type))
-				.Concat(new[] {MapCppToCsType(function.Return)});
-			builder.Append($"{function.Name} = (delegate* unmanaged[Cdecl]<{string.Join(',', generics)}>) *(ptr + {i});");
+			var generics = function.Value.Args
+				.Select(arg => MapCppToCsType(arg.Value))
+				.Concat(new[] {MapCppToCsType(function.Value.Return)});
+			builder.Append($"{function.Key} = (delegate* unmanaged[Cdecl]<{string.Join(',', generics)}>) *(ptr + {i});");
 			builder.Append('\n');
+			i++;
 		}
 
 		return builder.ToString();

@@ -1,230 +1,166 @@
 # Cuberite internal
-- name: cuberite_log
+cuberite_log:
   return: void
   args:
-    - name: message
-      type: char *
-- name: cuberite_log_info
+    message: char *
+cuberite_log_info:
   return: void
   args:
-    - name: message
-      type: char *
-- name: cuberite_log_warning
+    message: char *
+cuberite_log_warning:
   return: void
   args:
-    - name: message
-      type: char *
-- name: cuberite_log_error
+    message: char *
+cuberite_log_error:
   return: void
   args:
-    - name: message
-      type: char *
-- name: cuberite_log_debug
+    message: char *
+cuberite_log_debug:
   return: void
   args:
-    - name: message
-      type: char *
+    message: char *
 
 # Entity
-- name: entity_get_health
+entity_get_health:
   return: float
   args:
-    - name: entity
-      type: cEntity *
-- name: entity_set_health
+    entity: cEntity *
+entity_set_health:
   return: void
   args:
-    - name: entity
-      type: cEntity *
-    - name: health
-      type: float
-- name: entity_is_invisible
+    entity: cEntity *
+    health: float
+entity_is_invisible:
   return: bool
   args:
-    - name: entity
-      type: cEntity *
+    entity: cEntity *
 
 # Inventory
-- name: inventory_add_item
+inventory_add_item:
   return: char
   args:
-    - name: inventory
-      type: cInventory *
-    - name: item
-      type: cItem *
+    inventory: cInventory *
+    item: cItem *
 
 # Player
-- name: player_get_game_mode
+player_get_game_mode:
   return: eGameMode
   args:
-    - name: player
-      type: cPlayer *
-- name: player_set_game_mode
+    player: cPlayer *
+player_set_game_mode:
   return: void
   args:
-    - name: player
-      type: cPlayer *
-    - name: gameMode
-      type: eGameMode
-- name: player_get_inventory
+    player: cPlayer *
+    gameMode: eGameMode
+player_get_inventory:
   return: const cInventory *
   args:
-    - name: player
-      type: cPlayer *
-- name: player_get_name
+    player: cPlayer *
+player_get_name:
   return: const char *
   args:
-    - name: player
-      type: cPlayer *
-- name: player_set_visible
+    player: cPlayer *
+player_set_visible:
   return: void
   args:
-    - name: player
-      type: cPlayer *
-    - name: visible
-      type: bool
-- name: player_get_uuid
+    player: cPlayer *
+    visible: bool
+player_get_uuid:
   return: std::array<Byte, 16>
   args:
-    - name: player
-      type: cPlayer *
-- name: player_get_client_handle
+    player: cPlayer *
+player_get_client_handle:
   return: const cClientHandle *
   args:
-    - name: player
-      type: cPlayer *
+    player: cPlayer *
 
 # Root
-- name: root_broadcast_chat
+root_broadcast_chat:
   return: void
   args:
-    - name: message
-      type: char *
-    - name: type
-      type: eMessageType
-- name: root_get_default_world
+    message: char *
+    type: eMessageType
+root_get_default_world:
   return: cWorld *
 
 # World
-- name: world_are_command_blocks_enabled
+world_are_command_blocks_enabled:
   return: bool
   args:
-    - name: world
-      type: cWorld *
-- name: world_set_command_blocks_enabled
+    world: cWorld *
+world_set_command_blocks_enabled:
   return: void
   args:
-    - name: world
-      type: cWorld *
-    - name: enabled
-      type: bool
-- name: world_get_block
+    world: cWorld *
+    enabled: bool
+world_get_block:
   return: BLOCKTYPE
   args:
-    - name: world
-      type: cWorld *
-    - name: x
-      type: int
-    - name: y
-      type: int
-    - name: z
-      type: int
-- name: world_set_block
+    world: cWorld *
+    x: int
+    y: int
+    z: int
+world_set_block:
   return: void
   args:
-    - name: world
-      type: cWorld *
-    - name: x
-      type: int
-    - name: y
-      type: int
-    - name: z
-      type: int
-    - name: type
-      type: BLOCKTYPE
-    - name: meta
-      type: NIBBLETYPE
-- name: world_broadcast_chat
+    world: cWorld *
+    x: int
+    y: int
+    z: int
+    type: BLOCKTYPE
+    meta: NIBBLETYPE
+world_broadcast_chat:
   return: void
   args:
-    - name: world
-      type: cWorld *
-    - name: message
-      type: char *
-    - name: except
-      type: cClientHandle *
-    - name: type
-      type: eMessageType
-- name: world_dig_block
+    world: cWorld *
+    message: char *
+    except: cClientHandle *
+    type: eMessageType
+world_dig_block:
   return: void
   args:
-    - name: world
-      type: cWorld *
-    - name: x
-      type: int
-    - name: y
-      type: int
-    - name: z
-      type: int
-    - name: digger
-      type: cEntity *
-- name: world_do_explosion_at
+    world: cWorld *
+    x: int
+    y: int
+    z: int
+    digger: cEntity *
+world_do_explosion_at:
   return: void
   args:
-    - name: world
-      type: cWorld *
-    - name: size
-      type: double
-    - name: x
-      type: double
-    - name: y
-      type: double
-    - name: z
-      type: double
-    - name: canCauseFire
-      type: bool
-    - name: source
-      type: eExplosionSource
-    - name: sourceData
-      type: void *
-- name: world_get_game_mode
+    world: cWorld *
+    size: double
+    x: double
+    y: double
+    z: double
+    canCauseFire: bool
+    source: eExplosionSource
+    sourceData: void *
+world_get_game_mode:
   return: eGameMode
   args:
-    - name: world
-      type: cWorld *
-- name: world_get_weather
+    world: cWorld *
+world_get_weather:
   return: eWeather
   args:
-    - name: world
-      type: cWorld *
-- name: world_set_weather
+    world: cWorld *
+world_set_weather:
   return: void
   args:
-    - name: world
-      type: cWorld *
-    - name: weather
-      type: eWeather
+    world: cWorld *
+    weather: eWeather
 
 # Object creation
-- name: create_item
+create_item:
   return: const cItem *
   args:
-    - name: type
-      type: short
-    - name: count
-      type: char
-    - name: damage
-      type: short
-    - name: enchantments
-      type: char *
-    - name: customName
-      type: char *
-    - name: loreTable
-      type: char **
-    - name: loreTableLength
-      type: int
-- name: delete_item
+    type: short
+    count: char
+    damage: short
+    enchantments: char *
+    customName: char *
+    loreTable: char **
+    loreTableLength: int
+delete_item:
   return: void
   args:
-    - name: item
-      type: cItem *
+    item: cItem *
