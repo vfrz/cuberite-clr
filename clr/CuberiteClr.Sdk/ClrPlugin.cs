@@ -10,8 +10,6 @@ public abstract class ClrPlugin
 
 	public ILogger Logger { get; }
 
-	public virtual int Priority { get; set; } = 0;
-
 	public ClrPlugin(IRoot root, ILogger logger)
 	{
 		Root = root;

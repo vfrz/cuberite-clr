@@ -5,6 +5,7 @@ using CuberiteClr.Sdk.Types;
 
 namespace TestPlugin;
 
+[ClrPlugin("dev-test-plugin")]
 public class DevTestPlugin : ClrPlugin
 {
 	public DevTestPlugin(IRoot root, ILogger logger) : base(root, logger)

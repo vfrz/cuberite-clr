@@ -8,6 +8,7 @@
 
 #include <CLR/ClrLoader.h>
 #include <CLR/ClrWrapper.h>
+#include <CLR/ClrHooks.h>
 
 
 // fwd:
@@ -442,6 +443,8 @@ private:
 
 	/** The deadlock detect in which all plugins should track their CSs. */
 	cDeadlockDetect & m_DeadlockDetect;
+
+	ClrHooks m_hooks;
 
 
 	cPluginManager(cDeadlockDetect & a_DeadlockDetect);

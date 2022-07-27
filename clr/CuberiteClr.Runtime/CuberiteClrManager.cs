@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Runtime.Loader;
 using CuberiteClr.Runtime.Core;
 using CuberiteClr.Runtime.Entities;
@@ -14,35 +13,27 @@ using CuberiteClr.Sdk.Types;
 
 namespace CuberiteClr.Runtime;
 
-public unsafe class CuberiteClrManager
+public static unsafe class CuberiteClrManager
 {
 	private const string PluginDirectory = "./ClrPlugins";
 
 	private static ClrPlugin[] LoadedPlugins { get; set; } = Array.Empty<ClrPlugin>();
 
-	private static IntPtr[] _clrFunctions;
+	private static IntPtr[] _hooksPointers;
 
-	private delegate void* InitializeDelegate(IntPtr* functions);
+	private delegate void* InitializeDelegate(IntPtr* wrappersFunctionsPtr);
 
 	private static void* Initialize(IntPtr* wrappersFunctionsPtr)
 	{
 		WrapperFunctions.Initialize(wrappersFunctionsPtr);
 
-		_clrFunctions = new[]
-		{
-			// Core
-			Marshal.GetFunctionPointerForDelegate<OnChatMessageDelegate>(OnChatMessage),
-
-			// Player
-			Marshal.GetFunctionPointerForDelegate<OnPlayerBrokenBlockDelegate>(OnPlayerBrokenBlock),
-			Marshal.GetFunctionPointerForDelegate<OnPlayerBreakingBlockDelegate>(OnPlayerBreakingBlock)
-		};
+		_hooksPointers = Hooks.GetHooksPointers();
 
 		LoadPlugins();
 
-		fixed (void* a = &_clrFunctions[0])
+		fixed (void* fixedPointer = &_hooksPointers[0])
 		{
-			return a;
+			return fixedPointer;
 		}
 	}
 
@@ -73,7 +64,7 @@ public unsafe class CuberiteClrManager
 				.Select(type => (ClrPlugin) Activator.CreateInstance(type, Root.Instance, Logger.Instance)));
 		}
 
-		LoadedPlugins = loadedPlugins.OrderByDescending(plugin => plugin.Priority).ToArray();
+		LoadedPlugins = loadedPlugins.ToArray();
 
 		Logger.Instance.Log($"Loaded {LoadedPlugins.Length} CLR plugin(s)");
 	}
@@ -86,22 +77,17 @@ public unsafe class CuberiteClrManager
 		return false;
 	}
 
-	// Global
-	private delegate bool OnChatMessageDelegate(IntPtr player, IntPtr message);
-	private static bool OnChatMessage(IntPtr player, IntPtr message)
+	internal static bool OnChatMessage(IntPtr player, IntPtr message)
 	{
 		return CallBooleanFunction(plugin => plugin.OnChatMessage(new Player(player), message.ReadStringAuto()));
 	}
 
-	// Player
-	private delegate bool OnPlayerBreakingBlockDelegate(IntPtr player, int x, int y, int z, BlockFace face, BlockType type, byte meta);
-	private static bool OnPlayerBreakingBlock(IntPtr player, int x, int y, int z, BlockFace face, BlockType type, byte meta)
+	internal static bool OnPlayerBreakingBlock(IntPtr player, int x, int y, int z, BlockFace face, BlockType type, byte meta)
 	{
 		return CallBooleanFunction(plugin => plugin.OnPlayerBreakingBlock(new Player(player), x, y, z, face, type, meta));
 	}
 
-	private delegate bool OnPlayerBrokenBlockDelegate(IntPtr player, int x, int y, int z, BlockFace face, BlockType type, byte meta);
-	private static bool OnPlayerBrokenBlock(IntPtr player, int x, int y, int z, BlockFace face, BlockType type, byte meta)
+	internal static bool OnPlayerBrokenBlock(IntPtr player, int x, int y, int z, BlockFace face, BlockType type, byte meta)
 	{
 		return CallBooleanFunction(plugin => plugin.OnPlayerBrokenBlock(new Player(player), x, y, z, face, type, meta));
 	}

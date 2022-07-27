@@ -4,13 +4,17 @@
 #include "PluginManager.h"
 #include "Plugin.h"
 #include "PluginLua.h"
-#include "../Root.h"
 #include "../Server.h"
 #include "../CommandOutput.h"
 
 
+
+
+
 typedef void** (CORECLR_DELEGATE_CALLTYPE *clr_initialize_fn)(void * functions);
-void** clr_functions;
+
+
+
 
 
 cPluginManager * cPluginManager::Get(void)
@@ -27,11 +31,11 @@ cPluginManager::cPluginManager(cDeadlockDetect & a_DeadlockDetect) :
 	m_DeadlockDetect(a_DeadlockDetect)
 {
 	auto clrLoader = ClrLoader();
-	clrLoader.Initialize("/run/media/vfrz/Shared/Projects/cuberite-clr/clr/CuberiteClr.Runtime/bin/Release/net7.0/publish/CuberiteClr.Runtime.runtimeconfig.json");
+	clrLoader.Initialize("/home/vfrz/Documents/cuberite-clr/clr/CuberiteClr.Runtime/bin/Release/net7.0/publish/CuberiteClr.Runtime.runtimeconfig.json");
 
 	clr_initialize_fn initializeFunction = nullptr;
 	clrLoader.LoadAssemblyAndGetFunctionPointer(
-		"/run/media/vfrz/Shared/Projects/cuberite-clr/clr/CuberiteClr.Runtime/bin/Release/net7.0/publish/CuberiteClr.Runtime.dll",
+		"/home/vfrz/Documents/cuberite-clr/clr/CuberiteClr.Runtime/bin/Release/net7.0/publish/CuberiteClr.Runtime.dll",
 		"CuberiteClr.Runtime.CuberiteClrManager, CuberiteClr.Runtime",
 		"Initialize",
 		"CuberiteClr.Runtime.CuberiteClrManager+InitializeDelegate, CuberiteClr.Runtime",
@@ -39,7 +43,10 @@ cPluginManager::cPluginManager(cDeadlockDetect & a_DeadlockDetect) :
 
 	auto wrappers_functions = ClrWrapper::get_wrapper_functions();
 
-	clr_functions = initializeFunction(&wrappers_functions[0]);
+	auto hooks = initializeFunction(&wrappers_functions[0]);
+
+	m_hooks = ClrHooks();
+	m_hooks.initializeHooks(hooks);
 }
 
 
@@ -373,9 +380,7 @@ bool cPluginManager::CallHookChat(cPlayer & a_Player, AString & a_Message)
 		return true;  // Cancel sending
 	}
 
-	auto onChatFunction = (bool(*)(cPlayer *, const char * message))(*(clr_functions + 0));
-
-	if (onChatFunction(&a_Player, a_Message.c_str()))
+	if (m_hooks.OnChat(&a_Player, a_Message.c_str()))
 		return true;
 
 	return GenericCallHook(HOOK_CHAT, [&](cPlugin * a_Plugin)
@@ -727,9 +732,7 @@ bool cPluginManager::CallHookPlayerAnimation(cPlayer & a_Player, int a_Animation
 
 bool cPluginManager::CallHookPlayerBreakingBlock(cPlayer & a_Player, Vector3i a_BlockPos, eBlockFace a_BlockFace, BLOCKTYPE a_BlockType, NIBBLETYPE a_BlockMeta)
 {
-	auto onPlayerBreakingBlockFunction = (bool(*)(cPlayer *, int, int, int, eBlockFace, BLOCKTYPE, NIBBLETYPE))(*(clr_functions + 2));
-
-	if (onPlayerBreakingBlockFunction(&a_Player, a_BlockPos.x, a_BlockPos.y, a_BlockPos.z, a_BlockFace, a_BlockType, a_BlockMeta))
+	if (m_hooks.OnPlayerBreakingBlock(&a_Player, a_BlockPos.x, a_BlockPos.y, a_BlockPos.z, a_BlockFace, a_BlockType, a_BlockMeta))
 		return true;
 
 	return GenericCallHook(HOOK_PLAYER_BREAKING_BLOCK, [&](cPlugin * a_Plugin)
@@ -745,9 +748,7 @@ bool cPluginManager::CallHookPlayerBreakingBlock(cPlayer & a_Player, Vector3i a_
 
 bool cPluginManager::CallHookPlayerBrokenBlock(cPlayer & a_Player, Vector3i a_BlockPos, eBlockFace a_BlockFace, BLOCKTYPE a_BlockType, NIBBLETYPE a_BlockMeta)
 {
-	auto onPlayerBrokenBlockFunction = (bool(*)(cPlayer *, int, int, int, eBlockFace, BLOCKTYPE, NIBBLETYPE))(*(clr_functions + 1));
-
-	if (onPlayerBrokenBlockFunction(&a_Player, a_BlockPos.x, a_BlockPos.y, a_BlockPos.z, a_BlockFace, a_BlockType, a_BlockMeta))
+	if (m_hooks.OnPlayerBrokenBlock(&a_Player, a_BlockPos.x, a_BlockPos.y, a_BlockPos.z, a_BlockFace, a_BlockType, a_BlockMeta))
 		return true;
 
 	return GenericCallHook(HOOK_PLAYER_BROKEN_BLOCK, [&](cPlugin * a_Plugin)
