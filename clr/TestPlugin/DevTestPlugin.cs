@@ -29,4 +29,10 @@ public class DevTestPlugin : ClrPlugin
 		}
 		return false;
 	}
+
+	public override bool OnExecuteCommand(IPlayer player, string[] readStringArrayAuto, string readStringAuto)
+	{
+		Root.BroadcastChat($"Command executed [{readStringArrayAuto.Length}]: {string.Join(',', readStringArrayAuto)}");
+		return false;
+	}
 }

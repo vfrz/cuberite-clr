@@ -9,4 +9,12 @@ internal static class IntPtrExtensions
 	{
 		return Marshal.PtrToStringAnsi(ptr);
 	}
+
+	public static string[] ReadStringArrayAuto(this IntPtr ptr, int length)
+	{
+		var result = new string[length];
+		for (var i = 0; i < length; i++)
+			result[i] = ReadStringAuto(Marshal.ReadIntPtr(ptr + 32 * i));
+		return result;
+	}
 }

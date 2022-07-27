@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Runtime.Loader;
 using CuberiteClr.Runtime.Core;
 using CuberiteClr.Runtime.Entities;
 using CuberiteClr.Runtime.Extensions;
 using CuberiteClr.Runtime.Interop;
 using CuberiteClr.Sdk;
+using CuberiteClr.Sdk.Entities;
 using CuberiteClr.Sdk.Types;
 
 namespace CuberiteClr.Runtime;
@@ -19,19 +21,17 @@ public static unsafe class CuberiteClrManager
 
 	private static ClrPlugin[] LoadedPlugins { get; set; } = Array.Empty<ClrPlugin>();
 
-	private static IntPtr[] _hooksPointers;
-
 	private delegate void* InitializeDelegate(IntPtr* wrappersFunctionsPtr);
 
 	private static void* Initialize(IntPtr* wrappersFunctionsPtr)
 	{
 		WrapperFunctions.Initialize(wrappersFunctionsPtr);
 
-		_hooksPointers = Hooks.GetHooksPointers();
+		var hooksPointers = Hooks.Delegates.Select(Marshal.GetFunctionPointerForDelegate).ToArray();
 
 		LoadPlugins();
 
-		fixed (void* fixedPointer = &_hooksPointers[0])
+		fixed (void* fixedPointer = &hooksPointers[0])
 		{
 			return fixedPointer;
 		}
@@ -111,5 +111,12 @@ public static unsafe class CuberiteClrManager
 	public static bool OnPlayerSpawned(IntPtr player)
 	{
 		return CallBooleanFunction(plugin => plugin.OnPlayerSpawned(new Player(player)));
+	}
+
+	public static bool OnExecuteCommand(IntPtr player, IntPtr split, int splitLength, IntPtr entireCommand)
+	{
+		IPlayer p = player != IntPtr.Zero ? new Player(player) : null;
+		return CallBooleanFunction(plugin => plugin.OnExecuteCommand(p, split.ReadStringArrayAuto(splitLength),
+			entireCommand.ReadStringAuto()));
 	}
 }

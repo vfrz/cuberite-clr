@@ -578,6 +578,9 @@ bool cPluginManager::CallHookExecuteCommand(cPlayer * a_Player, const AStringVec
 		);
 	}
 
+	if (m_ClrHooks.OnExecuteCommand(a_Player, (void*) &a_Split[0], a_Split.size(), a_EntireCommand.c_str()))
+		return true;
+
 	return GenericCallHook(HOOK_EXECUTE_COMMAND, [&](cPlugin * a_Plugin)
 		{
 			return a_Plugin->OnExecuteCommand(a_Player, a_Split, a_EntireCommand, a_Result);

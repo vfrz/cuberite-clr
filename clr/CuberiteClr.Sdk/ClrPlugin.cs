@@ -16,12 +16,17 @@ public abstract class ClrPlugin
 		Logger = logger;
 	}
 
-	// Global
+	// Root
 	public virtual void OnTick(float delta)
 	{
 	}
 
 	public virtual bool OnChat(IPlayer player, string message)
+	{
+		return false;
+	}
+
+	public virtual bool OnExecuteCommand(IPlayer player, string[] readStringArrayAuto, string readStringAuto)
 	{
 		return false;
 	}

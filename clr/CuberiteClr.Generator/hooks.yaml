@@ -8,6 +8,14 @@ OnChat:
   args:
     player: cPlayer *
     message: const char *
+OnExecuteCommand:
+  return: bool
+  args:
+    player: cPlayer *
+    split: void *
+    splitLength: int
+    entireCommand: const char *
+    #result: &CommandResult TODO: Check how to handle ref parameters
 
 # Player
 OnPlayerBreakingBlock:

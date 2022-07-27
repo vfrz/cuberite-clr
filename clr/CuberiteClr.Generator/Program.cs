@@ -47,10 +47,10 @@ public static class Program
 
 		var hooksCsTemplate = await File.ReadAllTextAsync("Hooks.cs.template");
 		var hooksCsDelegates = GenerateHooksCsDelegates(hooks);
-		var hooksCsMarshallingFunctionPointers = GenerateHooksCsMarshallingFunctionPointers(hooks);
+		var hooksCsDelegatesCreation = GenerateHooksCsDelegatesCreation(hooks);
 		var hooksCs = hooksCsTemplate
 			.Replace("{Delegates}", hooksCsDelegates)
-			.Replace("{MarshallingFunctionPointers}", hooksCsMarshallingFunctionPointers);
+			.Replace("{DelegatesCreation}", hooksCsDelegatesCreation);
 		await File.WriteAllTextAsync("../CuberiteClr.Runtime/Interop/Hooks.cs", hooksCs);
 
 		var clrHooksHTemplate = await File.ReadAllTextAsync("ClrHooks.h.template");
@@ -75,7 +75,7 @@ public static class Program
 			builder.Append("\t\t");
 			var args = hook.Value.Args
 				.Select(arg => arg.Value);
-			builder.Append($"{hook.Key} = ({hook.Value.Return}(*)({string.Join(',', args)}))(*(hooks + {i}));");
+			builder.Append($"{hook.Key} = ({hook.Value.Return}(*)({string.Join(", ", args)}))(*(hooks + {i}));");
 			builder.Append('\n');
 			i++;
 		}
@@ -96,14 +96,14 @@ public static class Program
 		return builder.ToString();
 	}
 
-	private static string GenerateClrHooksHTypeDefinitions(Dictionary<string,Hook> hooks)
+	private static string GenerateClrHooksHTypeDefinitions(Dictionary<string, Hook> hooks)
 	{
 		var builder = new StringBuilder();
 		foreach (var hook in hooks)
 		{
 			var args = hook.Value.Args
 				.Select(arg => arg.Value);
-			builder.Append($"typedef {hook.Value.Return} (*{hook.Key}Def) ({string.Join(',', args)});");
+			builder.Append($"typedef {hook.Value.Return} (*{hook.Key}Def) ({string.Join(", ", args)});");
 			builder.Append('\n');
 		}
 
@@ -131,15 +131,16 @@ public static class Program
 		{"eWeather", "Weather"},
 		{"BLOCKTYPE", "BlockType"},
 		{"NIBBLETYPE", "byte"},
+		{"CommandResult", "CommandResult"}
 	};
 
-	private static string GenerateHooksCsMarshallingFunctionPointers(Dictionary<string,Hook> hooks)
+	private static string GenerateHooksCsDelegatesCreation(Dictionary<string, Hook> hooks)
 	{
 		var builder = new StringBuilder();
 		foreach (var hook in hooks)
 		{
-			builder.Append("\t\t\t");
-			builder.Append($"Marshal.GetFunctionPointerForDelegate<{hook.Key}Delegate>(CuberiteClrManager.{hook.Key}),");
+			builder.Append("\t\t");
+			builder.Append($"new {hook.Key}Delegate(CuberiteClrManager.{hook.Key}),");
 			builder.Append('\n');
 		}
 
@@ -154,7 +155,7 @@ public static class Program
 			builder.Append('\t');
 			var args = hook.Value.Args
 				.Select(arg => $"{MapCppToCsType(arg.Value)} {arg.Key}");
-			builder.Append($"private delegate {MapCppToCsType(hook.Value.Return)} {hook.Key}Delegate({string.Join(',', args)});");
+			builder.Append($"private delegate {MapCppToCsType(hook.Value.Return)} {hook.Key}Delegate({string.Join(", ", args)});");
 			builder.Append('\n');
 		}
 
@@ -180,7 +181,7 @@ public static class Program
 			builder.Append('\t');
 			var args = function.Value.Args
 				.Select(arg => $"{arg.Value} {arg.Key}");
-			builder.Append($"{function.Value.Return} {function.Key}({string.Join(',', args)});");
+			builder.Append($"{function.Value.Return} {function.Key}({string.Join(", ", args)});");
 			builder.Append('\n');
 		}
 
@@ -211,7 +212,7 @@ public static class Program
 			var generics = function.Value.Args
 				.Select(arg => MapCppToCsType(arg.Value))
 				.Concat(new[] {MapCppToCsType(function.Value.Return)});
-			builder.Append($"public static delegate* unmanaged[Cdecl]<{string.Join(',', generics)}> {function.Key};");
+			builder.Append($"public static delegate* unmanaged[Cdecl]<{string.Join(", ", generics)}> {function.Key};");
 			builder.Append('\n');
 		}
 
@@ -228,7 +229,7 @@ public static class Program
 			var generics = function.Value.Args
 				.Select(arg => MapCppToCsType(arg.Value))
 				.Concat(new[] {MapCppToCsType(function.Value.Return)});
-			builder.Append($"{function.Key} = (delegate* unmanaged[Cdecl]<{string.Join(',', generics)}>) *(ptr + {i});");
+			builder.Append($"{function.Key} = (delegate* unmanaged[Cdecl]<{string.Join(", ", generics)}>) *(ptr + {i});");
 			builder.Append('\n');
 			i++;
 		}
