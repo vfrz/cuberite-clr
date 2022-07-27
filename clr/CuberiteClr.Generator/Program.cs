@@ -1,4 +1,9 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -38,6 +43,39 @@ public static class Program
 		Console.WriteLine("Generation successful!");
 	}
 
+	private static readonly Dictionary<string, string> _cppToCsTypesMap = new()
+	{
+		// Primitive
+		{"char *", "string"},
+		{"int", "int"},
+		{"bool", "bool"},
+		{"double", "double"},
+		{"float", "float"},
+		{"void", "void"},
+		{"short", "short"},
+		{"char", "byte"},
+		{"std::array<Byte, 16>", "Guid"},
+
+		// Specific
+		{"eGameMode", "GameMode"},
+		{"eMessageType", "MessageType"},
+		{"eExplosionSource", "ExplosionSource"},
+		{"eWeather", "Weather"},
+		{"BLOCKTYPE", "BlockType"},
+		{"NIBBLETYPE", "byte"},
+	};
+
+	private static string MapCppToCsType(string type)
+	{
+		if (_cppToCsTypesMap.ContainsKey(type))
+			return _cppToCsTypesMap[type];
+
+		if (type.Contains("*"))
+			return "IntPtr";
+
+		throw new Exception($"Unknown type: {type}");
+	}
+
 	private static string GenerateClrWrapperHDeclarations(WrapperFunction[] functions)
 	{
 		var builder = new StringBuilder();
@@ -45,9 +83,9 @@ public static class Program
 		{
 			var function = functions[i];
 			builder.Append('\t');
-			var args = function.Cpp.Args
+			var args = function.Args
 				.Select(arg => $"{arg.Type} {arg.Name}");
-			builder.Append($"{function.Cpp.Return} {function.Name}({string.Join(',', args)});");
+			builder.Append($"{function.Return} {function.Name}({string.Join(',', args)});");
 			if (i < functions.Length - 1)
 				builder.Append('\n');
 		}
@@ -77,9 +115,9 @@ public static class Program
 		{
 			var function = functions[i];
 			builder.Append('\t');
-			var generics = function.Cs.Args
-				.Select(arg => arg.Type)
-				.Concat(new[] {function.Cs.Return});
+			var generics = function.Args
+				.Select(arg => MapCppToCsType(arg.Type))
+				.Concat(new[] {MapCppToCsType(function.Return)});
 			builder.Append($"public static delegate* unmanaged[Cdecl]<{string.Join(',', generics)}> {function.Name};");
 			if (i < functions.Length - 1)
 				builder.Append('\n');
@@ -95,8 +133,9 @@ public static class Program
 		{
 			var function = functions[i];
 			builder.Append("\t\t");
-			var generics = function.Cs.Args.Select(arg => arg.Type)
-				.Concat(new[] {function.Cs.Return});
+			var generics = function.Args
+				.Select(arg => MapCppToCsType(arg.Type))
+				.Concat(new[] {MapCppToCsType(function.Return)});
 			builder.Append($"{function.Name} = (delegate* unmanaged[Cdecl]<{string.Join(',', generics)}>) *(ptr + {i});");
 			if (i < functions.Length - 1)
 				builder.Append('\n');

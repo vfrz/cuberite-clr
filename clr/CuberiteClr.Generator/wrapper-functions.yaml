@@ -1,477 +1,230 @@
 # Cuberite internal
 - name: cuberite_log
-  cs:
-    return: void
-    args:
-      - name: message
-        type: string
-  cpp:
-    return: void
-    args:
-      - name: message
-        type: char *
+  return: void
+  args:
+    - name: message
+      type: char *
 - name: cuberite_log_info
-  cs:
-    return: void
-    args:
-      - name: message
-        type: string
-  cpp:
-    return: void
-    args:
-      - name: message
-        type: char *
+  return: void
+  args:
+    - name: message
+      type: char *
 - name: cuberite_log_warning
-  cs:
-    return: void
-    args:
-      - name: message
-        type: string
-  cpp:
-    return: void
-    args:
-      - name: message
-        type: char *
+  return: void
+  args:
+    - name: message
+      type: char *
 - name: cuberite_log_error
-  cs:
-    return: void
-    args:
-      - name: message
-        type: string
-  cpp:
-    return: void
-    args:
-      - name: message
-        type: char *
+  return: void
+  args:
+    - name: message
+      type: char *
 - name: cuberite_log_debug
-  cs:
-    return: void
-    args:
-      - name: message
-        type: string
-  cpp:
-    return: void
-    args:
-      - name: message
-        type: char *
+  return: void
+  args:
+    - name: message
+      type: char *
 
 # Entity
 - name: entity_get_health
-  cs:
-    return: float
-    args:
-      - name: entity
-        type: IntPtr
-  cpp:
-    return: float
-    args:
-      - name: entity
-        type: cEntity *
+  return: float
+  args:
+    - name: entity
+      type: cEntity *
 - name: entity_set_health
-  cs:
-    return: void
-    args:
-      - name: entity
-        type: IntPtr
-      - name: health
-        type: float
-  cpp:
-    return: void
-    args:
-      - name: entity
-        type: cEntity *
-      - name: health
-        type: float
+  return: void
+  args:
+    - name: entity
+      type: cEntity *
+    - name: health
+      type: float
 - name: entity_is_invisible
-  cs:
-    return: bool
-    args:
-      - name: entity
-        type: IntPtr
-  cpp:
-    return: bool
-    args:
-      - name: entity
-        type: cEntity *
+  return: bool
+  args:
+    - name: entity
+      type: cEntity *
 
 # Inventory
 - name: inventory_add_item
-  cs:
-    return: byte
-    args:
-      - name: inventory
-        type: IntPtr
-      - name: item
-        type: IntPtr
-  cpp:
-    return: char
-    args:
-      - name: inventory
-        type: cInventory *
-      - name: item
-        type: cItem *
+  return: char
+  args:
+    - name: inventory
+      type: cInventory *
+    - name: item
+      type: cItem *
 
 # Player
 - name: player_get_game_mode
-  cs:
-    return: GameMode
-    args:
-      - name: player
-        type: IntPtr
-  cpp:
-    return: eGameMode
-    args:
-      - name: player
-        type: cPlayer *
+  return: eGameMode
+  args:
+    - name: player
+      type: cPlayer *
 - name: player_set_game_mode
-  cs:
-    return: void
-    args:
-      - name: player
-        type: IntPtr
-      - name: gameMode
-        type: GameMode
-  cpp:
-    return: void
-    args:
-      - name: player
-        type: cPlayer *
-      - name: gameMode
-        type: eGameMode
+  return: void
+  args:
+    - name: player
+      type: cPlayer *
+    - name: gameMode
+      type: eGameMode
 - name: player_get_inventory
-  cs:
-    return: IntPtr
-    args:
-      - name: player
-        type: IntPtr
-  cpp:
-    return: const cInventory *
-    args:
-      - name: player
-        type: cPlayer *
+  return: const cInventory *
+  args:
+    - name: player
+      type: cPlayer *
 - name: player_get_name
-  cs:
-    return: IntPtr
-    args:
-      - name: player
-        type: IntPtr
-  cpp:
-    return: const char *
-    args:
-      - name: player
-        type: cPlayer *
+  return: const char *
+  args:
+    - name: player
+      type: cPlayer *
 - name: player_set_visible
-  cs:
-    return: void
-    args:
-      - name: player
-        type: IntPtr
-      - name: visible
-        type: bool
-  cpp:
-    return: void
-    args:
-      - name: player
-        type: cPlayer *
-      - name: visible
-        type: bool
+  return: void
+  args:
+    - name: player
+      type: cPlayer *
+    - name: visible
+      type: bool
 - name: player_get_uuid
-  cs:
-    return: Guid
-    args:
-      - name: player
-        type: IntPtr
-  cpp:
-    return: std::array<Byte, 16>
-    args:
-      - name: player
-        type: cPlayer *
+  return: std::array<Byte, 16>
+  args:
+    - name: player
+      type: cPlayer *
 - name: player_get_client_handle
-  cs:
-    return: IntPtr
-    args:
-      - name: player
-        type: IntPtr
-  cpp:
-    return: const cClientHandle *
-    args:
-      - name: player
-        type: cPlayer *
+  return: const cClientHandle *
+  args:
+    - name: player
+      type: cPlayer *
 
 # Root
 - name: root_broadcast_chat
-  cs:
-    return: void
-    args:
-      - name: message
-        type: string
-      - name: type
-        type: MessageType
-  cpp:
-    return: void
-    args:
-      - name: message
-        type: char *
-      - name: type
-        type: eMessageType
+  return: void
+  args:
+    - name: message
+      type: char *
+    - name: type
+      type: eMessageType
 - name: root_get_default_world
-  cs:
-    return: IntPtr
-  cpp:
-    return: cWorld *
+  return: cWorld *
 
 # World
 - name: world_are_command_blocks_enabled
-  cs:
-    return: bool
-    args:
-      - name: world
-        type: IntPtr
-  cpp:
-    return: bool
-    args:
-      - name: world
-        type: cWorld *
+  return: bool
+  args:
+    - name: world
+      type: cWorld *
 - name: world_set_command_blocks_enabled
-  cs:
-    return: void
-    args:
-      - name: world
-        type: IntPtr
-      - name: enabled
-        type: bool
-  cpp:
-    return: void
-    args:
-      - name: world
-        type: cWorld *
-      - name: enabled
-        type: bool
+  return: void
+  args:
+    - name: world
+      type: cWorld *
+    - name: enabled
+      type: bool
 - name: world_get_block
-  cs:
-    return: BlockType
-    args:
-      - name: world
-        type: IntPtr
-      - name: x
-        type: int
-      - name: y
-        type: int
-      - name: z
-        type: int
-  cpp:
-    return: BLOCKTYPE
-    args:
-      - name: world
-        type: cWorld *
-      - name: x
-        type: int
-      - name: y
-        type: int
-      - name: z
-        type: int
+  return: BLOCKTYPE
+  args:
+    - name: world
+      type: cWorld *
+    - name: x
+      type: int
+    - name: y
+      type: int
+    - name: z
+      type: int
 - name: world_set_block
-  cs:
-    return: void
-    args:
-      - name: world
-        type: IntPtr
-      - name: x
-        type: int
-      - name: y
-        type: int
-      - name: z
-        type: int
-      - name: type
-        type: BlockType
-      - name: meta
-        type: byte
-  cpp:
-    return: void
-    args:
-      - name: world
-        type: cWorld *
-      - name: x
-        type: int
-      - name: y
-        type: int
-      - name: z
-        type: int
-      - name: type
-        type: BLOCKTYPE
-      - name: meta
-        type: NIBBLETYPE
+  return: void
+  args:
+    - name: world
+      type: cWorld *
+    - name: x
+      type: int
+    - name: y
+      type: int
+    - name: z
+      type: int
+    - name: type
+      type: BLOCKTYPE
+    - name: meta
+      type: NIBBLETYPE
 - name: world_broadcast_chat
-  cs:
-    return: void
-    args:
-      - name: world
-        type: IntPtr
-      - name: message
-        type: string
-      - name: except
-        type: IntPtr
-      - name: type
-        type: MessageType
-  cpp:
-    return: void
-    args:
-      - name: world
-        type: cWorld *
-      - name: message
-        type: char *
-      - name: except
-        type: cClientHandle *
-      - name: type
-        type: eMessageType
+  return: void
+  args:
+    - name: world
+      type: cWorld *
+    - name: message
+      type: char *
+    - name: except
+      type: cClientHandle *
+    - name: type
+      type: eMessageType
 - name: world_dig_block
-  cs:
-    return: void
-    args:
-      - name: world
-        type: IntPtr
-      - name: x
-        type: int
-      - name: y
-        type: int
-      - name: z
-        type: int
-      - name: digger
-        type: IntPtr
-  cpp:
-    return: void
-    args:
-      - name: world
-        type: cWorld *
-      - name: x
-        type: int
-      - name: y
-        type: int
-      - name: z
-        type: int
-      - name: digger
-        type: cEntity *
+  return: void
+  args:
+    - name: world
+      type: cWorld *
+    - name: x
+      type: int
+    - name: y
+      type: int
+    - name: z
+      type: int
+    - name: digger
+      type: cEntity *
 - name: world_do_explosion_at
-  cs:
-    return: void
-    args:
-      - name: world
-        type: IntPtr
-      - name: size
-        type: double
-      - name: x
-        type: double
-      - name: y
-        type: double
-      - name: z
-        type: double
-      - name: canCauseFire
-        type: bool
-      - name: source
-        type: ExplosionSource
-      - name: sourceData
-        type: IntPtr
-  cpp:
-    return: void
-    args:
-      - name: world
-        type: cWorld *
-      - name: size
-        type: double
-      - name: x
-        type: double
-      - name: y
-        type: double
-      - name: z
-        type: double
-      - name: canCauseFire
-        type: bool
-      - name: source
-        type: eExplosionSource
-      - name: sourceData
-        type: void *
+  return: void
+  args:
+    - name: world
+      type: cWorld *
+    - name: size
+      type: double
+    - name: x
+      type: double
+    - name: y
+      type: double
+    - name: z
+      type: double
+    - name: canCauseFire
+      type: bool
+    - name: source
+      type: eExplosionSource
+    - name: sourceData
+      type: void *
 - name: world_get_game_mode
-  cs:
-    return: GameMode
-    args:
-      - name: world
-        type: IntPtr
-  cpp:
-    return: eGameMode
-    args:
-      - name: world
-        type: cWorld *
+  return: eGameMode
+  args:
+    - name: world
+      type: cWorld *
 - name: world_get_weather
-  cs:
-    return: Weather
-    args:
-      - name: world
-        type: IntPtr
-  cpp:
-    return: eWeather
-    args:
-      - name: world
-        type: cWorld *
+  return: eWeather
+  args:
+    - name: world
+      type: cWorld *
 - name: world_set_weather
-  cs:
-    return: void
-    args:
-      - name: world
-        type: IntPtr
-      - name: weather
-        type: Weather
-  cpp:
-    return: void
-    args:
-      - name: world
-        type: cWorld *
-      - name: weather
-        type: eWeather
+  return: void
+  args:
+    - name: world
+      type: cWorld *
+    - name: weather
+      type: eWeather
 
 # Object creation
-- name: create_item
-  cs:
-    return: IntPtr
-    args:
-      - name: type
-        type: short
-      - name: count
-        type: byte
-      - name: damage
-        type: short
-      - name: enchantments
-        type: string
-      - name: customName
-        type: string
-      - name: loreTable
-        type: IntPtr
-      - name: loreTableLength
-        type: int
-  cpp:
-    return: const cItem *
-    args:
-      - name: type
-        type: short
-      - name: count
-        type: char
-      - name: damage
-        type: short
-      - name: enchantments
-        type: char *
-      - name: customName
-        type: char *
-      - name: loreTable
-        type: char **
-      - name: loreTableLength
-        type: int
+- create_item:
+  return: const cItem *
+  args:
+    - name: type
+      type: short
+    - name: count
+      type: char
+    - name: damage
+      type: short
+    - name: enchantments
+      type: char *
+    - name: customName
+      type: char *
+    - name: loreTable
+      type: char **
+    - name: loreTableLength
+      type: int
 - name: delete_item
-  cs:
-    return: void
-    args:
-      - name: item
-        type: IntPtr
-  cpp:
-    return: void
-    args:
-      - name: item
-        type: cItem *
+  return: void
+  args:
+    - name: item
+      type: cItem *
