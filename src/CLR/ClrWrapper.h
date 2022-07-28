@@ -7,11 +7,12 @@ namespace ClrWrapper
 {
 extern "C"
 {
-	void cuberite_log(char * message);
-	void cuberite_log_info(char * message);
-	void cuberite_log_warning(char * message);
-	void cuberite_log_error(char * message);
-	void cuberite_log_debug(char * message);
+	void log_default(char * message);
+	void log_info(char * message);
+	void log_warning(char * message);
+	void log_error(char * message);
+	void log_debug(char * message);
+	bool bind_command(char * name, void * callback, char * permission, char * helpString);
 	float entity_get_health(cEntity * entity);
 	void entity_set_health(cEntity * entity, float health);
 	bool entity_is_invisible(cEntity * entity);
@@ -42,38 +43,39 @@ extern "C"
 
 inline std::vector<void *> get_wrapper_functions()
 {
-	std::vector<void *> wrappers_functions(30);
+	std::vector<void *> wrappers_functions(31);
 
-	wrappers_functions[0] = (void *)&ClrWrapper::cuberite_log;
-	wrappers_functions[1] = (void *)&ClrWrapper::cuberite_log_info;
-	wrappers_functions[2] = (void *)&ClrWrapper::cuberite_log_warning;
-	wrappers_functions[3] = (void *)&ClrWrapper::cuberite_log_error;
-	wrappers_functions[4] = (void *)&ClrWrapper::cuberite_log_debug;
-	wrappers_functions[5] = (void *)&ClrWrapper::entity_get_health;
-	wrappers_functions[6] = (void *)&ClrWrapper::entity_set_health;
-	wrappers_functions[7] = (void *)&ClrWrapper::entity_is_invisible;
-	wrappers_functions[8] = (void *)&ClrWrapper::inventory_add_item;
-	wrappers_functions[9] = (void *)&ClrWrapper::player_get_game_mode;
-	wrappers_functions[10] = (void *)&ClrWrapper::player_set_game_mode;
-	wrappers_functions[11] = (void *)&ClrWrapper::player_get_inventory;
-	wrappers_functions[12] = (void *)&ClrWrapper::player_get_name;
-	wrappers_functions[13] = (void *)&ClrWrapper::player_set_visible;
-	wrappers_functions[14] = (void *)&ClrWrapper::player_get_uuid;
-	wrappers_functions[15] = (void *)&ClrWrapper::player_get_client_handle;
-	wrappers_functions[16] = (void *)&ClrWrapper::root_broadcast_chat;
-	wrappers_functions[17] = (void *)&ClrWrapper::root_get_default_world;
-	wrappers_functions[18] = (void *)&ClrWrapper::world_are_command_blocks_enabled;
-	wrappers_functions[19] = (void *)&ClrWrapper::world_set_command_blocks_enabled;
-	wrappers_functions[20] = (void *)&ClrWrapper::world_get_block;
-	wrappers_functions[21] = (void *)&ClrWrapper::world_set_block;
-	wrappers_functions[22] = (void *)&ClrWrapper::world_broadcast_chat;
-	wrappers_functions[23] = (void *)&ClrWrapper::world_dig_block;
-	wrappers_functions[24] = (void *)&ClrWrapper::world_do_explosion_at;
-	wrappers_functions[25] = (void *)&ClrWrapper::world_get_game_mode;
-	wrappers_functions[26] = (void *)&ClrWrapper::world_get_weather;
-	wrappers_functions[27] = (void *)&ClrWrapper::world_set_weather;
-	wrappers_functions[28] = (void *)&ClrWrapper::create_item;
-	wrappers_functions[29] = (void *)&ClrWrapper::delete_item;
+	wrappers_functions[0] = (void *)&ClrWrapper::log_default;
+	wrappers_functions[1] = (void *)&ClrWrapper::log_info;
+	wrappers_functions[2] = (void *)&ClrWrapper::log_warning;
+	wrappers_functions[3] = (void *)&ClrWrapper::log_error;
+	wrappers_functions[4] = (void *)&ClrWrapper::log_debug;
+	wrappers_functions[5] = (void *)&ClrWrapper::bind_command;
+	wrappers_functions[6] = (void *)&ClrWrapper::entity_get_health;
+	wrappers_functions[7] = (void *)&ClrWrapper::entity_set_health;
+	wrappers_functions[8] = (void *)&ClrWrapper::entity_is_invisible;
+	wrappers_functions[9] = (void *)&ClrWrapper::inventory_add_item;
+	wrappers_functions[10] = (void *)&ClrWrapper::player_get_game_mode;
+	wrappers_functions[11] = (void *)&ClrWrapper::player_set_game_mode;
+	wrappers_functions[12] = (void *)&ClrWrapper::player_get_inventory;
+	wrappers_functions[13] = (void *)&ClrWrapper::player_get_name;
+	wrappers_functions[14] = (void *)&ClrWrapper::player_set_visible;
+	wrappers_functions[15] = (void *)&ClrWrapper::player_get_uuid;
+	wrappers_functions[16] = (void *)&ClrWrapper::player_get_client_handle;
+	wrappers_functions[17] = (void *)&ClrWrapper::root_broadcast_chat;
+	wrappers_functions[18] = (void *)&ClrWrapper::root_get_default_world;
+	wrappers_functions[19] = (void *)&ClrWrapper::world_are_command_blocks_enabled;
+	wrappers_functions[20] = (void *)&ClrWrapper::world_set_command_blocks_enabled;
+	wrappers_functions[21] = (void *)&ClrWrapper::world_get_block;
+	wrappers_functions[22] = (void *)&ClrWrapper::world_set_block;
+	wrappers_functions[23] = (void *)&ClrWrapper::world_broadcast_chat;
+	wrappers_functions[24] = (void *)&ClrWrapper::world_dig_block;
+	wrappers_functions[25] = (void *)&ClrWrapper::world_do_explosion_at;
+	wrappers_functions[26] = (void *)&ClrWrapper::world_get_game_mode;
+	wrappers_functions[27] = (void *)&ClrWrapper::world_get_weather;
+	wrappers_functions[28] = (void *)&ClrWrapper::world_set_weather;
+	wrappers_functions[29] = (void *)&ClrWrapper::create_item;
+	wrappers_functions[30] = (void *)&ClrWrapper::delete_item;
 
 
 	return wrappers_functions;

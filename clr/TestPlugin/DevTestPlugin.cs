@@ -16,6 +16,18 @@ public class DevTestPlugin : IClrPlugin
 	{
 		Root = root;
 		Logger = logger;
+
+	}
+
+	public void Load()
+	{
+		Root.BindCommand("/hello", HelloCallback, null, null);
+	}
+
+	private bool HelloCallback(string command, IntPtr player)
+	{
+		Root.BroadcastChat("World!");
+		return true;
 	}
 
 	public bool OnChat(IPlayer player, string message)

@@ -6,6 +6,8 @@ namespace CuberiteClr.Sdk;
 
 public interface IClrPlugin
 {
+	public void Load();
+
 	// Root
 	public void OnTick(float delta)
 	{

@@ -1,9 +1,15 @@
+using System.Runtime.InteropServices;
+using CuberiteClr.Sdk.Entities;
 using CuberiteClr.Sdk.Types;
 
 namespace CuberiteClr.Sdk.Core;
 
+public delegate bool CommandCallback(string command, IntPtr player);
+
 public interface IRoot
 {
+	public bool BindCommand(string name, CommandCallback callback, string permission, string helpString);
+
 	public void BroadcastChat(string message, MessageType type = MessageType.Custom);
 
 	public IWorld GetDefaultWorld();

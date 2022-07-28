@@ -31,7 +31,7 @@ public static unsafe class CuberiteClrManager
 
 		var hooksPointers = Hooks.Delegates.Select(Marshal.GetFunctionPointerForDelegate).ToArray();
 
-		LoadPlugins();
+		LoadClrPlugins();
 
 		fixed (void* fixedPointer = &hooksPointers[0])
 		{
@@ -39,7 +39,7 @@ public static unsafe class CuberiteClrManager
 		}
 	}
 
-	private static void LoadPlugins()
+	private static void LoadClrPlugins()
 	{
 		Logger.Instance.Log("Loading CLR plugins...");
 
@@ -89,6 +89,11 @@ public static unsafe class CuberiteClrManager
 			if (call(LoadedPlugins[i]))
 				return true;
 		return false;
+	}
+
+	public static void LoadPlugins()
+	{
+		CallVoidFunction(plugin => plugin.Load());
 	}
 
 	public static bool OnChat(IntPtr player, IntPtr message)

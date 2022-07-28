@@ -12,6 +12,9 @@ target_sources(
         ClrWrapper.cpp
 
         ClrHooks.h
+
+        ClrCommandHandler.h
+        ClrCommandHandler.cpp
 )
 
 if (UNIX AND NOT APPLE)

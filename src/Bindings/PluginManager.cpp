@@ -140,6 +140,9 @@ void cPluginManager::ReloadPluginsNow(cSettingsRepositoryInterface & a_Settings)
 	// Refresh the list of plugins to load new ones from disk / remove the deleted ones:
 	RefreshPluginList();
 
+	// Load CLR plugins
+	m_ClrHooks.LoadPlugins();
+
 	// Load the plugins:
 	AStringVector ToLoad = GetFoldersToLoad(a_Settings);
 	for (auto & pluginFolder: ToLoad)

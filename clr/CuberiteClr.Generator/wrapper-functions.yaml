@@ -1,24 +1,31 @@
-# Cuberite internal
-cuberite_log:
+# Core
+log_default:
   return: void
   args:
     message: char *
-cuberite_log_info:
+log_info:
   return: void
   args:
     message: char *
-cuberite_log_warning:
+log_warning:
   return: void
   args:
     message: char *
-cuberite_log_error:
+log_error:
   return: void
   args:
     message: char *
-cuberite_log_debug:
+log_debug:
   return: void
   args:
     message: char *
+bind_command:
+  return: bool
+  args:
+    name: char *
+    callback: void *
+    permission: char *
+    helpString: char *
 
 # Entity
 entity_get_health:

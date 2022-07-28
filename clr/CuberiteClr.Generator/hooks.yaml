@@ -1,3 +1,7 @@
+# Internal (Not proper hooks)
+LoadPlugins:
+  return: void
+
 # Core
 OnTick:
   return: void

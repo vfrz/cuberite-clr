@@ -1,15 +1,23 @@
 #include "ClrWrapper.h"
+#include "ClrCommandHandler.h"
 
 // Cuberite internal
-void ClrWrapper::cuberite_log(char * message) { LOG(message); }
+void ClrWrapper::log_default(char * message) { LOG(message); }
 
-void ClrWrapper::cuberite_log_info(char * message) { LOGINFO(message); }
+void ClrWrapper::log_info(char * message) { LOGINFO(message); }
 
-void ClrWrapper::cuberite_log_warning(char * message) { LOGWARNING(message); }
+void ClrWrapper::log_warning(char * message) { LOGWARNING(message); }
 
-void ClrWrapper::cuberite_log_error(char * message) { LOGERROR(message); }
+void ClrWrapper::log_error(char * message) { LOGERROR(message); }
 
-void ClrWrapper::cuberite_log_debug(char * message) { LOGD(message); }
+void ClrWrapper::log_debug(char * message) { LOGD(message); }
+
+bool ClrWrapper::bind_command(char * name, void * callback, char * permission, char * helpString)
+{
+	auto commandHandler = std::make_shared<ClrCommandHandler>(callback);
+	return cRoot::Get()->GetPluginManager()->BindCommand(name, nullptr, commandHandler, AString(), AString());
+}
+
 
 // Entity
 float ClrWrapper::entity_get_health(cEntity * entity)
