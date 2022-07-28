@@ -14,7 +14,8 @@ public unsafe class Root : IRoot
 
 	public bool BindCommand(string name, CommandCallback callback, string permission, string helpString)
 	{
-		return WrapperFunctions.bind_command(name, Marshal.GetFunctionPointerForDelegate(callback), permission ?? string.Empty, helpString ?? string.Empty);
+		return WrapperFunctions.bind_command(name, Marshal.GetFunctionPointerForDelegate(callback),
+			permission ?? string.Empty, helpString ?? string.Empty);
 	}
 
 	public void BroadcastChat(string message, MessageType type = MessageType.Custom)

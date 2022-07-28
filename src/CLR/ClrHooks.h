@@ -3,7 +3,8 @@
 
 #include "../Root.h"
 
-typedef void (*LoadPluginsDef) ();
+typedef void (*CallPluginsLoadDef) ();
+typedef bool (*ExecuteCommandCallbackDef) (void *, const AString &, void *, int, cPlayer *);
 typedef void (*OnTickDef) (float);
 typedef bool (*OnChatDef) (cPlayer *, const char *);
 typedef bool (*OnExecuteCommandDef) (cPlayer *, void *, int, const char *);
@@ -16,7 +17,8 @@ typedef bool (*OnWorldTickDef) (cWorld *, float, float);
 class ClrHooks
 {
   public:
-	LoadPluginsDef LoadPlugins;
+	CallPluginsLoadDef CallPluginsLoad;
+	ExecuteCommandCallbackDef ExecuteCommandCallback;
 	OnTickDef OnTick;
 	OnChatDef OnChat;
 	OnExecuteCommandDef OnExecuteCommand;
@@ -27,14 +29,15 @@ class ClrHooks
 
 	inline void initializeHooks(void ** hooks)
 	{
-		LoadPlugins = (void(*)())(*(hooks + 0));
-		OnTick = (void(*)(float))(*(hooks + 1));
-		OnChat = (bool(*)(cPlayer *, const char *))(*(hooks + 2));
-		OnExecuteCommand = (bool(*)(cPlayer *, void *, int, const char *))(*(hooks + 3));
-		OnPlayerBreakingBlock = (bool(*)(cPlayer *, int, int, int, eBlockFace, BLOCKTYPE, NIBBLETYPE))(*(hooks + 4));
-		OnPlayerBrokenBlock = (bool(*)(cPlayer *, int, int, int, eBlockFace, BLOCKTYPE, NIBBLETYPE))(*(hooks + 5));
-		OnPlayerSpawned = (bool(*)(cPlayer *))(*(hooks + 6));
-		OnWorldTick = (bool(*)(cWorld *, float, float))(*(hooks + 7));
+		CallPluginsLoad = (void(*)())(*(hooks + 0));
+		ExecuteCommandCallback = (bool(*)(void *, const AString &, void *, int, cPlayer *))(*(hooks + 1));
+		OnTick = (void(*)(float))(*(hooks + 2));
+		OnChat = (bool(*)(cPlayer *, const char *))(*(hooks + 3));
+		OnExecuteCommand = (bool(*)(cPlayer *, void *, int, const char *))(*(hooks + 4));
+		OnPlayerBreakingBlock = (bool(*)(cPlayer *, int, int, int, eBlockFace, BLOCKTYPE, NIBBLETYPE))(*(hooks + 5));
+		OnPlayerBrokenBlock = (bool(*)(cPlayer *, int, int, int, eBlockFace, BLOCKTYPE, NIBBLETYPE))(*(hooks + 6));
+		OnPlayerSpawned = (bool(*)(cPlayer *))(*(hooks + 7));
+		OnWorldTick = (bool(*)(cWorld *, float, float))(*(hooks + 8));
 
 	}
 };

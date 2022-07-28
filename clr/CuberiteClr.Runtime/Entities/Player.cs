@@ -13,6 +13,11 @@ public unsafe class Player : Pawn, IPlayer
 	{
 	}
 
+	internal static IPlayer CreateNullable(IntPtr handle)
+	{
+		return handle != IntPtr.Zero ? new Player(handle) : null;
+	}
+
 	public IInventory GetInventory()
 	{
 		var inventoryPtr = WrapperFunctions.player_get_inventory(Handle);

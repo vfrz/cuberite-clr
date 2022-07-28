@@ -1,6 +1,14 @@
 # Internal (Not proper hooks)
-LoadPlugins:
+CallPluginsLoad:
   return: void
+ExecuteCommandCallback:
+  return: bool
+  args:
+    callback: void *
+    entireCommand: const AString &
+    split: void *
+    splitLength: int
+    player: cPlayer *
 
 # Core
 OnTick:

@@ -11,11 +11,12 @@ using CuberiteClr.Runtime.Extensions;
 using CuberiteClr.Runtime.Interop;
 using CuberiteClr.Sdk;
 using CuberiteClr.Sdk.Core;
-using CuberiteClr.Sdk.Entities;
 using CuberiteClr.Sdk.Types;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CuberiteClr.Runtime;
+
+public delegate bool ExecuteCommandInternal(IntPtr callback, string command, IntPtr player);
 
 public static unsafe class CuberiteClrManager
 {
@@ -91,11 +92,19 @@ public static unsafe class CuberiteClrManager
 		return false;
 	}
 
-	public static void LoadPlugins()
+	// Internal
+	public static void CallPluginsLoad()
 	{
 		CallVoidFunction(plugin => plugin.Load());
 	}
 
+	public static bool ExecuteCommandCallback(IntPtr callback, string command, IntPtr split, int splitCount, IntPtr player)
+	{
+		var commandCallback = Marshal.GetDelegateForFunctionPointer<CommandCallback>(callback);
+		return commandCallback(command, split.ReadStringArrayAuto(splitCount), Player.CreateNullable(player));
+	}
+
+	// Hooks
 	public static bool OnChat(IntPtr player, IntPtr message)
 	{
 		return CallBooleanFunction(plugin => plugin.OnChat(new Player(player), message.ReadStringAuto()));
@@ -128,8 +137,7 @@ public static unsafe class CuberiteClrManager
 
 	public static bool OnExecuteCommand(IntPtr player, IntPtr split, int splitLength, IntPtr entireCommand)
 	{
-		IPlayer p = player != IntPtr.Zero ? new Player(player) : null;
-		return CallBooleanFunction(plugin => plugin.OnExecuteCommand(p, split.ReadStringArrayAuto(splitLength),
-			entireCommand.ReadStringAuto()));
+		return CallBooleanFunction(plugin => plugin.OnExecuteCommand(Player.CreateNullable(player),
+			split.ReadStringArrayAuto(splitLength), entireCommand.ReadStringAuto()));
 	}
 }

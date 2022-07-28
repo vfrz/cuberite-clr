@@ -122,6 +122,7 @@ public static class Program
 		{"short", "short"},
 		{"char", "byte"},
 		{"std::array<Byte, 16>", "Guid"},
+		{"const AString &", "string"},
 
 		// Specific
 		{"eGameMode", "GameMode"},

@@ -24,9 +24,9 @@ public class DevTestPlugin : IClrPlugin
 		Root.BindCommand("/hello", HelloCallback, null, null);
 	}
 
-	private bool HelloCallback(string command, IntPtr player)
+	private bool HelloCallback(string command, string[] split, IPlayer player)
 	{
-		Root.BroadcastChat("World!");
+		Root.BroadcastChat($"Hello, {player.GetName()}!");
 		return true;
 	}
 
@@ -50,7 +50,7 @@ public class DevTestPlugin : IClrPlugin
 
 	public bool OnExecuteCommand(IPlayer player, string[] readStringArrayAuto, string readStringAuto)
 	{
-		Root.BroadcastChat($"Command executed [{readStringArrayAuto.Length}]: {string.Join(',', readStringArrayAuto)}");
+		//Root.BroadcastChat($"Command executed [{readStringArrayAuto.Length}]: {string.Join(',', readStringArrayAuto)}");
 		return false;
 	}
 }

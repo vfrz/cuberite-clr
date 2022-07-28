@@ -141,7 +141,7 @@ void cPluginManager::ReloadPluginsNow(cSettingsRepositoryInterface & a_Settings)
 	RefreshPluginList();
 
 	// Load CLR plugins
-	m_ClrHooks.LoadPlugins();
+	m_ClrHooks.CallPluginsLoad();
 
 	// Load the plugins:
 	AStringVector ToLoad = GetFoldersToLoad(a_Settings);
@@ -1852,7 +1852,3 @@ AStringVector cPluginManager::GetFoldersToLoad(cSettingsRepositoryInterface & a_
 
 	return res;
 }
-
-
-
-

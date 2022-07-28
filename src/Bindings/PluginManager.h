@@ -407,6 +407,9 @@ public:
 	The path doesn't end in a slash. */
 	static AString GetPluginsPath(void) { return "Plugins"; }  // tolua_export
 
+	/** Returns ClrHooks */
+	inline ClrHooks GetClrHooks() { return m_ClrHooks; }
+
 private:
 	friend class cRoot;
 
@@ -422,7 +425,6 @@ private:
 	typedef std::map<int, cPluginManager::PluginList> HookMap;
 	typedef std::map<AString, cCommandReg> CommandMap;
 
-
 	/** FolderNames of plugins that need an action (unload, reload, ...).
 	The plugins will be acted upon within the next call to Tick(), to avoid multithreading issues.
 	Protected against multithreaded access by m_CSPluginsNeedAction. */
@@ -430,6 +432,9 @@ private:
 
 	/** Protects m_PluginsToUnload against multithreaded access. */
 	mutable cCriticalSection m_CSPluginsNeedAction;
+
+	/** CLR */
+	ClrHooks m_ClrHooks;
 
 	/** All plugins that have been found in the Plugins folder. */
 	cPluginPtrs m_Plugins;
@@ -443,8 +448,6 @@ private:
 
 	/** The deadlock detect in which all plugins should track their CSs. */
 	cDeadlockDetect & m_DeadlockDetect;
-
-	ClrHooks m_ClrHooks;
 
 
 	cPluginManager(cDeadlockDetect & a_DeadlockDetect);

@@ -4,7 +4,7 @@ using CuberiteClr.Sdk.Types;
 
 namespace CuberiteClr.Sdk.Core;
 
-public delegate bool CommandCallback(string command, IntPtr player);
+public delegate bool CommandCallback(string command, string[] split, IPlayer player);
 
 public interface IRoot
 {
