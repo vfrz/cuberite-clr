@@ -6,13 +6,19 @@ using CuberiteClr.Sdk.Types;
 namespace TestPlugin;
 
 [ClrPlugin("dev-test-plugin")]
-public class DevTestPlugin : ClrPlugin
+public class DevTestPlugin : IClrPlugin
 {
-	public DevTestPlugin(IRoot root, ILogger logger) : base(root, logger)
+	public IRoot Root { get; }
+
+	public ILogger Logger { get; }
+
+	public DevTestPlugin(IRoot root, ILogger logger)
 	{
+		Root = root;
+		Logger = logger;
 	}
 
-	public override bool OnChat(IPlayer player, string message)
+	public bool OnChat(IPlayer player, string message)
 	{
 		if (message == "cactus pls")
 		{
@@ -30,7 +36,7 @@ public class DevTestPlugin : ClrPlugin
 		return false;
 	}
 
-	public override bool OnExecuteCommand(IPlayer player, string[] readStringArrayAuto, string readStringAuto)
+	public bool OnExecuteCommand(IPlayer player, string[] readStringArrayAuto, string readStringAuto)
 	{
 		Root.BroadcastChat($"Command executed [{readStringArrayAuto.Length}]: {string.Join(',', readStringArrayAuto)}");
 		return false;

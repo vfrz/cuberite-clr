@@ -5,9 +5,9 @@ namespace CuberiteClr.Runtime.Core;
 
 public unsafe class Logger : ILogger
 {
-	public static ILogger Instance { get; } = new Logger();
+	internal static ILogger Instance { get; } = new Logger();
 
-	private Logger()
+	public Logger()
 	{
 	}
 

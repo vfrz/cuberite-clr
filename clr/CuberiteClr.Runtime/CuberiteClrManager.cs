@@ -10,8 +10,10 @@ using CuberiteClr.Runtime.Entities;
 using CuberiteClr.Runtime.Extensions;
 using CuberiteClr.Runtime.Interop;
 using CuberiteClr.Sdk;
+using CuberiteClr.Sdk.Core;
 using CuberiteClr.Sdk.Entities;
 using CuberiteClr.Sdk.Types;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CuberiteClr.Runtime;
 
@@ -19,7 +21,7 @@ public static unsafe class CuberiteClrManager
 {
 	private const string PluginDirectory = "./ClrPlugins";
 
-	private static ClrPlugin[] LoadedPlugins { get; set; } = Array.Empty<ClrPlugin>();
+	private static IClrPlugin[] LoadedPlugins { get; set; } = Array.Empty<IClrPlugin>();
 
 	private delegate void* InitializeDelegate(IntPtr* wrappersFunctionsPtr);
 
@@ -48,7 +50,13 @@ public static unsafe class CuberiteClrManager
 
 		var assemblyFiles = pluginDirectory.GetFiles("*.dll", SearchOption.TopDirectoryOnly);
 
-		var loadedPlugins = new List<ClrPlugin>();
+		var services = new ServiceCollection()
+			.AddSingleton<IRoot, Root>()
+			.AddSingleton<ILogger, Logger>();
+
+		var serviceProvider = services.BuildServiceProvider();
+
+		var loadedPlugins = new List<IClrPlugin>();
 
 		var loadContext = AssemblyLoadContext.GetLoadContext(Assembly.GetExecutingAssembly())!;
 
@@ -57,11 +65,11 @@ public static unsafe class CuberiteClrManager
 			var assembly = loadContext.LoadFromAssemblyPath(assemblyFile.FullName);
 			var pluginTypes = assembly
 				.GetTypes()
-				.Where(type => typeof(ClrPlugin).IsAssignableFrom(type) && !type.IsAbstract)
+				.Where(type => typeof(IClrPlugin).IsAssignableFrom(type) && !type.IsAbstract)
 				.ToList();
 
 			loadedPlugins.AddRange(pluginTypes
-				.Select(type => (ClrPlugin) Activator.CreateInstance(type, Root.Instance, Logger.Instance)));
+				.Select(type => (IClrPlugin) ActivatorUtilities.CreateInstance(serviceProvider, type)));
 		}
 
 		LoadedPlugins = loadedPlugins.ToArray();
@@ -69,13 +77,13 @@ public static unsafe class CuberiteClrManager
 		Logger.Instance.Log($"Loaded {LoadedPlugins.Length} CLR plugin(s)");
 	}
 
-	private static void CallVoidFunction(Action<ClrPlugin> call)
+	private static void CallVoidFunction(Action<IClrPlugin> call)
 	{
 		for (var i = 0; i < LoadedPlugins.Length; i++)
 			call(LoadedPlugins[i]);
 	}
 
-	private static bool CallBooleanFunction(Func<ClrPlugin, bool> call)
+	private static bool CallBooleanFunction(Func<IClrPlugin, bool> call)
 	{
 		for (var i = 0; i < LoadedPlugins.Length; i++)
 			if (call(LoadedPlugins[i]))

@@ -8,9 +8,7 @@ namespace CuberiteClr.Runtime.Core;
 
 public unsafe class Root : IRoot
 {
-	public static IRoot Instance { get; } = new Root();
-
-	private Root()
+	public Root()
 	{
 	}
 
