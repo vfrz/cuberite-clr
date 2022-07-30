@@ -7,7 +7,7 @@ namespace CuberiteClr.Runtime.Interop;
 public static class Hooks
 {
 	private delegate void CallPluginsLoadDelegate();
-	private delegate bool ExecuteCommandCallbackDelegate(IntPtr callback, string entireCommand, IntPtr split, int splitLength, IntPtr player);
+	private delegate bool ExecuteCommandCallbackDelegate(IntPtr callback, IntPtr entireCommand, IntPtr split, int splitLength, IntPtr player);
 	private delegate void OnTickDelegate(float delta);
 	private delegate bool OnChatDelegate(IntPtr player, IntPtr message);
 	private delegate bool OnExecuteCommandDelegate(IntPtr player, IntPtr split, int splitLength, IntPtr entireCommand);

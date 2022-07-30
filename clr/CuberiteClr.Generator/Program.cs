@@ -122,7 +122,6 @@ public static class Program
 		{"short", "short"},
 		{"char", "byte"},
 		{"std::array<Byte, 16>", "Guid"},
-		{"const AString &", "string"},
 
 		// Specific
 		{"eGameMode", "GameMode"},
@@ -134,6 +133,17 @@ public static class Program
 		{"NIBBLETYPE", "byte"},
 		{"CommandResult", "CommandResult"}
 	};
+
+	private static string MapCppToCsType(string type)
+	{
+		if (_cppToCsTypesMap.ContainsKey(type))
+			return _cppToCsTypesMap[type];
+
+		if (type.Contains('*') || type.Contains('&'))
+			return "IntPtr";
+
+		throw new Exception($"Unknown type: {type}");
+	}
 
 	private static string GenerateHooksCsDelegatesCreation(Dictionary<string, Hook> hooks)
 	{
@@ -161,17 +171,6 @@ public static class Program
 		}
 
 		return builder.ToString();
-	}
-
-	private static string MapCppToCsType(string type)
-	{
-		if (_cppToCsTypesMap.ContainsKey(type))
-			return _cppToCsTypesMap[type];
-
-		if (type.Contains("*"))
-			return "IntPtr";
-
-		throw new Exception($"Unknown type: {type}");
 	}
 
 	private static string GenerateClrWrapperHDeclarations(Dictionary<string, WrapperFunction> functions)

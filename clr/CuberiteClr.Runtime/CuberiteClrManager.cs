@@ -98,10 +98,10 @@ public static unsafe class CuberiteClrManager
 		CallVoidFunction(plugin => plugin.Load());
 	}
 
-	public static bool ExecuteCommandCallback(IntPtr callback, string command, IntPtr split, int splitCount, IntPtr player)
+	public static bool ExecuteCommandCallback(IntPtr callback, IntPtr command, IntPtr split, int splitCount, IntPtr player)
 	{
 		var commandCallback = Marshal.GetDelegateForFunctionPointer<CommandCallback>(callback);
-		return commandCallback(command, split.ReadStringArrayAuto(splitCount), Player.CreateNullable(player));
+		return commandCallback(command.ReadStringAuto(), split.ReadStringArrayAuto(splitCount), Player.CreateNullable(player));
 	}
 
 	// Hooks
