@@ -5,8 +5,11 @@ public class ClrPluginAttribute : Attribute
 {
 	public string Identifier { get; }
 
-	public ClrPluginAttribute(string identifier)
+	public bool HasDatabase { get; }
+
+	public ClrPluginAttribute(string identifier, bool hasDatabase = false)
 	{
 		Identifier = identifier;
+		HasDatabase = hasDatabase;
 	}
 }

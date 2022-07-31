@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using CuberiteClr.Runtime.Core;
+using CuberiteClr.Runtime.Database;
 using CuberiteClr.Sdk;
 using CuberiteClr.Sdk.Core;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +16,8 @@ public class PluginLoader
 {
 	public const string PluginsFolder = "./ClrPlugins";
 
+	public const string PluginDatabasesFolder = "./ClrPlugins/Databases";
+
 	public IClrPlugin[] LoadedPlugins { get; private set; } = Array.Empty<IClrPlugin>();
 
 	public void ReloadPlugins()
@@ -23,6 +26,9 @@ public class PluginLoader
 
 		if (!Directory.Exists(PluginsFolder))
 			Directory.CreateDirectory(PluginsFolder);
+
+		if (!Directory.Exists(PluginDatabasesFolder))
+			Directory.CreateDirectory(PluginDatabasesFolder);
 
 		var pluginDirectory = new DirectoryInfo(PluginsFolder);
 
@@ -53,6 +59,10 @@ public class PluginLoader
 
 		foreach (var plugin in sortedPlugins)
 		{
+			if (plugin.PluginAttribute.HasDatabase)
+				services.AddSingleton(typeof(IDatabase<>).MakeGenericType(plugin.Type),
+					typeof(LiteDbDatabase<>).MakeGenericType(plugin.Type));
+
 			var exposedServices = plugin.Type.GetCustomAttributes<ExposeServiceAttribute>();
 			foreach (var exposedService in exposedServices)
 				services.AddSingleton(exposedService.ServiceType, exposedService.ImplementationType);

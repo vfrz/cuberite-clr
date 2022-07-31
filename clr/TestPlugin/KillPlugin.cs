@@ -8,7 +8,7 @@ namespace TestPlugin;
 
 [ClrPlugin("kill-plugin")]
 [DependsOn("dev-test-plugin")]
-public class KillPlugin : IClrPlugin
+internal class KillPlugin : IClrPlugin
 {
 	private readonly IRoot _root;
 

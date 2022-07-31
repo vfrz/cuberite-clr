@@ -4,7 +4,7 @@ using CuberiteClr.Sdk;
 
 namespace CuberiteClr.Runtime.Plugins;
 
-public record PluginDescription(string Identifier, Type Type, string[] Dependencies)
+public record PluginDescription(string Identifier, Type Type, ClrPluginAttribute PluginAttribute, string[] Dependencies)
 {
 	public static PluginDescription FromType(Type type)
 	{
@@ -13,7 +13,7 @@ public record PluginDescription(string Identifier, Type Type, string[] Dependenc
 			throw new Exception($"Can't load plugin from type: {type} because {nameof(ClrPluginAttribute)} is missing.");
 		var dependsOnAttribute = type.GetCustomAttribute<DependsOnAttribute>();
 		var dependencies = dependsOnAttribute?.Dependencies ?? Array.Empty<string>();
-		return new PluginDescription(pluginAttribute.Identifier, type, dependencies);
+		return new PluginDescription(pluginAttribute.Identifier, type, pluginAttribute, dependencies);
 	}
 
 	public virtual bool Equals(PluginDescription other)

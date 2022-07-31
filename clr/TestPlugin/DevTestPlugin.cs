@@ -6,18 +6,21 @@ using TestPlugin.Services;
 
 namespace TestPlugin;
 
-[ClrPlugin("dev-test-plugin")]
+[ClrPlugin("dev-test-plugin", hasDatabase: true)]
 [ExposeService(typeof(IRoleService), typeof(RoleService))]
-internal class DevTestPlugin : IClrPlugin
+public class DevTestPlugin : IClrPlugin
 {
 	private readonly IRoot _root;
 
 	private readonly ILogger _logger;
 
-	public DevTestPlugin(IRoot root, ILogger logger)
+	private readonly IRoleService _roleService;
+
+	public DevTestPlugin(IRoot root, ILogger logger, IRoleService roleService)
 	{
 		_root = root;
 		_logger = logger;
+		_roleService = roleService;
 	}
 
 	public void Load()
@@ -25,6 +28,11 @@ internal class DevTestPlugin : IClrPlugin
 		_root.BindCommand("/hello", HelloCallback);
 		_root.BindCommand("/time", TimeCallback);
 		_root.BindCommand("/heal", HealCallback);
+		_root.BindCommand("/switch", (command, split, player) =>
+		{
+			_roleService.SwitchAdmin(player);
+			return true;
+		});
 	}
 
 	private bool HealCallback(string command, string[] split, IPlayer player)
