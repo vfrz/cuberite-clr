@@ -33,4 +33,19 @@ public unsafe class Player : Pawn, IPlayer
 	{
 		return WrapperFunctions.player_get_uuid(Handle).FixGuidBytesOrder();
 	}
+
+	public void SendMessage(string message)
+	{
+		WrapperFunctions.player_send_message(Handle, message);
+	}
+
+	public void Feed(int food, double saturation)
+	{
+		WrapperFunctions.player_feed(Handle, food, saturation);
+	}
+
+	public void SetRespawnLocation(int x, int y, int z, IWorld world)
+	{
+		WrapperFunctions.player_set_respawn_location(Handle, x, y, z, world.GetInteropHandle());
+	}
 }

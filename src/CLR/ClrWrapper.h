@@ -2,6 +2,7 @@
 #pragma once
 
 #include "Entities/Player.h"
+#include "Entities/Entity.h"
 
 namespace ClrWrapper
 {
@@ -22,6 +23,7 @@ extern "C"
 	void entity_take_damage_3(cEntity * entity, eDamageType type, int attacker, int rawDamage, double knockbackAmount);
 	void entity_take_damage_4(cEntity * entity, eDamageType type, cEntity * attacker, int rawDamage, float finalDamage, double knockbackAmount);
 	void entity_heal(cEntity * entity, int hitPoints);
+	cEntity::eEntityType entity_get_entity_type(cEntity * entity);
 	char inventory_add_item(cInventory * inventory, cItem * item);
 	eGameMode player_get_game_mode(cPlayer * player);
 	void player_set_game_mode(cPlayer * player, eGameMode gameMode);
@@ -30,6 +32,9 @@ extern "C"
 	void player_set_visible(cPlayer * player, bool visible);
 	std::array<Byte, 16> player_get_uuid(cPlayer * player);
 	const cClientHandle * player_get_client_handle(cPlayer * player);
+	void player_send_message(cPlayer * player, char * message);
+	bool player_feed(cPlayer * player, int food, double saturation);
+	void player_set_respawn_location(cPlayer * player, int x, int y, int z, const cWorld & world);
 	void root_broadcast_chat(char * message, eMessageType type);
 	cWorld * root_get_default_world();
 	bool world_are_command_blocks_enabled(cWorld * world);
@@ -54,7 +59,7 @@ extern "C"
 
 inline std::vector<void *> get_wrapper_functions()
 {
-	std::vector<void *> wrappers_functions(42);
+	std::vector<void *> wrappers_functions(46);
 
 	wrappers_functions[0] = (void *)&ClrWrapper::log_default;
 	wrappers_functions[1] = (void *)&ClrWrapper::log_info;
@@ -71,33 +76,37 @@ inline std::vector<void *> get_wrapper_functions()
 	wrappers_functions[12] = (void *)&ClrWrapper::entity_take_damage_3;
 	wrappers_functions[13] = (void *)&ClrWrapper::entity_take_damage_4;
 	wrappers_functions[14] = (void *)&ClrWrapper::entity_heal;
-	wrappers_functions[15] = (void *)&ClrWrapper::inventory_add_item;
-	wrappers_functions[16] = (void *)&ClrWrapper::player_get_game_mode;
-	wrappers_functions[17] = (void *)&ClrWrapper::player_set_game_mode;
-	wrappers_functions[18] = (void *)&ClrWrapper::player_get_inventory;
-	wrappers_functions[19] = (void *)&ClrWrapper::player_get_name;
-	wrappers_functions[20] = (void *)&ClrWrapper::player_set_visible;
-	wrappers_functions[21] = (void *)&ClrWrapper::player_get_uuid;
-	wrappers_functions[22] = (void *)&ClrWrapper::player_get_client_handle;
-	wrappers_functions[23] = (void *)&ClrWrapper::root_broadcast_chat;
-	wrappers_functions[24] = (void *)&ClrWrapper::root_get_default_world;
-	wrappers_functions[25] = (void *)&ClrWrapper::world_are_command_blocks_enabled;
-	wrappers_functions[26] = (void *)&ClrWrapper::world_set_command_blocks_enabled;
-	wrappers_functions[27] = (void *)&ClrWrapper::world_get_block;
-	wrappers_functions[28] = (void *)&ClrWrapper::world_set_block;
-	wrappers_functions[29] = (void *)&ClrWrapper::world_broadcast_chat;
-	wrappers_functions[30] = (void *)&ClrWrapper::world_dig_block;
-	wrappers_functions[31] = (void *)&ClrWrapper::world_do_explosion_at;
-	wrappers_functions[32] = (void *)&ClrWrapper::world_get_game_mode;
-	wrappers_functions[33] = (void *)&ClrWrapper::world_get_weather;
-	wrappers_functions[34] = (void *)&ClrWrapper::world_set_weather;
-	wrappers_functions[35] = (void *)&ClrWrapper::world_get_time_of_day;
-	wrappers_functions[36] = (void *)&ClrWrapper::world_set_time_of_day;
-	wrappers_functions[37] = (void *)&ClrWrapper::world_get_world_age;
-	wrappers_functions[38] = (void *)&ClrWrapper::world_get_world_tick_age;
-	wrappers_functions[39] = (void *)&ClrWrapper::world_get_world_date;
-	wrappers_functions[40] = (void *)&ClrWrapper::create_item;
-	wrappers_functions[41] = (void *)&ClrWrapper::delete_item;
+	wrappers_functions[15] = (void *)&ClrWrapper::entity_get_entity_type;
+	wrappers_functions[16] = (void *)&ClrWrapper::inventory_add_item;
+	wrappers_functions[17] = (void *)&ClrWrapper::player_get_game_mode;
+	wrappers_functions[18] = (void *)&ClrWrapper::player_set_game_mode;
+	wrappers_functions[19] = (void *)&ClrWrapper::player_get_inventory;
+	wrappers_functions[20] = (void *)&ClrWrapper::player_get_name;
+	wrappers_functions[21] = (void *)&ClrWrapper::player_set_visible;
+	wrappers_functions[22] = (void *)&ClrWrapper::player_get_uuid;
+	wrappers_functions[23] = (void *)&ClrWrapper::player_get_client_handle;
+	wrappers_functions[24] = (void *)&ClrWrapper::player_send_message;
+	wrappers_functions[25] = (void *)&ClrWrapper::player_feed;
+	wrappers_functions[26] = (void *)&ClrWrapper::player_set_respawn_location;
+	wrappers_functions[27] = (void *)&ClrWrapper::root_broadcast_chat;
+	wrappers_functions[28] = (void *)&ClrWrapper::root_get_default_world;
+	wrappers_functions[29] = (void *)&ClrWrapper::world_are_command_blocks_enabled;
+	wrappers_functions[30] = (void *)&ClrWrapper::world_set_command_blocks_enabled;
+	wrappers_functions[31] = (void *)&ClrWrapper::world_get_block;
+	wrappers_functions[32] = (void *)&ClrWrapper::world_set_block;
+	wrappers_functions[33] = (void *)&ClrWrapper::world_broadcast_chat;
+	wrappers_functions[34] = (void *)&ClrWrapper::world_dig_block;
+	wrappers_functions[35] = (void *)&ClrWrapper::world_do_explosion_at;
+	wrappers_functions[36] = (void *)&ClrWrapper::world_get_game_mode;
+	wrappers_functions[37] = (void *)&ClrWrapper::world_get_weather;
+	wrappers_functions[38] = (void *)&ClrWrapper::world_set_weather;
+	wrappers_functions[39] = (void *)&ClrWrapper::world_get_time_of_day;
+	wrappers_functions[40] = (void *)&ClrWrapper::world_set_time_of_day;
+	wrappers_functions[41] = (void *)&ClrWrapper::world_get_world_age;
+	wrappers_functions[42] = (void *)&ClrWrapper::world_get_world_tick_age;
+	wrappers_functions[43] = (void *)&ClrWrapper::world_get_world_date;
+	wrappers_functions[44] = (void *)&ClrWrapper::create_item;
+	wrappers_functions[45] = (void *)&ClrWrapper::delete_item;
 
 
 	return wrappers_functions;

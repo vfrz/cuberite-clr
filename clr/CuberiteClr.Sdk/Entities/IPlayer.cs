@@ -13,4 +13,10 @@ public interface IPlayer : IPawn
 	public string GetName();
 
 	public Guid GetUUID();
+
+	public void SendMessage(string message);
+
+	public void Feed(int food, double saturation);
+
+	public void SetRespawnLocation(int x, int y, int z, IWorld world);
 }

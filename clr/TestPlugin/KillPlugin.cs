@@ -28,7 +28,10 @@ internal class KillPlugin : IClrPlugin
 	private bool KillCallback(string command, string[] split, IPlayer player)
 	{
 		if (!_roleService.IsAdmin(player))
+		{
+			player.SendMessage("You are not allowed to execute this command!");
 			return true;
+		}
 
 		if (split.Length == 1)
 			player.TakeDamage(DamageType.Admin, null, 1000, 1000, 0);

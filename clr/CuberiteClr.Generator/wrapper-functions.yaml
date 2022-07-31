@@ -80,6 +80,10 @@ entity_heal:
   args:
     entity: cEntity *
     hitPoints: int
+entity_get_entity_type:
+  return: cEntity::eEntityType
+  args:
+    entity: cEntity *
 
 # Inventory
 inventory_add_item:
@@ -119,6 +123,25 @@ player_get_client_handle:
   return: const cClientHandle *
   args:
     player: cPlayer *
+player_send_message:
+  return: void
+  args:
+    player: cPlayer *
+    message: char *
+player_feed:
+  return: bool
+  args:
+    player: cPlayer *
+    food: int
+    saturation: double
+player_set_respawn_location:
+  return: void
+  args:
+    player: cPlayer *
+    x: int
+    y: int
+    z: int
+    world: const cWorld &
 
 # Root
 root_broadcast_chat:

@@ -53,4 +53,9 @@ public unsafe class Entity : InteropReference, IEntity
 	{
 		WrapperFunctions.entity_heal(Handle, hitPoints);
 	}
+
+	public EntityType GetEntityType()
+	{
+		return WrapperFunctions.entity_get_entity_type(Handle);
+	}
 }

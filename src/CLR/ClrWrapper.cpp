@@ -17,129 +17,124 @@ bool ClrWrapper::bind_command(
 {
 	auto commandHandler = std::make_shared<ClrCommandHandler>(callback);
 	return cRoot::Get()->GetPluginManager()->BindCommand(
-		name, nullptr, commandHandler, AString(), AString());
+		name, nullptr, commandHandler, permission, helpString);
 }
-
 
 // Entity
 float ClrWrapper::entity_get_health(cEntity * entity)
 {
-	if (entity != nullptr)
-		return entity->GetHealth();
-	return -1;
+	return entity->GetHealth();
 }
 
 void ClrWrapper::entity_set_health(cEntity * entity, float health)
 {
-	if (entity != nullptr)
-		entity->SetHealth(health);
+	entity->SetHealth(health);
 }
 
 bool ClrWrapper::entity_is_invisible(cEntity * entity)
 {
-	if (entity != nullptr)
-		return entity->IsInvisible();
-	return false;
+	return entity->IsInvisible();
 }
 
 cWorld * ClrWrapper::entity_get_world(cEntity * entity)
 {
-	if (entity != nullptr)
-		return entity->GetWorld();
-	return nullptr;
+	return entity->GetWorld();
 }
 
 void ClrWrapper::entity_take_damage_1(cEntity * entity, cEntity & attacker)
 {
-	if (entity != nullptr)
-		entity->TakeDamage(attacker);
+	entity->TakeDamage(attacker);
 }
 
 void ClrWrapper::entity_take_damage_2(
 	cEntity * entity, eDamageType type, cEntity * attacker, int rawDamage,
 	double knockbackAmount)
 {
-	if (entity != nullptr)
-		entity->TakeDamage(type, attacker, rawDamage, knockbackAmount);
+	entity->TakeDamage(type, attacker, rawDamage, knockbackAmount);
 }
 
 void ClrWrapper::entity_take_damage_3(
 	cEntity * entity, eDamageType type, int attacker, int rawDamage,
 	double knockbackAmount)
 {
-	if (entity != nullptr)
-		entity->TakeDamage(type, attacker, rawDamage, knockbackAmount);
+	entity->TakeDamage(type, attacker, rawDamage, knockbackAmount);
 }
 
 void ClrWrapper::entity_take_damage_4(
 	cEntity * entity, eDamageType type, cEntity * attacker, int rawDamage,
 	float finalDamage, double knockbackAmount)
 {
-	if (entity != nullptr)
-		entity->TakeDamage(type, attacker, rawDamage, finalDamage, knockbackAmount);
+	entity->TakeDamage(type, attacker, rawDamage, finalDamage, knockbackAmount);
 }
 
 void ClrWrapper::entity_heal(cEntity * entity, int hitPoints)
 {
-	if (entity != nullptr)
-		entity->Heal(hitPoints);
+	entity->Heal(hitPoints);
+}
+
+cEntity::eEntityType ClrWrapper::entity_get_entity_type(cEntity * entity)
+{
+	return entity->GetEntityType();
 }
 
 // Inventory
 char ClrWrapper::inventory_add_item(cInventory * inventory, cItem * item)
 {
-	if (inventory != nullptr)
-		return inventory->AddItem(*item);
-	return 0;
+	return inventory->AddItem(*item);
 }
 
 // Player
 eGameMode ClrWrapper::player_get_game_mode(cPlayer * player)
 {
-	if (player != nullptr)
-		player->GetGameMode();
-	return eGameMode::eGameMode_NotSet;
+	return player->GetGameMode();
 }
 
 void ClrWrapper::player_set_game_mode(cPlayer * player, eGameMode gameMode)
 {
-	if (player != nullptr)
-		player->SetGameMode(gameMode);
+	player->SetGameMode(gameMode);
 }
 
 const cInventory * ClrWrapper::player_get_inventory(cPlayer * player)
 {
-	if (player != nullptr)
-		return &player->GetInventory();
-	return nullptr;
+	return &player->GetInventory();
 }
 
 const char * ClrWrapper::player_get_name(cPlayer * player)
 {
-	if (player != nullptr)
-		return player->GetName().c_str();
-	return nullptr;
+	return player->GetName().c_str();
 }
 
 void ClrWrapper::player_set_visible(cPlayer * player, bool visible)
 {
-	if (player != nullptr)
-		player->SetVisible(visible);
+	player->SetVisible(visible);
 }
 
 std::array<Byte, 16> ClrWrapper::player_get_uuid(cPlayer * player)
 {
-	if (player != nullptr)
-		return player->GetUUID().ToRaw();
-	return {};
+	return player->GetUUID().ToRaw();
 }
 
 const cClientHandle * ClrWrapper::player_get_client_handle(cPlayer * player)
 {
-	if (player != nullptr)
-		return player->GetClientHandle();
-	return nullptr;
+	return player->GetClientHandle();
 }
+
+void ClrWrapper::player_send_message(cPlayer * player, char * message)
+{
+	player->SendMessage(message);
+}
+
+bool ClrWrapper::player_feed(cPlayer * player, int food, double saturation)
+{
+	return player->Feed(food, saturation);
+}
+
+void ClrWrapper::player_set_respawn_location(
+	cPlayer * player, int x, int y, int z, const cWorld & world)
+{
+	player->SetRespawnPosition(Vector3i(x, y, z), world);
+}
+
 
 // Root
 void ClrWrapper::root_broadcast_chat(char * message, eMessageType messageType)
@@ -155,106 +150,83 @@ cWorld * ClrWrapper::root_get_default_world()
 // World
 bool ClrWrapper::world_are_command_blocks_enabled(cWorld * world)
 {
-	if (world != nullptr)
-		return world->AreCommandBlocksEnabled();
-	return false;
+	return world->AreCommandBlocksEnabled();
 }
 
 void ClrWrapper::world_set_command_blocks_enabled(cWorld * world, bool enabled)
 {
-	if (world != nullptr)
-		world->SetCommandBlocksEnabled(enabled);
+	world->SetCommandBlocksEnabled(enabled);
 }
 
 BLOCKTYPE ClrWrapper::world_get_block(cWorld * world, int x, int y, int z)
 {
-	if (world != nullptr)
-		return world->GetBlock(Vector3i(x, y, z));
-	return ENUM_BLOCK_TYPE::E_BLOCK_AIR;
+	return world->GetBlock(Vector3i(x, y, z));
 }
 
 void ClrWrapper::world_set_block(
 	cWorld * world, int x, int y, int z, BLOCKTYPE type, NIBBLETYPE meta)
 {
-	if (world != nullptr)
-		world->SetBlock(Vector3i(x, y, z), type, meta);
+	world->SetBlock(Vector3i(x, y, z), type, meta);
 }
 
 void ClrWrapper::world_broadcast_chat(
 	cWorld * world, char * message, cClientHandle * except,
 	eMessageType messageType)
 {
-	if (world != nullptr)
-		world->BroadcastChat(message, except, messageType);
+	world->BroadcastChat(message, except, messageType);
 }
 
 void ClrWrapper::world_dig_block(
 	cWorld * world, int x, int y, int z, cEntity * digger)
 {
-	if (world != nullptr)
-		world->DigBlock(Vector3i(x, y, z), digger);
+	world->DigBlock(Vector3i(x, y, z), digger);
 }
 
 void ClrWrapper::world_do_explosion_at(
 	cWorld * world, double size, double x, double y, double z,
 	bool canCauseFire, eExplosionSource source, void * sourceData)
 {
-	if (world != nullptr)
-		world->DoExplosionAt(size, x, y, z, canCauseFire, source, sourceData);
+	world->DoExplosionAt(size, x, y, z, canCauseFire, source, sourceData);
 }
 
 eGameMode ClrWrapper::world_get_game_mode(cWorld * world)
 {
-	if (world != nullptr)
-		return world->GetGameMode();
-	return eGameMode::eGameMode_NotSet;
+	return world->GetGameMode();
 }
 
 eWeather ClrWrapper::world_get_weather(cWorld * world)
 {
-	if (world != nullptr)
-		return world->GetWeather();
-	return eWeather::eWeather_Sunny;
+	return world->GetWeather();
 }
 
 void ClrWrapper::world_set_weather(cWorld * world, eWeather weather)
 {
-	if (world != nullptr)
-		world->SetWeather(weather);
+	world->SetWeather(weather);
 }
 
 int ClrWrapper::world_get_time_of_day(cWorld * world)
 {
-	if (world != nullptr)
-		return world->GetTimeOfDay().count();
-	return -1;
+	return world->GetTimeOfDay().count();
 }
 
 void ClrWrapper::world_set_time_of_day(cWorld * world, int time)
 {
-	if (world != nullptr)
-		return world->SetTimeOfDay(cTickTime(time));
+	world->SetTimeOfDay(cTickTime(time));
 }
 
 long long int ClrWrapper::world_get_world_age(cWorld * world)
 {
-	if (world != nullptr)
-		return world->GetWorldAge().count();
-	return -1;
+	return world->GetWorldAge().count();
 }
 
 long long int ClrWrapper::world_get_world_tick_age(cWorld * world)
 {
-	if (world != nullptr)
-		return world->GetWorldTickAge().count();
-	return -1;
+	return world->GetWorldTickAge().count();
 }
 
 long long int ClrWrapper::world_get_world_date(cWorld * world)
 {
-	if (world != nullptr)
-		return world->GetWorldDate().count();
-	return -1;
+	return world->GetWorldDate().count();
 }
 
 

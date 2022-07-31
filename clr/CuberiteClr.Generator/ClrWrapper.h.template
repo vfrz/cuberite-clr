@@ -2,6 +2,7 @@
 #pragma once
 
 #include "Entities/Player.h"
+#include "Entities/Entity.h"
 
 namespace ClrWrapper
 {

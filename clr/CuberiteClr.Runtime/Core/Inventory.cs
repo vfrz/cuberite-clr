@@ -13,7 +13,7 @@ public unsafe class Inventory : InteropReference, IInventory
 
 	public byte AddItem(IItem item)
 	{
-		var itemHandle = item.GetInteropReference().Handle;
+		var itemHandle = item.GetInteropHandle();
 		return WrapperFunctions.inventory_add_item(Handle, itemHandle);
 	}
 }

@@ -20,4 +20,6 @@ public interface IEntity
 	public void TakeDamage(DamageType type, IEntity attacker, int rawDamage, float finalDamage, double knockbackAmount);
 
 	public void Heal(int hitPoints);
+
+	public EntityType GetEntityType();
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CuberiteClr.Sdk.Types;
 
 namespace CuberiteClr.Generator;
 
@@ -16,19 +17,20 @@ public static class GeneratorTypesMapping
 		{"void", "void"},
 		{"short", "short"},
 		{"char", "byte"},
-		{"std::array<Byte, 16>", "Guid"},
+		{"std::array<Byte, 16>", nameof(Guid)},
 		{"long long int", "long"},
 
 		// Specific
-		{"eBlockFace", "BlockFace"},
-		{"eDamageType", "DamageType"},
-		{"eExplosionSource", "ExplosionSource"},
-		{"eGameMode", "GameMode"},
-		{"eMessageType", "MessageType"},
-		{"eWeather", "Weather"},
-		{"BLOCKTYPE", "BlockType"},
+		{"eBlockFace", nameof(BlockFace)},
+		{"eDamageType", nameof(DamageType)},
+		{"cEntity::eEntityType", nameof(EntityType)},
+		{"eExplosionSource", nameof(ExplosionSource)},
+		{"eGameMode", nameof(GameMode)},
+		{"eMessageType", nameof(MessageType)},
+		{"eWeather", nameof(Weather)},
+		{"BLOCKTYPE", nameof(BlockType)},
 		{"NIBBLETYPE", "byte"},
-		{"CommandResult", "CommandResult"},
+		{"CommandResult", nameof(BlockType)},
 	};
 
 	public static string MapCppToCsType(string type)
