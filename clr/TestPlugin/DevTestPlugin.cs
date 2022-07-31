@@ -2,29 +2,29 @@
 using CuberiteClr.Sdk.Core;
 using CuberiteClr.Sdk.Entities;
 using CuberiteClr.Sdk.Types;
+using TestPlugin.Services;
 
 namespace TestPlugin;
 
 [ClrPlugin("dev-test-plugin")]
-public class DevTestPlugin : IClrPlugin
+[ExposeService(typeof(IRoleService), typeof(RoleService))]
+internal class DevTestPlugin : IClrPlugin
 {
-	public IRoot Root { get; }
+	private readonly IRoot _root;
 
-	public ILogger Logger { get; }
+	private readonly ILogger _logger;
 
 	public DevTestPlugin(IRoot root, ILogger logger)
 	{
-		Root = root;
-		Logger = logger;
-
+		_root = root;
+		_logger = logger;
 	}
 
 	public void Load()
 	{
-		Root.BindCommand("/hello", HelloCallback);
-		Root.BindCommand("/time", TimeCallback);
-		Root.BindCommand("/kill", KillCallback);
-		Root.BindCommand("/heal", HealCallback);
+		_root.BindCommand("/hello", HelloCallback);
+		_root.BindCommand("/time", TimeCallback);
+		_root.BindCommand("/heal", HealCallback);
 	}
 
 	private bool HealCallback(string command, string[] split, IPlayer player)
@@ -36,13 +36,6 @@ public class DevTestPlugin : IClrPlugin
 		return true;
 	}
 
-	private bool KillCallback(string command, string[] split, IPlayer player)
-	{
-		if (split.Length == 1)
-			player.TakeDamage(DamageType.Admin, null, 1000, 1000, 0);
-		return true;
-	}
-
 	private bool TimeCallback(string command, string[] split, IPlayer player)
 	{
 		player.GetWorld().SetTimeOfDay(int.Parse(split[1]));
@@ -51,7 +44,7 @@ public class DevTestPlugin : IClrPlugin
 
 	private bool HelloCallback(string command, string[] split, IPlayer player)
 	{
-		Root.BroadcastChat($"Hello, {player.GetName()}!");
+		_root.BroadcastChat($"Hello, {player.GetName()}!");
 		return true;
 	}
 
@@ -59,17 +52,18 @@ public class DevTestPlugin : IClrPlugin
 	{
 		if (message == "cactus pls")
 		{
-			var item = Root.CreateItem(BlockType.Cactus, 1);
+			var item = _root.CreateItem(BlockType.Cactus, 1);
 			player.GetInventory().AddItem(item);
 		}
 		else if (message.Contains("thunder"))
 		{
-			Root.GetDefaultWorld().SetWeather(Weather.ThunderStorm);
+			_root.GetDefaultWorld().SetWeather(Weather.ThunderStorm);
 		}
 		else if (message.Contains("sunny"))
 		{
-			Root.GetDefaultWorld().SetWeather(Weather.Sunny);
+			_root.GetDefaultWorld().SetWeather(Weather.Sunny);
 		}
+
 		return false;
 	}
 

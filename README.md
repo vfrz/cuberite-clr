@@ -5,12 +5,16 @@ Cuberite-CLR is a Cuberite fork which allows to develop plugins in C# through th
 What's done:
 - [x] Basic 2-way interop communication using function pointers
 - [x] Command binding support
+- [x] Plugin dependencies
+- [x] Services system for plugin
 
 What's left and planned:
 - [ ] Implement all APIs
 - [ ] Implement all hooks
 - [ ] Handle ref/out parameters in hooks
 - [ ] Hot reload of CLR plugins
+- [ ] Exception handling
+- [ ] Fully automatic binding generation
 
 What's left but not planned for now:
 - [ ] Async support in hooks

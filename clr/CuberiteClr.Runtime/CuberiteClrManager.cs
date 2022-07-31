@@ -1,18 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Runtime.Loader;
 using CuberiteClr.Runtime.Core;
 using CuberiteClr.Runtime.Entities;
 using CuberiteClr.Runtime.Extensions;
 using CuberiteClr.Runtime.Interop;
+using CuberiteClr.Runtime.Plugins;
 using CuberiteClr.Sdk;
 using CuberiteClr.Sdk.Core;
 using CuberiteClr.Sdk.Types;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace CuberiteClr.Runtime;
 
@@ -20,9 +16,7 @@ public delegate bool ExecuteCommandInternal(IntPtr callback, string command, Int
 
 public static unsafe class CuberiteClrManager
 {
-	private const string PluginDirectory = "./ClrPlugins";
-
-	private static IClrPlugin[] LoadedPlugins { get; set; } = Array.Empty<IClrPlugin>();
+	public static PluginLoader PluginLoader { get; } = new();
 
 	private delegate void* InitializeDelegate(IntPtr* wrappersFunctionsPtr);
 
@@ -32,7 +26,7 @@ public static unsafe class CuberiteClrManager
 
 		var hooksPointers = Hooks.Delegates.Select(Marshal.GetFunctionPointerForDelegate).ToArray();
 
-		LoadClrPlugins();
+		PluginLoader.ReloadPlugins();
 
 		fixed (void* fixedPointer = &hooksPointers[0])
 		{
@@ -40,54 +34,16 @@ public static unsafe class CuberiteClrManager
 		}
 	}
 
-	private static void LoadClrPlugins()
-	{
-		Logger.Instance.Log("Loading CLR plugins...");
-
-		if (!Directory.Exists(PluginDirectory))
-			Directory.CreateDirectory(PluginDirectory);
-
-		var pluginDirectory = new DirectoryInfo(PluginDirectory);
-
-		var assemblyFiles = pluginDirectory.GetFiles("*.dll", SearchOption.TopDirectoryOnly);
-
-		var services = new ServiceCollection()
-			.AddSingleton<IRoot, Root>()
-			.AddSingleton<ILogger, Logger>();
-
-		var serviceProvider = services.BuildServiceProvider();
-
-		var loadedPlugins = new List<IClrPlugin>();
-
-		var loadContext = AssemblyLoadContext.GetLoadContext(Assembly.GetExecutingAssembly())!;
-
-		foreach (var assemblyFile in assemblyFiles)
-		{
-			var assembly = loadContext.LoadFromAssemblyPath(assemblyFile.FullName);
-			var pluginTypes = assembly
-				.GetTypes()
-				.Where(type => typeof(IClrPlugin).IsAssignableFrom(type) && !type.IsAbstract)
-				.ToList();
-
-			loadedPlugins.AddRange(pluginTypes
-				.Select(type => (IClrPlugin) ActivatorUtilities.CreateInstance(serviceProvider, type)));
-		}
-
-		LoadedPlugins = loadedPlugins.ToArray();
-
-		Logger.Instance.Log($"Loaded {LoadedPlugins.Length} CLR plugin(s)");
-	}
-
 	private static void CallVoidFunction(Action<IClrPlugin> call)
 	{
-		for (var i = 0; i < LoadedPlugins.Length; i++)
-			call(LoadedPlugins[i]);
+		for (var i = 0; i < PluginLoader.LoadedPlugins.Length; i++)
+			call(PluginLoader.LoadedPlugins[i]);
 	}
 
 	private static bool CallBooleanFunction(Func<IClrPlugin, bool> call)
 	{
-		for (var i = 0; i < LoadedPlugins.Length; i++)
-			if (call(LoadedPlugins[i]))
+		for (var i = 0; i < PluginLoader.LoadedPlugins.Length; i++)
+			if (call(PluginLoader.LoadedPlugins[i]))
 				return true;
 		return false;
 	}
