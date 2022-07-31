@@ -12,10 +12,12 @@ void ClrWrapper::log_error(char * message) { LOGERROR(message); }
 
 void ClrWrapper::log_debug(char * message) { LOGD(message); }
 
-bool ClrWrapper::bind_command(char * name, void * callback, char * permission, char * helpString)
+bool ClrWrapper::bind_command(
+	char * name, void * callback, char * permission, char * helpString)
 {
 	auto commandHandler = std::make_shared<ClrCommandHandler>(callback);
-	return cRoot::Get()->GetPluginManager()->BindCommand(name, nullptr, commandHandler, AString(), AString());
+	return cRoot::Get()->GetPluginManager()->BindCommand(
+		name, nullptr, commandHandler, AString(), AString());
 }
 
 
@@ -38,6 +40,49 @@ bool ClrWrapper::entity_is_invisible(cEntity * entity)
 	if (entity != nullptr)
 		return entity->IsInvisible();
 	return false;
+}
+
+cWorld * ClrWrapper::entity_get_world(cEntity * entity)
+{
+	if (entity != nullptr)
+		return entity->GetWorld();
+	return nullptr;
+}
+
+void ClrWrapper::entity_take_damage_1(cEntity * entity, cEntity & attacker)
+{
+	if (entity != nullptr)
+		entity->TakeDamage(attacker);
+}
+
+void ClrWrapper::entity_take_damage_2(
+	cEntity * entity, eDamageType type, cEntity * attacker, int rawDamage,
+	double knockbackAmount)
+{
+	if (entity != nullptr)
+		entity->TakeDamage(type, attacker, rawDamage, knockbackAmount);
+}
+
+void ClrWrapper::entity_take_damage_3(
+	cEntity * entity, eDamageType type, int attacker, int rawDamage,
+	double knockbackAmount)
+{
+	if (entity != nullptr)
+		entity->TakeDamage(type, attacker, rawDamage, knockbackAmount);
+}
+
+void ClrWrapper::entity_take_damage_4(
+	cEntity * entity, eDamageType type, cEntity * attacker, int rawDamage,
+	float finalDamage, double knockbackAmount)
+{
+	if (entity != nullptr)
+		entity->TakeDamage(type, attacker, rawDamage, finalDamage, knockbackAmount);
+}
+
+void ClrWrapper::entity_heal(cEntity * entity, int hitPoints)
+{
+	if (entity != nullptr)
+		entity->Heal(hitPoints);
 }
 
 // Inventory
@@ -177,6 +222,41 @@ void ClrWrapper::world_set_weather(cWorld * world, eWeather weather)
 	if (world != nullptr)
 		world->SetWeather(weather);
 }
+
+int ClrWrapper::world_get_time_of_day(cWorld * world)
+{
+	if (world != nullptr)
+		return world->GetTimeOfDay().count();
+	return -1;
+}
+
+void ClrWrapper::world_set_time_of_day(cWorld * world, int time)
+{
+	if (world != nullptr)
+		return world->SetTimeOfDay(cTickTime(time));
+}
+
+long long int ClrWrapper::world_get_world_age(cWorld * world)
+{
+	if (world != nullptr)
+		return world->GetWorldAge().count();
+	return -1;
+}
+
+long long int ClrWrapper::world_get_world_tick_age(cWorld * world)
+{
+	if (world != nullptr)
+		return world->GetWorldTickAge().count();
+	return -1;
+}
+
+long long int ClrWrapper::world_get_world_date(cWorld * world)
+{
+	if (world != nullptr)
+		return world->GetWorldDate().count();
+	return -1;
+}
+
 
 // Objects creation
 const cItem * ClrWrapper::create_item(

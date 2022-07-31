@@ -20,4 +20,29 @@ public unsafe class World : InteropReference, IWorld
 	{
 		WrapperFunctions.world_set_weather(Handle, weather);
 	}
+
+	public int GetTimeOfDay()
+	{
+		return WrapperFunctions.world_get_time_of_day(Handle);
+	}
+
+	public void SetTimeOfDay(int time)
+	{
+		WrapperFunctions.world_set_time_of_day(Handle, time);
+	}
+
+	public long GetWorldAge()
+	{
+		return WrapperFunctions.world_get_world_age(Handle);
+	}
+
+	public long GetWorldTickAge()
+	{
+		return WrapperFunctions.world_get_world_tick_age(Handle);
+	}
+
+	public long GetWorldDate()
+	{
+		return WrapperFunctions.world_get_world_date(Handle);
+	}
 }

@@ -100,7 +100,9 @@ public static unsafe class CuberiteClrManager
 
 	public static bool ExecuteCommandCallback(IntPtr callback, IntPtr command, IntPtr split, int splitCount, IntPtr player)
 	{
+#pragma warning disable CA1420
 		var commandCallback = Marshal.GetDelegateForFunctionPointer<CommandCallback>(callback);
+#pragma warning restore CA1420
 		return commandCallback(command.ReadStringAuto(), split.ReadStringArrayAuto(splitCount), Player.CreateNullable(player));
 	}
 

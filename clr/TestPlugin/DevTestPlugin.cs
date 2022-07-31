@@ -21,7 +21,32 @@ public class DevTestPlugin : IClrPlugin
 
 	public void Load()
 	{
-		Root.BindCommand("/hello", HelloCallback, null, null);
+		Root.BindCommand("/hello", HelloCallback);
+		Root.BindCommand("/time", TimeCallback);
+		Root.BindCommand("/kill", KillCallback);
+		Root.BindCommand("/heal", HealCallback);
+	}
+
+	private bool HealCallback(string command, string[] split, IPlayer player)
+	{
+		if (split.Length == 1)
+			player.Heal(1000);
+		else if (split.Length == 2)
+			player.Heal(int.Parse(split[1]));
+		return true;
+	}
+
+	private bool KillCallback(string command, string[] split, IPlayer player)
+	{
+		if (split.Length == 1)
+			player.TakeDamage(DamageType.Admin, null, 1000, 1000, 0);
+		return true;
+	}
+
+	private bool TimeCallback(string command, string[] split, IPlayer player)
+	{
+		player.GetWorld().SetTimeOfDay(int.Parse(split[1]));
+		return true;
 	}
 
 	private bool HelloCallback(string command, string[] split, IPlayer player)

@@ -110,41 +110,6 @@ public static class Program
 		return builder.ToString();
 	}
 
-	private static readonly Dictionary<string, string> _cppToCsTypesMap = new()
-	{
-		// Primitive
-		{"char *", "string"},
-		{"int", "int"},
-		{"bool", "bool"},
-		{"double", "double"},
-		{"float", "float"},
-		{"void", "void"},
-		{"short", "short"},
-		{"char", "byte"},
-		{"std::array<Byte, 16>", "Guid"},
-
-		// Specific
-		{"eGameMode", "GameMode"},
-		{"eMessageType", "MessageType"},
-		{"eExplosionSource", "ExplosionSource"},
-		{"eBlockFace", "BlockFace"},
-		{"eWeather", "Weather"},
-		{"BLOCKTYPE", "BlockType"},
-		{"NIBBLETYPE", "byte"},
-		{"CommandResult", "CommandResult"}
-	};
-
-	private static string MapCppToCsType(string type)
-	{
-		if (_cppToCsTypesMap.ContainsKey(type))
-			return _cppToCsTypesMap[type];
-
-		if (type.Contains('*') || type.Contains('&'))
-			return "IntPtr";
-
-		throw new Exception($"Unknown type: {type}");
-	}
-
 	private static string GenerateHooksCsDelegatesCreation(Dictionary<string, Hook> hooks)
 	{
 		var builder = new StringBuilder();
@@ -165,8 +130,8 @@ public static class Program
 		{
 			builder.Append('\t');
 			var args = hook.Value.Args
-				.Select(arg => $"{MapCppToCsType(arg.Value)} {arg.Key}");
-			builder.Append($"private delegate {MapCppToCsType(hook.Value.Return)} {hook.Key}Delegate({string.Join(", ", args)});");
+				.Select(arg => $"{GeneratorTypesMapping.MapCppToCsType(arg.Value)} {arg.Key}");
+			builder.Append($"private delegate {GeneratorTypesMapping.MapCppToCsType(hook.Value.Return)} {hook.Key}Delegate({string.Join(", ", args)});");
 			builder.Append('\n');
 		}
 
@@ -210,8 +175,8 @@ public static class Program
 		{
 			builder.Append('\t');
 			var generics = function.Value.Args
-				.Select(arg => MapCppToCsType(arg.Value))
-				.Concat(new[] {MapCppToCsType(function.Value.Return)});
+				.Select(arg => GeneratorTypesMapping.MapCppToCsType(arg.Value))
+				.Concat(new[] {GeneratorTypesMapping.MapCppToCsType(function.Value.Return)});
 			builder.Append($"public static delegate* unmanaged[Cdecl]<{string.Join(", ", generics)}> {function.Key};");
 			builder.Append('\n');
 		}
@@ -227,8 +192,8 @@ public static class Program
 		{
 			builder.Append("\t\t");
 			var generics = function.Value.Args
-				.Select(arg => MapCppToCsType(arg.Value))
-				.Concat(new[] {MapCppToCsType(function.Value.Return)});
+				.Select(arg => GeneratorTypesMapping.MapCppToCsType(arg.Value))
+				.Concat(new[] {GeneratorTypesMapping.MapCppToCsType(function.Value.Return)});
 			builder.Append($"{function.Key} = (delegate* unmanaged[Cdecl]<{string.Join(", ", generics)}>) *(ptr + {i});");
 			builder.Append('\n');
 			i++;

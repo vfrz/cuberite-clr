@@ -41,6 +41,45 @@ entity_is_invisible:
   return: bool
   args:
     entity: cEntity *
+entity_get_world:
+  return: cWorld *
+  args:
+    entity: cEntity *
+entity_take_damage_1:
+  return: void
+  args:
+    entity: cEntity *
+    attacker: cEntity &
+entity_take_damage_2:
+  return: void
+  args:
+    entity: cEntity *
+    type: eDamageType
+    attacker: cEntity *
+    rawDamage: int
+    knockbackAmount: double
+entity_take_damage_3:
+  return: void
+  args:
+    entity: cEntity *
+    type: eDamageType
+    attacker: int
+    rawDamage: int
+    knockbackAmount: double
+entity_take_damage_4:
+  return: void
+  args:
+    entity: cEntity *
+    type: eDamageType
+    attacker: cEntity *
+    rawDamage: int
+    finalDamage: float
+    knockbackAmount: double
+entity_heal:
+  return: void
+  args:
+    entity: cEntity *
+    hitPoints: int
 
 # Inventory
 inventory_add_item:
@@ -155,6 +194,27 @@ world_set_weather:
   args:
     world: cWorld *
     weather: eWeather
+world_get_time_of_day:
+  args:
+    world: cWorld *
+  return: int
+world_set_time_of_day:
+  return: void
+  args:
+    world: cWorld *
+    time: int
+world_get_world_age:
+  return: long long int
+  args:
+    world: cWorld *
+world_get_world_tick_age:
+  return: long long int
+  args:
+    world: cWorld *
+world_get_world_date:
+  return: long long int
+  args:
+    world: cWorld *
 
 # Object creation
 create_item:

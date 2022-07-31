@@ -1,6 +1,6 @@
-using System.Runtime.InteropServices;
 using CuberiteClr.Sdk.Entities;
 using CuberiteClr.Sdk.Types;
+#pragma warning disable CS8625
 
 namespace CuberiteClr.Sdk.Core;
 
@@ -8,7 +8,7 @@ public delegate bool CommandCallback(string command, string[] split, IPlayer pla
 
 public interface IRoot
 {
-	public bool BindCommand(string name, CommandCallback callback, string permission, string helpString);
+	public bool BindCommand(string name, CommandCallback callback, string permission = null, string helpString = null);
 
 	public void BroadcastChat(string message, MessageType type = MessageType.Custom);
 

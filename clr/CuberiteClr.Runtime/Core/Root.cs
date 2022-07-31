@@ -8,13 +8,11 @@ namespace CuberiteClr.Runtime.Core;
 
 public unsafe class Root : IRoot
 {
-	public Root()
+	public bool BindCommand(string name, CommandCallback callback, string permission = null, string helpString = null)
 	{
-	}
-
-	public bool BindCommand(string name, CommandCallback callback, string permission, string helpString)
-	{
+#pragma warning disable CA1420
 		return WrapperFunctions.bind_command(name, Marshal.GetFunctionPointerForDelegate(callback),
+#pragma warning restore CA1420
 			permission ?? string.Empty, helpString ?? string.Empty);
 	}
 

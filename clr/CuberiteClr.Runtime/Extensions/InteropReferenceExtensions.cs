@@ -11,4 +11,11 @@ public static class InteropReferenceExtensions
 			return interopReference;
 		throw new Exception($"This object is not an interop reference object: {obj.GetType()}");
 	}
+
+	public static IntPtr GetOptionalInteropHandle<T>(this T obj)
+	{
+		if (obj is null)
+			return IntPtr.Zero;
+		return obj.GetInteropReference().Handle;
+	}
 }
