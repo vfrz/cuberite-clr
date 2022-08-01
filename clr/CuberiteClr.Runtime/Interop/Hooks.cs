@@ -16,7 +16,7 @@ public static class Hooks
 	private delegate bool OnPlayerSpawnedDelegate(IntPtr player);
 	private delegate bool OnWorldTickDelegate(IntPtr world, float delta, float lastTickDuration);
 
-	public static readonly Delegate[] Delegates = {
+	public static Delegate[] Delegates { get; } = {
 		new CallPluginsLoadDelegate(CuberiteClrManager.CallPluginsLoad),
 		new ExecuteCommandCallbackDelegate(CuberiteClrManager.ExecuteCommandCallback),
 		new OnTickDelegate(CuberiteClrManager.OnTick),

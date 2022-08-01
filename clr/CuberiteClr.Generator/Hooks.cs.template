@@ -7,7 +7,7 @@ namespace CuberiteClr.Runtime.Interop;
 public static class Hooks
 {
 {Delegates}
-	public static readonly Delegate[] Delegates = {
+	public static Delegate[] Delegates { get; } = {
 {DelegatesCreation}
 	};
 }

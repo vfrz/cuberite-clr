@@ -12,8 +12,6 @@ using CuberiteClr.Sdk.Types;
 
 namespace CuberiteClr.Runtime;
 
-public delegate bool ExecuteCommandInternal(IntPtr callback, string command, IntPtr player);
-
 public static unsafe class CuberiteClrManager
 {
 	public static PluginLoader PluginLoader { get; } = new();
@@ -56,9 +54,8 @@ public static unsafe class CuberiteClrManager
 
 	public static bool ExecuteCommandCallback(IntPtr callback, IntPtr command, IntPtr split, int splitCount, IntPtr player)
 	{
-#pragma warning disable CA1420
-		var commandCallback = Marshal.GetDelegateForFunctionPointer<CommandCallback>(callback);
-#pragma warning restore CA1420
+		var gcHandle = GCHandle.FromIntPtr(callback);
+		var commandCallback = (CommandCallback) gcHandle.Target!;
 		return commandCallback(command.ReadStringAuto(), split.ReadStringArrayAuto(splitCount), Player.CreateNullable(player));
 	}
 
