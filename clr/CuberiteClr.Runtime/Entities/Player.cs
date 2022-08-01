@@ -26,7 +26,7 @@ public unsafe class Player : Pawn, IPlayer
 
 	public string GetName()
 	{
-		return WrapperFunctions.player_get_name(Handle).ReadStringAuto();
+		return WrapperFunctions.player_get_name(Handle).ToStringAuto();
 	}
 
 	public Guid GetUUID()

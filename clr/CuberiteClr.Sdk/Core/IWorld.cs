@@ -4,6 +4,8 @@ namespace CuberiteClr.Sdk.Core;
 
 public interface IWorld
 {
+	public string GetName();
+
 	public Weather GetWeather();
 
 	public void SetWeather(Weather weather);
@@ -17,4 +19,6 @@ public interface IWorld
 	public long GetWorldTickAge();
 
 	public long GetWorldDate();
+
+	public bool ForEachPlayer(ForEachPlayerCallback callback);
 }

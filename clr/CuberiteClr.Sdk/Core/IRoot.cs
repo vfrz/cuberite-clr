@@ -1,10 +1,7 @@
-using CuberiteClr.Sdk.Entities;
 using CuberiteClr.Sdk.Types;
 #pragma warning disable CS8625
 
 namespace CuberiteClr.Sdk.Core;
-
-public delegate bool CommandCallback(string command, string[] split, IPlayer player);
 
 public interface IRoot
 {
@@ -13,6 +10,10 @@ public interface IRoot
 	public void BroadcastChat(string message, MessageType type = MessageType.Custom);
 
 	public IWorld GetDefaultWorld();
+
+	public bool ForEachWorld(ForEachWorldCallback callback);
+
+	public bool ForEachPlayer(ForEachPlayerCallback callback);
 
 	// Objects creation
 	public IItem CreateItem(short type, byte count = 1, short damage = 0, string enchantments = "",

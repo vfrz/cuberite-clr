@@ -1,4 +1,6 @@
 using System;
+using System.Runtime.InteropServices;
+using CuberiteClr.Runtime.Extensions;
 using CuberiteClr.Runtime.Interop;
 using CuberiteClr.Sdk.Core;
 using CuberiteClr.Sdk.Types;
@@ -9,6 +11,11 @@ public unsafe class World : InteropReference, IWorld
 {
 	public World(IntPtr handle) : base(handle)
 	{
+	}
+
+	public string GetName()
+	{
+		return WrapperFunctions.world_get_name(Handle).ToStringAuto();
 	}
 
 	public Weather GetWeather()
@@ -44,5 +51,12 @@ public unsafe class World : InteropReference, IWorld
 	public long GetWorldDate()
 	{
 		return WrapperFunctions.world_get_world_date(Handle);
+	}
+
+	public bool ForEachPlayer(ForEachPlayerCallback callback)
+	{
+		var gcHandle = GCHandle.Alloc(callback, GCHandleType.Normal);
+		var callbackPointer = GCHandle.ToIntPtr(gcHandle);
+		return WrapperFunctions.world_for_each_player(Handle, callbackPointer);
 	}
 }

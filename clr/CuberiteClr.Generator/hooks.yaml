@@ -9,6 +9,16 @@ ExecuteCommandCallback:
     split: void *
     splitLength: int
     player: cPlayer *
+ExecuteForEachWorldCallback:
+  return: bool
+  args:
+    callback: void *
+    world: cWorld *
+ExecuteForEachPlayerCallback:
+  return: bool
+  args:
+    callback: void *
+    player: cPlayer *
 
 # Core
 OnTick:

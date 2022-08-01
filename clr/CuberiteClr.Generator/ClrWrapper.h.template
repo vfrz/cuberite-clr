@@ -1,8 +1,10 @@
 // This file is auto-generated, please do not modify manually
 #pragma once
 
+#include <vector>
 #include "Entities/Player.h"
 #include "Entities/Entity.h"
+#include "Globals.h"
 
 namespace ClrWrapper
 {

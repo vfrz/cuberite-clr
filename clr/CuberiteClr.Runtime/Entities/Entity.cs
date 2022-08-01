@@ -58,4 +58,9 @@ public unsafe class Entity : InteropReference, IEntity
 	{
 		return WrapperFunctions.entity_get_entity_type(Handle);
 	}
+
+	public Vector3d GetPosition()
+	{
+		return WrapperFunctions.entity_get_position(Handle).ToVector3d();
+	}
 }

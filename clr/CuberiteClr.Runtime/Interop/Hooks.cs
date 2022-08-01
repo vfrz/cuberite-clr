@@ -8,6 +8,8 @@ public static class Hooks
 {
 	private delegate void CallPluginsLoadDelegate();
 	private delegate bool ExecuteCommandCallbackDelegate(IntPtr callback, IntPtr entireCommand, IntPtr split, int splitLength, IntPtr player);
+	private delegate bool ExecuteForEachWorldCallbackDelegate(IntPtr callback, IntPtr world);
+	private delegate bool ExecuteForEachPlayerCallbackDelegate(IntPtr callback, IntPtr player);
 	private delegate void OnTickDelegate(float delta);
 	private delegate bool OnChatDelegate(IntPtr player, IntPtr message);
 	private delegate bool OnExecuteCommandDelegate(IntPtr player, IntPtr split, int splitLength, IntPtr entireCommand);
@@ -19,6 +21,8 @@ public static class Hooks
 	public static Delegate[] Delegates { get; } = {
 		new CallPluginsLoadDelegate(CuberiteClrManager.CallPluginsLoad),
 		new ExecuteCommandCallbackDelegate(CuberiteClrManager.ExecuteCommandCallback),
+		new ExecuteForEachWorldCallbackDelegate(CuberiteClrManager.ExecuteForEachWorldCallback),
+		new ExecuteForEachPlayerCallbackDelegate(CuberiteClrManager.ExecuteForEachPlayerCallback),
 		new OnTickDelegate(CuberiteClrManager.OnTick),
 		new OnChatDelegate(CuberiteClrManager.OnChat),
 		new OnExecuteCommandDelegate(CuberiteClrManager.OnExecuteCommand),

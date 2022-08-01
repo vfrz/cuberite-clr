@@ -22,4 +22,6 @@ public interface IEntity
 	public void Heal(int hitPoints);
 
 	public EntityType GetEntityType();
+
+	public Vector3d GetPosition();
 }

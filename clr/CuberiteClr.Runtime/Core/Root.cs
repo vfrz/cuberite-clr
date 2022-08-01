@@ -26,6 +26,20 @@ public unsafe class Root : IRoot
 		return new World(handle);
 	}
 
+	public bool ForEachWorld(ForEachWorldCallback callback)
+	{
+		var gcHandle = GCHandle.Alloc(callback, GCHandleType.Normal);
+		var callbackPointer = GCHandle.ToIntPtr(gcHandle);
+		return WrapperFunctions.root_for_each_world(callbackPointer);
+	}
+
+	public bool ForEachPlayer(ForEachPlayerCallback callback)
+	{
+		var gcHandle = GCHandle.Alloc(callback, GCHandleType.Normal);
+		var callbackPointer = GCHandle.ToIntPtr(gcHandle);
+		return WrapperFunctions.root_for_each_player(callbackPointer);
+	}
+
 	// Objects creation
 	public IItem CreateItem(short type, byte count = 1, short damage = 0, string enchantments = null, string customName = null, string[] loreTable = null)
 	{

@@ -28,11 +28,41 @@ public class DevTestPlugin : IClrPlugin
 		_root.BindCommand("/hello", HelloCallback);
 		_root.BindCommand("/time", TimeCallback);
 		_root.BindCommand("/heal", HealCallback);
+		_root.BindCommand("/worlds", WorldsCallback);
+		_root.BindCommand("/players", PlayersCallback);
+		_root.BindCommand("/pos", PositionCallback);
 		_root.BindCommand("/switch", (command, split, player) =>
 		{
 			_roleService.SwitchAdmin(player);
 			return true;
 		});
+	}
+
+	private bool PositionCallback(string command, string[] split, IPlayer player)
+	{
+		player.SendMessage(player.GetPosition().ToString());
+		return true;
+	}
+
+	private bool PlayersCallback(string command, string[] split, IPlayer player)
+	{
+		player.SendMessage("Player list:");
+		_root.ForEachPlayer(p =>
+		{
+			player.SendMessage($"- {p.GetName()} [{p.GetUUID()}]");
+			return false;
+		});
+		return true;
+	}
+
+	private bool WorldsCallback(string command, string[] split, IPlayer player)
+	{
+		_root.ForEachWorld(world =>
+		{
+			player.SendMessage(world.GetName());
+			return false;
+		});
+		return true;
 	}
 
 	private bool HealCallback(string command, string[] split, IPlayer player)

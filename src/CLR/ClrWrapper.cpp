@@ -77,6 +77,12 @@ cEntity::eEntityType ClrWrapper::entity_get_entity_type(cEntity * entity)
 	return entity->GetEntityType();
 }
 
+const Vector3d * ClrWrapper::entity_get_position(cEntity * entity)
+{
+	return &entity->GetPosition();
+}
+
+
 // Inventory
 char ClrWrapper::inventory_add_item(cInventory * inventory, cItem * item)
 {
@@ -147,6 +153,22 @@ cWorld * ClrWrapper::root_get_default_world()
 	return cRoot::Get()->GetDefaultWorld();
 }
 
+bool ClrWrapper::root_for_each_world(void * callback)
+{
+	auto clrHooks = cRoot::Get()->GetPluginManager()->GetClrHooks();
+	return cRoot::Get()->ForEachWorld([&](cWorld & world) {
+		return clrHooks.ExecuteForEachWorldCallback(callback, &world);
+	});
+}
+
+bool ClrWrapper::root_for_each_player(void * callback)
+{
+	auto clrHooks = cRoot::Get()->GetPluginManager()->GetClrHooks();
+	return cRoot::Get()->ForEachPlayer([&](cPlayer & player) {
+		return clrHooks.ExecuteForEachPlayerCallback(callback, &player);
+	});
+}
+
 // World
 bool ClrWrapper::world_are_command_blocks_enabled(cWorld * world)
 {
@@ -161,6 +183,11 @@ void ClrWrapper::world_set_command_blocks_enabled(cWorld * world, bool enabled)
 BLOCKTYPE ClrWrapper::world_get_block(cWorld * world, int x, int y, int z)
 {
 	return world->GetBlock(Vector3i(x, y, z));
+}
+
+const char * ClrWrapper::world_get_name(cWorld * world)
+{
+	return world->GetName().c_str();
 }
 
 void ClrWrapper::world_set_block(
@@ -229,6 +256,13 @@ long long int ClrWrapper::world_get_world_date(cWorld * world)
 	return world->GetWorldDate().count();
 }
 
+bool ClrWrapper::world_for_each_player(cWorld * world, void * callback)
+{
+	auto clrHooks = cRoot::Get()->GetPluginManager()->GetClrHooks();
+	return world->ForEachPlayer([&](cPlayer & player) {
+		return clrHooks.ExecuteForEachPlayerCallback(callback, &player);
+	});
+}
 
 // Objects creation
 const cItem * ClrWrapper::create_item(

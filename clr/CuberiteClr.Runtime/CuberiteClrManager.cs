@@ -56,13 +56,13 @@ public static unsafe class CuberiteClrManager
 	{
 		var gcHandle = GCHandle.FromIntPtr(callback);
 		var commandCallback = (CommandCallback) gcHandle.Target!;
-		return commandCallback(command.ReadStringAuto(), split.ReadStringArrayAuto(splitCount), Player.CreateNullable(player));
+		return commandCallback(command.ToStringAuto(), split.ToStringArrayAuto(splitCount), Player.CreateNullable(player));
 	}
 
 	// Hooks
 	public static bool OnChat(IntPtr player, IntPtr message)
 	{
-		return CallBooleanFunction(plugin => plugin.OnChat(new Player(player), message.ReadStringAuto()));
+		return CallBooleanFunction(plugin => plugin.OnChat(new Player(player), message.ToStringAuto()));
 	}
 
 	public static bool OnPlayerBreakingBlock(IntPtr player, int x, int y, int z, BlockFace face, BlockType type, byte meta)
@@ -93,6 +93,20 @@ public static unsafe class CuberiteClrManager
 	public static bool OnExecuteCommand(IntPtr player, IntPtr split, int splitLength, IntPtr entireCommand)
 	{
 		return CallBooleanFunction(plugin => plugin.OnExecuteCommand(Player.CreateNullable(player),
-			split.ReadStringArrayAuto(splitLength), entireCommand.ReadStringAuto()));
+			split.ToStringArrayAuto(splitLength), entireCommand.ToStringAuto()));
+	}
+
+	public static bool ExecuteForEachWorldCallback(IntPtr callback, IntPtr world)
+	{
+		var gcHandle = GCHandle.FromIntPtr(callback);
+		var callbackDelegate = (ForEachWorldCallback) gcHandle.Target!;
+		return callbackDelegate(new World(world));
+	}
+
+	public static bool ExecuteForEachPlayerCallback(IntPtr callback, IntPtr player)
+	{
+		var gcHandle = GCHandle.FromIntPtr(callback);
+		var callbackDelegate = (ForEachPlayerCallback) gcHandle.Target!;
+		return callbackDelegate(new Player(player));
 	}
 }
