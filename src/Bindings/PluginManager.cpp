@@ -740,7 +740,7 @@ bool cPluginManager::CallHookPlayerAnimation(cPlayer & a_Player, int a_Animation
 
 bool cPluginManager::CallHookPlayerBreakingBlock(cPlayer & a_Player, Vector3i a_BlockPos, eBlockFace a_BlockFace, BLOCKTYPE a_BlockType, NIBBLETYPE a_BlockMeta)
 {
-	if (m_ClrHooks.OnPlayerBreakingBlock(&a_Player, a_BlockPos.x, a_BlockPos.y, a_BlockPos.z, a_BlockFace, a_BlockType, a_BlockMeta))
+	if (m_ClrHooks.OnPlayerBreakingBlock(&a_Player, a_BlockPos, a_BlockFace, a_BlockType, a_BlockMeta))
 		return true;
 
 	return GenericCallHook(HOOK_PLAYER_BREAKING_BLOCK, [&](cPlugin * a_Plugin)
@@ -756,7 +756,7 @@ bool cPluginManager::CallHookPlayerBreakingBlock(cPlayer & a_Player, Vector3i a_
 
 bool cPluginManager::CallHookPlayerBrokenBlock(cPlayer & a_Player, Vector3i a_BlockPos, eBlockFace a_BlockFace, BLOCKTYPE a_BlockType, NIBBLETYPE a_BlockMeta)
 {
-	if (m_ClrHooks.OnPlayerBrokenBlock(&a_Player, a_BlockPos.x, a_BlockPos.y, a_BlockPos.z, a_BlockFace, a_BlockType, a_BlockMeta))
+	if (m_ClrHooks.OnPlayerBrokenBlock(&a_Player, a_BlockPos, a_BlockFace, a_BlockType, a_BlockMeta))
 		return true;
 
 	return GenericCallHook(HOOK_PLAYER_BROKEN_BLOCK, [&](cPlugin * a_Plugin)

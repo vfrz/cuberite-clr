@@ -136,9 +136,9 @@ bool ClrWrapper::player_feed(cPlayer * player, int food, double saturation)
 }
 
 void ClrWrapper::player_set_respawn_location(
-	cPlayer * player, int x, int y, int z, const cWorld & world)
+	cPlayer * player, Vector3i position, const cWorld & world)
 {
-	player->SetRespawnPosition(Vector3i(x, y, z), world);
+	player->SetRespawnPosition(position, world);
 }
 
 
@@ -180,9 +180,9 @@ void ClrWrapper::world_set_command_blocks_enabled(cWorld * world, bool enabled)
 	world->SetCommandBlocksEnabled(enabled);
 }
 
-BLOCKTYPE ClrWrapper::world_get_block(cWorld * world, int x, int y, int z)
+BLOCKTYPE ClrWrapper::world_get_block(cWorld * world, Vector3i position)
 {
-	return world->GetBlock(Vector3i(x, y, z));
+	return world->GetBlock(position);
 }
 
 const char * ClrWrapper::world_get_name(cWorld * world)
@@ -191,9 +191,9 @@ const char * ClrWrapper::world_get_name(cWorld * world)
 }
 
 void ClrWrapper::world_set_block(
-	cWorld * world, int x, int y, int z, BLOCKTYPE type, NIBBLETYPE meta)
+	cWorld * world, Vector3i position, BLOCKTYPE type, NIBBLETYPE meta)
 {
-	world->SetBlock(Vector3i(x, y, z), type, meta);
+	world->SetBlock(position, type, meta);
 }
 
 void ClrWrapper::world_broadcast_chat(
@@ -204,16 +204,16 @@ void ClrWrapper::world_broadcast_chat(
 }
 
 void ClrWrapper::world_dig_block(
-	cWorld * world, int x, int y, int z, cEntity * digger)
+	cWorld * world, Vector3i position, cEntity * digger)
 {
-	world->DigBlock(Vector3i(x, y, z), digger);
+	world->DigBlock(position, digger);
 }
 
 void ClrWrapper::world_do_explosion_at(
-	cWorld * world, double size, double x, double y, double z,
+	cWorld * world, double size, Vector3d position,
 	bool canCauseFire, eExplosionSource source, void * sourceData)
 {
-	world->DoExplosionAt(size, x, y, z, canCauseFire, source, sourceData);
+	world->DoExplosionAt(size, position.x, position.y, position.z, canCauseFire, source, sourceData);
 }
 
 eGameMode ClrWrapper::world_get_game_mode(cWorld * world)

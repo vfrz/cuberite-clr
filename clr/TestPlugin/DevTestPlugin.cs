@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using CuberiteClr.Sdk;
+﻿using CuberiteClr.Sdk;
 using CuberiteClr.Sdk.Core;
 using CuberiteClr.Sdk.Entities;
 using CuberiteClr.Sdk.Types;
@@ -32,11 +31,18 @@ public class DevTestPlugin : IClrPlugin
 		_root.BindCommand("/worlds", WorldsCallback);
 		_root.BindCommand("/players", PlayersCallback);
 		_root.BindCommand("/pos", PositionCallback);
+		_root.BindCommand("/spawn", SpawnCallback);
 		_root.BindCommand("/switch", (command, split, player) =>
 		{
 			_roleService.SwitchAdmin(player);
 			return true;
 		});
+	}
+
+	private bool SpawnCallback(string command, string[] split, IPlayer player)
+	{
+		player.SetRespawnLocation(player.GetPosition().Round().ToVector3i(), player.GetWorld());
+		return true;
 	}
 
 	private bool PositionCallback(string command, string[] split, IPlayer player)
@@ -91,7 +97,7 @@ public class DevTestPlugin : IClrPlugin
 	{
 		if (message == "cactus pls")
 		{
-			var item = _root.CreateItem(BlockType.Cactus, 1);
+			var item = _root.CreateItem(BlockType.Cactus);
 			player.GetInventory().AddItem(item);
 		}
 		else if (message.Contains("thunder"))
@@ -121,6 +127,12 @@ public class DevTestPlugin : IClrPlugin
 		}
 
 		//Root.BroadcastChat($"Command executed [{readStringArrayAuto.Length}]: {string.Join(',', readStringArrayAuto)}");
+		return false;
+	}
+
+	public bool OnPlayerBrokenBlock(IPlayer player, Vector3i position, BlockFace face, BlockType type, byte meta)
+	{
+		_root.BroadcastChat($"Player '{player.GetName()}' has broken a block at: {position.ToString()}");
 		return false;
 	}
 }

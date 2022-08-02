@@ -85,6 +85,16 @@ public readonly struct Vector3d : IEquatable<Vector3d>, IFormattable
 		return Zero - value;
 	}
 
+	public Vector3d Round()
+	{
+		return new Vector3d(Math.Round(X), Math.Round(Y), Math.Round(Z));
+	}
+
+	public Vector3i ToVector3i()
+	{
+		return new Vector3i((int) X, (int) Y, (int) Z);
+	}
+
 	public bool Equals(Vector3d other)
 	{
 		return X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);

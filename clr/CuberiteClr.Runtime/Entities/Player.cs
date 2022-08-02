@@ -4,6 +4,7 @@ using CuberiteClr.Runtime.Extensions;
 using CuberiteClr.Runtime.Interop;
 using CuberiteClr.Sdk.Core;
 using CuberiteClr.Sdk.Entities;
+using CuberiteClr.Sdk.Types;
 
 namespace CuberiteClr.Runtime.Entities;
 
@@ -44,8 +45,8 @@ public unsafe class Player : Pawn, IPlayer
 		WrapperFunctions.player_feed(Handle, food, saturation);
 	}
 
-	public void SetRespawnLocation(int x, int y, int z, IWorld world)
+	public void SetRespawnLocation(Vector3i position, IWorld world)
 	{
-		WrapperFunctions.player_set_respawn_location(Handle, x, y, z, world.GetInteropHandle());
+		WrapperFunctions.player_set_respawn_location(Handle, position, world.GetInteropHandle());
 	}
 }

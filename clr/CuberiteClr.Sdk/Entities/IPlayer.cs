@@ -1,4 +1,5 @@
 using CuberiteClr.Sdk.Core;
+using CuberiteClr.Sdk.Types;
 
 namespace CuberiteClr.Sdk.Entities;
 
@@ -18,5 +19,5 @@ public interface IPlayer : IPawn
 
 	public void Feed(int food, double saturation);
 
-	public void SetRespawnLocation(int x, int y, int z, IWorld world);
+	public void SetRespawnLocation(Vector3i position, IWorld world);
 }

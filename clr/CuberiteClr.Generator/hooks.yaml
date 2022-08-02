@@ -44,9 +44,7 @@ OnPlayerBreakingBlock:
   return: bool
   args:
     player: cPlayer *
-    x: int
-    y: int
-    z: int
+    position: Vector3i
     face: eBlockFace
     type: BLOCKTYPE
     meta: NIBBLETYPE
@@ -54,9 +52,7 @@ OnPlayerBrokenBlock:
   return: bool
   args:
     player: cPlayer *
-    x: int
-    y: int
-    z: int
+    position: Vector3i
     face: eBlockFace
     type: BLOCKTYPE
     meta: NIBBLETYPE

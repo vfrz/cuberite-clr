@@ -19,6 +19,8 @@ public static class GeneratorTypesMapping
 		{"char", "byte"},
 		{"std::array<Byte, 16>", nameof(Guid)},
 		{"long long int", "long"},
+		{"Vector3i", "Vector3i"},
+		{"Vector3d", "Vector3d"},
 
 		// Specific
 		{"eBlockFace", nameof(BlockFace)},

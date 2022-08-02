@@ -37,7 +37,7 @@ extern "C"
 	const cClientHandle * player_get_client_handle(cPlayer * player);
 	void player_send_message(cPlayer * player, char * message);
 	bool player_feed(cPlayer * player, int food, double saturation);
-	void player_set_respawn_location(cPlayer * player, int x, int y, int z, const cWorld & world);
+	void player_set_respawn_location(cPlayer * player, Vector3i position, const cWorld & world);
 	void root_broadcast_chat(char * message, eMessageType type);
 	cWorld * root_get_default_world();
 	bool root_for_each_world(void * callback);
@@ -45,11 +45,11 @@ extern "C"
 	bool world_are_command_blocks_enabled(cWorld * world);
 	void world_set_command_blocks_enabled(cWorld * world, bool enabled);
 	const char * world_get_name(cWorld * world);
-	BLOCKTYPE world_get_block(cWorld * world, int x, int y, int z);
-	void world_set_block(cWorld * world, int x, int y, int z, BLOCKTYPE type, NIBBLETYPE meta);
+	BLOCKTYPE world_get_block(cWorld * world, Vector3i position);
+	void world_set_block(cWorld * world, Vector3i position, BLOCKTYPE type, NIBBLETYPE meta);
 	void world_broadcast_chat(cWorld * world, char * message, cClientHandle * except, eMessageType type);
-	void world_dig_block(cWorld * world, int x, int y, int z, cEntity * digger);
-	void world_do_explosion_at(cWorld * world, double size, double x, double y, double z, bool canCauseFire, eExplosionSource source, void * sourceData);
+	void world_dig_block(cWorld * world, Vector3i position, cEntity * digger);
+	void world_do_explosion_at(cWorld * world, double size, Vector3d position, bool canCauseFire, eExplosionSource source, void * sourceData);
 	eGameMode world_get_game_mode(cWorld * world);
 	eWeather world_get_weather(cWorld * world);
 	void world_set_weather(cWorld * world, eWeather weather);

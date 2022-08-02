@@ -65,14 +65,14 @@ public static unsafe class CuberiteClrManager
 		return CallBooleanFunction(plugin => plugin.OnChat(new Player(player), message.ToStringAuto()));
 	}
 
-	public static bool OnPlayerBreakingBlock(IntPtr player, int x, int y, int z, BlockFace face, BlockType type, byte meta)
+	public static bool OnPlayerBreakingBlock(IntPtr player, Vector3i position, BlockFace face, BlockType type, byte meta)
 	{
-		return CallBooleanFunction(plugin => plugin.OnPlayerBreakingBlock(new Player(player), x, y, z, face, type, meta));
+		return CallBooleanFunction(plugin => plugin.OnPlayerBreakingBlock(new Player(player), position, face, type, meta));
 	}
 
-	public static bool OnPlayerBrokenBlock(IntPtr player, int x, int y, int z, BlockFace face, BlockType type, byte meta)
+	public static bool OnPlayerBrokenBlock(IntPtr player, Vector3i position, BlockFace face, BlockType type, byte meta)
 	{
-		return CallBooleanFunction(plugin => plugin.OnPlayerBrokenBlock(new Player(player), x, y, z, face, type, meta));
+		return CallBooleanFunction(plugin => plugin.OnPlayerBrokenBlock(new Player(player), position, face, type, meta));
 	}
 
 	public static void OnTick(float delta)

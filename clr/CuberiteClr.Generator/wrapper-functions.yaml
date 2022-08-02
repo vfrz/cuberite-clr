@@ -142,9 +142,7 @@ player_set_respawn_location:
   return: void
   args:
     player: cPlayer *
-    x: int
-    y: int
-    z: int
+    position: Vector3i
     world: const cWorld &
 
 # Root
@@ -182,16 +180,12 @@ world_get_block:
   return: BLOCKTYPE
   args:
     world: cWorld *
-    x: int
-    y: int
-    z: int
+    position: Vector3i
 world_set_block:
   return: void
   args:
     world: cWorld *
-    x: int
-    y: int
-    z: int
+    position: Vector3i
     type: BLOCKTYPE
     meta: NIBBLETYPE
 world_broadcast_chat:
@@ -205,18 +199,14 @@ world_dig_block:
   return: void
   args:
     world: cWorld *
-    x: int
-    y: int
-    z: int
+    position: Vector3i
     digger: cEntity *
 world_do_explosion_at:
   return: void
   args:
     world: cWorld *
     size: double
-    x: double
-    y: double
-    z: double
+    position: Vector3d
     canCauseFire: bool
     source: eExplosionSource
     sourceData: void *

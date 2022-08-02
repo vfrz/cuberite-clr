@@ -24,12 +24,12 @@ public interface IClrPlugin
 	}
 
 	// Player
-	public bool OnPlayerBreakingBlock(IPlayer player, int x, int y, int z, BlockFace face, BlockType type, byte meta)
+	public bool OnPlayerBreakingBlock(IPlayer player, Vector3i position, BlockFace face, BlockType type, byte meta)
 	{
 		return false;
 	}
 
-	public bool OnPlayerBrokenBlock(IPlayer player, int x, int y, int z, BlockFace face, BlockType type, byte meta)
+	public bool OnPlayerBrokenBlock(IPlayer player, Vector3i position, BlockFace face, BlockType type, byte meta)
 	{
 		return false;
 	}
