@@ -38,6 +38,7 @@ public static unsafe class WrapperFunctions
 	public static delegate* unmanaged[Cdecl]<IntPtr> root_get_default_world;
 	public static delegate* unmanaged[Cdecl]<IntPtr, bool> root_for_each_world;
 	public static delegate* unmanaged[Cdecl]<IntPtr, bool> root_for_each_player;
+	public static delegate* unmanaged[Cdecl]<IntPtr, IntPtr> client_handle_get_player;
 	public static delegate* unmanaged[Cdecl]<IntPtr, bool> world_are_command_blocks_enabled;
 	public static delegate* unmanaged[Cdecl]<IntPtr, bool, void> world_set_command_blocks_enabled;
 	public static delegate* unmanaged[Cdecl]<IntPtr, IntPtr> world_get_name;
@@ -93,25 +94,26 @@ public static unsafe class WrapperFunctions
 		root_get_default_world = (delegate* unmanaged[Cdecl]<IntPtr>) *(ptr + 29);
 		root_for_each_world = (delegate* unmanaged[Cdecl]<IntPtr, bool>) *(ptr + 30);
 		root_for_each_player = (delegate* unmanaged[Cdecl]<IntPtr, bool>) *(ptr + 31);
-		world_are_command_blocks_enabled = (delegate* unmanaged[Cdecl]<IntPtr, bool>) *(ptr + 32);
-		world_set_command_blocks_enabled = (delegate* unmanaged[Cdecl]<IntPtr, bool, void>) *(ptr + 33);
-		world_get_name = (delegate* unmanaged[Cdecl]<IntPtr, IntPtr>) *(ptr + 34);
-		world_get_block = (delegate* unmanaged[Cdecl]<IntPtr, Vector3i, BlockType>) *(ptr + 35);
-		world_set_block = (delegate* unmanaged[Cdecl]<IntPtr, Vector3i, BlockType, byte, void>) *(ptr + 36);
-		world_broadcast_chat = (delegate* unmanaged[Cdecl]<IntPtr, string, IntPtr, MessageType, void>) *(ptr + 37);
-		world_dig_block = (delegate* unmanaged[Cdecl]<IntPtr, Vector3i, IntPtr, void>) *(ptr + 38);
-		world_do_explosion_at = (delegate* unmanaged[Cdecl]<IntPtr, double, Vector3d, bool, ExplosionSource, IntPtr, void>) *(ptr + 39);
-		world_get_game_mode = (delegate* unmanaged[Cdecl]<IntPtr, GameMode>) *(ptr + 40);
-		world_get_weather = (delegate* unmanaged[Cdecl]<IntPtr, Weather>) *(ptr + 41);
-		world_set_weather = (delegate* unmanaged[Cdecl]<IntPtr, Weather, void>) *(ptr + 42);
-		world_get_time_of_day = (delegate* unmanaged[Cdecl]<IntPtr, int>) *(ptr + 43);
-		world_set_time_of_day = (delegate* unmanaged[Cdecl]<IntPtr, int, void>) *(ptr + 44);
-		world_get_world_age = (delegate* unmanaged[Cdecl]<IntPtr, long>) *(ptr + 45);
-		world_get_world_tick_age = (delegate* unmanaged[Cdecl]<IntPtr, long>) *(ptr + 46);
-		world_get_world_date = (delegate* unmanaged[Cdecl]<IntPtr, long>) *(ptr + 47);
-		world_for_each_player = (delegate* unmanaged[Cdecl]<IntPtr, IntPtr, bool>) *(ptr + 48);
-		create_item = (delegate* unmanaged[Cdecl]<short, byte, short, string, string, IntPtr, int, IntPtr>) *(ptr + 49);
-		delete_item = (delegate* unmanaged[Cdecl]<IntPtr, void>) *(ptr + 50);
+		client_handle_get_player = (delegate* unmanaged[Cdecl]<IntPtr, IntPtr>) *(ptr + 32);
+		world_are_command_blocks_enabled = (delegate* unmanaged[Cdecl]<IntPtr, bool>) *(ptr + 33);
+		world_set_command_blocks_enabled = (delegate* unmanaged[Cdecl]<IntPtr, bool, void>) *(ptr + 34);
+		world_get_name = (delegate* unmanaged[Cdecl]<IntPtr, IntPtr>) *(ptr + 35);
+		world_get_block = (delegate* unmanaged[Cdecl]<IntPtr, Vector3i, BlockType>) *(ptr + 36);
+		world_set_block = (delegate* unmanaged[Cdecl]<IntPtr, Vector3i, BlockType, byte, void>) *(ptr + 37);
+		world_broadcast_chat = (delegate* unmanaged[Cdecl]<IntPtr, string, IntPtr, MessageType, void>) *(ptr + 38);
+		world_dig_block = (delegate* unmanaged[Cdecl]<IntPtr, Vector3i, IntPtr, void>) *(ptr + 39);
+		world_do_explosion_at = (delegate* unmanaged[Cdecl]<IntPtr, double, Vector3d, bool, ExplosionSource, IntPtr, void>) *(ptr + 40);
+		world_get_game_mode = (delegate* unmanaged[Cdecl]<IntPtr, GameMode>) *(ptr + 41);
+		world_get_weather = (delegate* unmanaged[Cdecl]<IntPtr, Weather>) *(ptr + 42);
+		world_set_weather = (delegate* unmanaged[Cdecl]<IntPtr, Weather, void>) *(ptr + 43);
+		world_get_time_of_day = (delegate* unmanaged[Cdecl]<IntPtr, int>) *(ptr + 44);
+		world_set_time_of_day = (delegate* unmanaged[Cdecl]<IntPtr, int, void>) *(ptr + 45);
+		world_get_world_age = (delegate* unmanaged[Cdecl]<IntPtr, long>) *(ptr + 46);
+		world_get_world_tick_age = (delegate* unmanaged[Cdecl]<IntPtr, long>) *(ptr + 47);
+		world_get_world_date = (delegate* unmanaged[Cdecl]<IntPtr, long>) *(ptr + 48);
+		world_for_each_player = (delegate* unmanaged[Cdecl]<IntPtr, IntPtr, bool>) *(ptr + 49);
+		create_item = (delegate* unmanaged[Cdecl]<short, byte, short, string, string, IntPtr, int, IntPtr>) *(ptr + 50);
+		delete_item = (delegate* unmanaged[Cdecl]<IntPtr, void>) *(ptr + 51);
 
 	}
 }

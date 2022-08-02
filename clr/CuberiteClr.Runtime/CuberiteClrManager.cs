@@ -100,6 +100,16 @@ public static unsafe class CuberiteClrManager
 		return false;
 	}
 
+	public static bool OnLogin(IntPtr client, uint protocolVersion, IntPtr username)
+	{
+		return CallBooleanFunction(plugin => plugin.OnLogin(new ClientHandle(client), protocolVersion, username.ToStringAuto()));
+	}
+
+	public static bool OnDisconnect(IntPtr client, IntPtr reason)
+	{
+		return CallBooleanFunction(plugin => plugin.OnDisconnect(new ClientHandle(client), reason.ToStringAuto()));
+	}
+
 	public static bool ExecuteForEachWorldCallback(IntPtr callback, IntPtr world)
 	{
 		var gcHandle = GCHandle.FromIntPtr(callback);

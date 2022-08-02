@@ -21,6 +21,7 @@ public static class GeneratorTypesMapping
 		{"long long int", "long"},
 		{"Vector3i", "Vector3i"},
 		{"Vector3d", "Vector3d"},
+		{"UInt32", "uint"},
 
 		// Specific
 		{"eBlockFace", nameof(BlockFace)},

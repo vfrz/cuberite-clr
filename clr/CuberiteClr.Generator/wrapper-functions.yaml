@@ -162,6 +162,13 @@ root_for_each_player:
   args:
     callback: void *
 
+# Client handle
+client_handle_get_player:
+  return: cPlayer *
+  args:
+    clientHandle: cClientHandle *
+
+
 # World
 world_are_command_blocks_enabled:
   return: bool

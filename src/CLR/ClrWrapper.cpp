@@ -169,6 +169,12 @@ bool ClrWrapper::root_for_each_player(void * callback)
 	});
 }
 
+// Client handle
+cPlayer * ClrWrapper::client_handle_get_player(cClientHandle * clientHandle)
+{
+	return clientHandle->GetPlayer();
+}
+
 // World
 bool ClrWrapper::world_are_command_blocks_enabled(cWorld * world)
 {

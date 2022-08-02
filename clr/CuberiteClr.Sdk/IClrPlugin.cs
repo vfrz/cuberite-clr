@@ -23,6 +23,16 @@ public interface IClrPlugin
 		return false;
 	}
 
+	public bool OnLogin(IClientHandle client, uint protocolVersion, string username)
+	{
+		return false;
+	}
+
+	public bool OnDisconnect(IClientHandle client, string reason)
+	{
+		return false;
+	}
+
 	// Player
 	public bool OnPlayerBreakingBlock(IPlayer player, Vector3i position, BlockFace face, BlockType type, byte meta)
 	{

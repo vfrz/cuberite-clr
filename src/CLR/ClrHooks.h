@@ -10,6 +10,8 @@ typedef bool (*ExecuteForEachPlayerCallbackDef) (void *, cPlayer *);
 typedef void (*OnTickDef) (float);
 typedef bool (*OnChatDef) (cPlayer *, const char *);
 typedef bool (*OnExecuteCommandDef) (cPlayer *, void *, int, const char *, CommandResult &);
+typedef bool (*OnLoginDef) (cClientHandle &, UInt32, const AString &);
+typedef bool (*OnDisconnectDef) (cClientHandle &, const AString &);
 typedef bool (*OnPlayerBreakingBlockDef) (cPlayer *, Vector3i, eBlockFace, BLOCKTYPE, NIBBLETYPE);
 typedef bool (*OnPlayerBrokenBlockDef) (cPlayer *, Vector3i, eBlockFace, BLOCKTYPE, NIBBLETYPE);
 typedef bool (*OnPlayerSpawnedDef) (cPlayer *);
@@ -26,6 +28,8 @@ class ClrHooks
 	OnTickDef OnTick;
 	OnChatDef OnChat;
 	OnExecuteCommandDef OnExecuteCommand;
+	OnLoginDef OnLogin;
+	OnDisconnectDef OnDisconnect;
 	OnPlayerBreakingBlockDef OnPlayerBreakingBlock;
 	OnPlayerBrokenBlockDef OnPlayerBrokenBlock;
 	OnPlayerSpawnedDef OnPlayerSpawned;
@@ -40,10 +44,12 @@ class ClrHooks
 		OnTick = (void(*)(float))(*(hooks + 4));
 		OnChat = (bool(*)(cPlayer *, const char *))(*(hooks + 5));
 		OnExecuteCommand = (bool(*)(cPlayer *, void *, int, const char *, CommandResult &))(*(hooks + 6));
-		OnPlayerBreakingBlock = (bool(*)(cPlayer *, Vector3i, eBlockFace, BLOCKTYPE, NIBBLETYPE))(*(hooks + 7));
-		OnPlayerBrokenBlock = (bool(*)(cPlayer *, Vector3i, eBlockFace, BLOCKTYPE, NIBBLETYPE))(*(hooks + 8));
-		OnPlayerSpawned = (bool(*)(cPlayer *))(*(hooks + 9));
-		OnWorldTick = (bool(*)(cWorld *, float, float))(*(hooks + 10));
+		OnLogin = (bool(*)(cClientHandle &, UInt32, const AString &))(*(hooks + 7));
+		OnDisconnect = (bool(*)(cClientHandle &, const AString &))(*(hooks + 8));
+		OnPlayerBreakingBlock = (bool(*)(cPlayer *, Vector3i, eBlockFace, BLOCKTYPE, NIBBLETYPE))(*(hooks + 9));
+		OnPlayerBrokenBlock = (bool(*)(cPlayer *, Vector3i, eBlockFace, BLOCKTYPE, NIBBLETYPE))(*(hooks + 10));
+		OnPlayerSpawned = (bool(*)(cPlayer *))(*(hooks + 11));
+		OnWorldTick = (bool(*)(cWorld *, float, float))(*(hooks + 12));
 
 	}
 };

@@ -42,6 +42,7 @@ extern "C"
 	cWorld * root_get_default_world();
 	bool root_for_each_world(void * callback);
 	bool root_for_each_player(void * callback);
+	cPlayer * client_handle_get_player(cClientHandle * clientHandle);
 	bool world_are_command_blocks_enabled(cWorld * world);
 	void world_set_command_blocks_enabled(cWorld * world, bool enabled);
 	const char * world_get_name(cWorld * world);
@@ -66,7 +67,7 @@ extern "C"
 
 inline std::vector<void *> get_wrapper_functions()
 {
-	std::vector<void *> wrappers_functions(51);
+	std::vector<void *> wrappers_functions(52);
 
 	wrappers_functions[0] = (void *)&ClrWrapper::log_default;
 	wrappers_functions[1] = (void *)&ClrWrapper::log_info;
@@ -100,25 +101,26 @@ inline std::vector<void *> get_wrapper_functions()
 	wrappers_functions[29] = (void *)&ClrWrapper::root_get_default_world;
 	wrappers_functions[30] = (void *)&ClrWrapper::root_for_each_world;
 	wrappers_functions[31] = (void *)&ClrWrapper::root_for_each_player;
-	wrappers_functions[32] = (void *)&ClrWrapper::world_are_command_blocks_enabled;
-	wrappers_functions[33] = (void *)&ClrWrapper::world_set_command_blocks_enabled;
-	wrappers_functions[34] = (void *)&ClrWrapper::world_get_name;
-	wrappers_functions[35] = (void *)&ClrWrapper::world_get_block;
-	wrappers_functions[36] = (void *)&ClrWrapper::world_set_block;
-	wrappers_functions[37] = (void *)&ClrWrapper::world_broadcast_chat;
-	wrappers_functions[38] = (void *)&ClrWrapper::world_dig_block;
-	wrappers_functions[39] = (void *)&ClrWrapper::world_do_explosion_at;
-	wrappers_functions[40] = (void *)&ClrWrapper::world_get_game_mode;
-	wrappers_functions[41] = (void *)&ClrWrapper::world_get_weather;
-	wrappers_functions[42] = (void *)&ClrWrapper::world_set_weather;
-	wrappers_functions[43] = (void *)&ClrWrapper::world_get_time_of_day;
-	wrappers_functions[44] = (void *)&ClrWrapper::world_set_time_of_day;
-	wrappers_functions[45] = (void *)&ClrWrapper::world_get_world_age;
-	wrappers_functions[46] = (void *)&ClrWrapper::world_get_world_tick_age;
-	wrappers_functions[47] = (void *)&ClrWrapper::world_get_world_date;
-	wrappers_functions[48] = (void *)&ClrWrapper::world_for_each_player;
-	wrappers_functions[49] = (void *)&ClrWrapper::create_item;
-	wrappers_functions[50] = (void *)&ClrWrapper::delete_item;
+	wrappers_functions[32] = (void *)&ClrWrapper::client_handle_get_player;
+	wrappers_functions[33] = (void *)&ClrWrapper::world_are_command_blocks_enabled;
+	wrappers_functions[34] = (void *)&ClrWrapper::world_set_command_blocks_enabled;
+	wrappers_functions[35] = (void *)&ClrWrapper::world_get_name;
+	wrappers_functions[36] = (void *)&ClrWrapper::world_get_block;
+	wrappers_functions[37] = (void *)&ClrWrapper::world_set_block;
+	wrappers_functions[38] = (void *)&ClrWrapper::world_broadcast_chat;
+	wrappers_functions[39] = (void *)&ClrWrapper::world_dig_block;
+	wrappers_functions[40] = (void *)&ClrWrapper::world_do_explosion_at;
+	wrappers_functions[41] = (void *)&ClrWrapper::world_get_game_mode;
+	wrappers_functions[42] = (void *)&ClrWrapper::world_get_weather;
+	wrappers_functions[43] = (void *)&ClrWrapper::world_set_weather;
+	wrappers_functions[44] = (void *)&ClrWrapper::world_get_time_of_day;
+	wrappers_functions[45] = (void *)&ClrWrapper::world_set_time_of_day;
+	wrappers_functions[46] = (void *)&ClrWrapper::world_get_world_age;
+	wrappers_functions[47] = (void *)&ClrWrapper::world_get_world_tick_age;
+	wrappers_functions[48] = (void *)&ClrWrapper::world_get_world_date;
+	wrappers_functions[49] = (void *)&ClrWrapper::world_for_each_player;
+	wrappers_functions[50] = (void *)&ClrWrapper::create_item;
+	wrappers_functions[51] = (void *)&ClrWrapper::delete_item;
 
 
 	return wrappers_functions;

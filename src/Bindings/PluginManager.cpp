@@ -492,6 +492,9 @@ bool cPluginManager::CallHookCraftingNoRecipe(cPlayer & a_Player, cCraftingGrid 
 
 bool cPluginManager::CallHookDisconnect(cClientHandle & a_Client, const AString & a_Reason)
 {
+	if (m_ClrHooks.OnDisconnect(a_Client, a_Reason))
+		return true;
+
 	return GenericCallHook(HOOK_DISCONNECT, [&](cPlugin * a_Plugin)
 		{
 			return a_Plugin->OnDisconnect(a_Client, a_Reason);
@@ -701,6 +704,9 @@ bool cPluginManager::CallHookKilling(cEntity & a_Victim, cEntity * a_Killer, Tak
 
 bool cPluginManager::CallHookLogin(cClientHandle & a_Client, UInt32 a_ProtocolVersion, const AString & a_Username)
 {
+	if (m_ClrHooks.OnLogin(a_Client, a_ProtocolVersion, a_Username))
+		return true;
+
 	return GenericCallHook(HOOK_LOGIN, [&](cPlugin * a_Plugin)
 		{
 			return a_Plugin->OnLogin(a_Client, a_ProtocolVersion, a_Username);

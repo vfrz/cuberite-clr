@@ -38,6 +38,17 @@ OnExecuteCommand:
     splitLength: int
     entireCommand: const char *
     result: CommandResult &
+OnLogin:
+  return: bool
+  args:
+    client: cClientHandle &
+    protocolVersion: UInt32
+    username: const AString &
+OnDisconnect:
+  return: bool
+  args:
+    client: cClientHandle &
+    reason: const AString &
 
 # Player
 OnPlayerBreakingBlock:
