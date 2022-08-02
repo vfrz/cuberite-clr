@@ -37,7 +37,7 @@ OnExecuteCommand:
     split: void *
     splitLength: int
     entireCommand: const char *
-    #result: &CommandResult TODO: Check how to handle ref parameters
+    result: CommandResult &
 
 # Player
 OnPlayerBreakingBlock:

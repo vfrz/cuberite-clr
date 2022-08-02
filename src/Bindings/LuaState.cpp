@@ -1255,11 +1255,11 @@ bool cLuaState::GetStackValue(int a_StackPos, cCallbackSharedPtr & a_Callback)
 
 
 
-bool cLuaState::GetStackValue(int a_StackPos, cPluginManager::CommandResult & a_Result)
+bool cLuaState::GetStackValue(int a_StackPos, CommandResult & a_Result)
 {
 	if (lua_isnumber(m_LuaState, a_StackPos))
 	{
-		a_Result = static_cast<cPluginManager::CommandResult>(static_cast<int>((tolua_tonumber(m_LuaState, a_StackPos, a_Result))));
+		a_Result = static_cast<CommandResult>(static_cast<int>((tolua_tonumber(m_LuaState, a_StackPos, a_Result))));
 		return true;
 	}
 	return false;

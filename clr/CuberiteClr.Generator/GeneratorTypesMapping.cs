@@ -30,7 +30,7 @@ public static class GeneratorTypesMapping
 		{"eWeather", nameof(Weather)},
 		{"BLOCKTYPE", nameof(BlockType)},
 		{"NIBBLETYPE", "byte"},
-		{"CommandResult", nameof(BlockType)},
+		{"CommandResult &", $"ref {nameof(CommandResult)}"}
 	};
 
 	public static string MapCppToCsType(string type)

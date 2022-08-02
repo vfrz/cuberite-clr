@@ -7,14 +7,14 @@ What's done:
 - [x] Command binding support
 - [x] Plugin dependencies
 - [x] Services system for plugin
+- [x] Handle ref/out parameters in hooks
 
 What's left and planned:
 - [ ] Implement all APIs
 - [ ] Implement all hooks
-- [ ] Handle ref/out parameters in hooks
 - [ ] Hot reload of CLR plugins
 - [ ] Exception handling
-- [ ] Fully automatic binding generation
+- [ ] Fully automatic bindings generation
 
 What's left but not planned for now:
 - [ ] Async support in hooks

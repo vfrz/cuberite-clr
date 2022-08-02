@@ -1,4 +1,5 @@
-﻿using CuberiteClr.Sdk;
+﻿using System.Runtime.InteropServices;
+using CuberiteClr.Sdk;
 using CuberiteClr.Sdk.Core;
 using CuberiteClr.Sdk.Entities;
 using CuberiteClr.Sdk.Types;
@@ -105,8 +106,20 @@ public class DevTestPlugin : IClrPlugin
 		return false;
 	}
 
-	public bool OnExecuteCommand(IPlayer player, string[] readStringArrayAuto, string readStringAuto)
+	public bool OnExecuteCommand(IPlayer player, string[] split, string entireCommand, ref CommandResult result)
 	{
+		if (entireCommand == "/nopermission")
+		{
+			result = CommandResult.NoPermission;
+			return true;
+		}
+
+		if (entireCommand == "/error")
+		{
+			result = CommandResult.Error;
+			return true;
+		}
+
 		//Root.BroadcastChat($"Command executed [{readStringArrayAuto.Length}]: {string.Join(',', readStringArrayAuto)}");
 		return false;
 	}

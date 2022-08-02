@@ -646,7 +646,7 @@ public:
 	bool GetStackValue(int a_StackPos, cCallbackSharedPtr & a_Callback);
 	bool GetStackValue(int a_StackPos, cOptionalCallback & a_Callback);
 	bool GetStackValue(int a_StackPos, cOptionalCallbackPtr & a_Callback);
-	bool GetStackValue(int a_StackPos, cPluginManager::CommandResult & a_Result);
+	bool GetStackValue(int a_StackPos, CommandResult & a_Result);
 	bool GetStackValue(int a_StackPos, cRef & a_Ref);
 	bool GetStackValue(int a_StackPos, cStackTablePtr & a_StackTable);
 	bool GetStackValue(int a_StackPos, cTableRef & a_TableRef);

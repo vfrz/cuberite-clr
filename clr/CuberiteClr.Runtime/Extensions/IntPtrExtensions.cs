@@ -1,6 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
-using CuberiteClr.Sdk.Core;
+using CuberiteClr.Sdk.Types;
 
 namespace CuberiteClr.Runtime.Extensions;
 

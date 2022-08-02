@@ -1,8 +1,7 @@
-using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace CuberiteClr.Sdk.Core;
+namespace CuberiteClr.Sdk.Types;
 
 [StructLayout(LayoutKind.Sequential)]
 public readonly struct Vector3d : IEquatable<Vector3d>, IFormattable
@@ -18,46 +17,6 @@ public readonly struct Vector3d : IEquatable<Vector3d>, IFormattable
 		X = x;
 		Y = y;
 		Z = z;
-	}
-
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public double Length()
-	{
-		return Math.Sqrt(X * X + Y * Y + Z * Z);
-	}
-
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public double LengthSquared()
-	{
-		return X * X + Y * Y + Z * Z;
-	}
-
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static double Distance(Vector3 vector1, Vector3 vector2)
-	{
-		var dx = vector1.X - vector2.X;
-		var dy = vector1.Y - vector2.Y;
-		var dz = vector1.Z - vector2.Z;
-
-		return Math.Sqrt(dx * dx + dy * dy + dz * dz);
-	}
-
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static double DistanceSquared(Vector3 vector1, Vector3 vector2)
-	{
-		var dx = vector1.X - vector2.X;
-		var dy = vector1.Y - vector2.Y;
-		var dz = vector1.Z - vector2.Z;
-
-		return dx * dx + dy * dy + dz * dz;
-	}
-
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static Vector3d Normalize(Vector3 vector)
-	{
-		var ls = vector.X * vector.X + vector.Y * vector.Y + vector.Z * vector.Z;
-		var length = Math.Sqrt(ls);
-		return new Vector3d(vector.X / length, vector.Y / length, vector.Z / length);
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]

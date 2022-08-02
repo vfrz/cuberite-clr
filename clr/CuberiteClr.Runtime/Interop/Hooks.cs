@@ -12,7 +12,7 @@ public static class Hooks
 	private delegate bool ExecuteForEachPlayerCallbackDelegate(IntPtr callback, IntPtr player);
 	private delegate void OnTickDelegate(float delta);
 	private delegate bool OnChatDelegate(IntPtr player, IntPtr message);
-	private delegate bool OnExecuteCommandDelegate(IntPtr player, IntPtr split, int splitLength, IntPtr entireCommand);
+	private delegate bool OnExecuteCommandDelegate(IntPtr player, IntPtr split, int splitLength, IntPtr entireCommand, ref CommandResult result);
 	private delegate bool OnPlayerBreakingBlockDelegate(IntPtr player, int x, int y, int z, BlockFace face, BlockType type, byte meta);
 	private delegate bool OnPlayerBrokenBlockDelegate(IntPtr player, int x, int y, int z, BlockFace face, BlockType type, byte meta);
 	private delegate bool OnPlayerSpawnedDelegate(IntPtr player);

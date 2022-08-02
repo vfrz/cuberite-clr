@@ -387,7 +387,7 @@ bool cPluginLua::OnEntityChangedWorld(cEntity & a_Entity, cWorld & a_World)
 
 
 
-bool cPluginLua::OnExecuteCommand(cPlayer * a_Player, const AStringVector & a_Split, const AString & a_EntireCommand, cPluginManager::CommandResult & a_Result)
+bool cPluginLua::OnExecuteCommand(cPlayer * a_Player, const AStringVector & a_Split, const AString & a_EntireCommand, CommandResult & a_Result)
 {
 	cOperation op(*this);
 	if (!op().IsValid())

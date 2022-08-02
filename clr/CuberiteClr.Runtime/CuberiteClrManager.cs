@@ -90,10 +90,14 @@ public static unsafe class CuberiteClrManager
 		return CallBooleanFunction(plugin => plugin.OnPlayerSpawned(new Player(player)));
 	}
 
-	public static bool OnExecuteCommand(IntPtr player, IntPtr split, int splitLength, IntPtr entireCommand)
+	public static bool OnExecuteCommand(IntPtr player, IntPtr split, int splitLength, IntPtr entireCommand, ref CommandResult result)
 	{
-		return CallBooleanFunction(plugin => plugin.OnExecuteCommand(Player.CreateNullable(player),
-			split.ToStringArrayAuto(splitLength), entireCommand.ToStringAuto()));
+		// Can't use the CallBooleanFunction because of the ref parameter
+		for (var i = 0; i < PluginLoader.LoadedPlugins.Length; i++)
+			if (PluginLoader.LoadedPlugins[i].OnExecuteCommand(Player.CreateNullable(player),
+				    split.ToStringArrayAuto(splitLength), entireCommand.ToStringAuto(), ref result))
+				return true;
+		return false;
 	}
 
 	public static bool ExecuteForEachWorldCallback(IntPtr callback, IntPtr world)

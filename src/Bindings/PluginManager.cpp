@@ -581,7 +581,7 @@ bool cPluginManager::CallHookExecuteCommand(cPlayer * a_Player, const AStringVec
 		);
 	}
 
-	if (m_ClrHooks.OnExecuteCommand(a_Player, (void*) &a_Split[0], a_Split.size(), a_EntireCommand.c_str()))
+	if (m_ClrHooks.OnExecuteCommand(a_Player, (void*) &a_Split[0], a_Split.size(), a_EntireCommand.c_str(), a_Result))
 		return true;
 
 	return GenericCallHook(HOOK_EXECUTE_COMMAND, [&](cPlugin * a_Plugin)
@@ -1293,7 +1293,7 @@ bool cPluginManager::CallHookWorldTick(cWorld & a_World, std::chrono::millisecon
 
 
 
-cPluginManager::CommandResult cPluginManager::HandleCommand(cPlayer & a_Player, const AString & a_Command, bool a_ShouldCheckPermissions)
+CommandResult cPluginManager::HandleCommand(cPlayer & a_Player, const AString & a_Command, bool a_ShouldCheckPermissions)
 {
 	AStringVector Split(StringSplit(a_Command, " "));
 	if (Split.empty())
@@ -1528,7 +1528,7 @@ AString cPluginManager::GetCommandPermission(const AString & a_Command)
 
 
 
-cPluginManager::CommandResult cPluginManager::ExecuteCommand(cPlayer & a_Player, const AString & a_Command)
+CommandResult cPluginManager::ExecuteCommand(cPlayer & a_Player, const AString & a_Command)
 {
 	return HandleCommand(a_Player, a_Command, true);
 }
@@ -1537,7 +1537,7 @@ cPluginManager::CommandResult cPluginManager::ExecuteCommand(cPlayer & a_Player,
 
 
 
-cPluginManager::CommandResult cPluginManager::ForceExecuteCommand(cPlayer & a_Player, const AString & a_Command)
+CommandResult cPluginManager::ForceExecuteCommand(cPlayer & a_Player, const AString & a_Command)
 {
 	return HandleCommand(a_Player, a_Command, false);
 }

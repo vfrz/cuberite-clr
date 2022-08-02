@@ -18,7 +18,7 @@ public interface IClrPlugin
 		return false;
 	}
 
-	public bool OnExecuteCommand(IPlayer player, string[] readStringArrayAuto, string readStringAuto)
+	public bool OnExecuteCommand(IPlayer player, string[] split, string entireCommand, ref CommandResult result)
 	{
 		return false;
 	}

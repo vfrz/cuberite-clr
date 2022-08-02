@@ -9,7 +9,7 @@ typedef bool (*ExecuteForEachWorldCallbackDef) (void *, cWorld *);
 typedef bool (*ExecuteForEachPlayerCallbackDef) (void *, cPlayer *);
 typedef void (*OnTickDef) (float);
 typedef bool (*OnChatDef) (cPlayer *, const char *);
-typedef bool (*OnExecuteCommandDef) (cPlayer *, void *, int, const char *);
+typedef bool (*OnExecuteCommandDef) (cPlayer *, void *, int, const char *, CommandResult &);
 typedef bool (*OnPlayerBreakingBlockDef) (cPlayer *, int, int, int, eBlockFace, BLOCKTYPE, NIBBLETYPE);
 typedef bool (*OnPlayerBrokenBlockDef) (cPlayer *, int, int, int, eBlockFace, BLOCKTYPE, NIBBLETYPE);
 typedef bool (*OnPlayerSpawnedDef) (cPlayer *);
@@ -39,7 +39,7 @@ class ClrHooks
 		ExecuteForEachPlayerCallback = (bool(*)(void *, cPlayer *))(*(hooks + 3));
 		OnTick = (void(*)(float))(*(hooks + 4));
 		OnChat = (bool(*)(cPlayer *, const char *))(*(hooks + 5));
-		OnExecuteCommand = (bool(*)(cPlayer *, void *, int, const char *))(*(hooks + 6));
+		OnExecuteCommand = (bool(*)(cPlayer *, void *, int, const char *, CommandResult &))(*(hooks + 6));
 		OnPlayerBreakingBlock = (bool(*)(cPlayer *, int, int, int, eBlockFace, BLOCKTYPE, NIBBLETYPE))(*(hooks + 7));
 		OnPlayerBrokenBlock = (bool(*)(cPlayer *, int, int, int, eBlockFace, BLOCKTYPE, NIBBLETYPE))(*(hooks + 8));
 		OnPlayerSpawned = (bool(*)(cPlayer *))(*(hooks + 9));

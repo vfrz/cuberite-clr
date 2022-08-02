@@ -5,6 +5,7 @@
 #include "../BlockType.h"
 #include "../Defines.h"
 #include "../FunctionRef.h"
+#include "CommandResult.h"
 
 #include <CLR/ClrLoader.h>
 #include <CLR/ClrWrapper.h>
@@ -47,16 +48,6 @@ class cPluginManager
 public:
 
   	//ClrLoader clrLoader;
-
-	enum CommandResult
-	{
-		crExecuted,
-		crUnknownCommand,
-		crError,
-		crBlocked,
-		crNoPermission,
-	} ;
-
 
 	/** Defines the status of a single plugin - whether it is loaded, disabled or errored. */
 	enum ePluginStatus
