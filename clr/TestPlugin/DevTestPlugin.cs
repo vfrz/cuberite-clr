@@ -8,7 +8,7 @@ namespace TestPlugin;
 
 [ClrPlugin("dev-test-plugin", hasDatabase: true)]
 [ExposeService(typeof(IRoleService), typeof(RoleService))]
-public class DevTestPlugin : IClrPlugin
+internal class DevTestPlugin : IClrPlugin
 {
 	private readonly IRoot _root;
 

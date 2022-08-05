@@ -3,7 +3,7 @@ using CuberiteClr.Sdk.Entities;
 
 namespace TestPlugin.Services;
 
-public class RoleService : IRoleService
+internal class RoleService : IRoleService
 {
 	private readonly IDatabase<DevTestPlugin> _db;
 
