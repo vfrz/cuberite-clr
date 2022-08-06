@@ -19,12 +19,13 @@ public unsafe class Entity : InteropReference, IEntity
 		if (handle == IntPtr.Zero)
 			return null;
 
-		var className = WrapperFunctions.entity_get_class(handle).ToStringAuto();
+		var className = WrapperFunctions.entity_get_class(handle).ToStringAnsi();
 		return className switch
 		{
 			"cEntity" => new Entity(handle),
 			"cPawn" => new Pawn(handle),
 			"cPlayer" => new Player(handle),
+			"cPickup" => new Pickup(handle),
 			_ => new Entity(handle)
 		};
 	}
@@ -82,5 +83,20 @@ public unsafe class Entity : InteropReference, IEntity
 	public Vector3d GetPosition()
 	{
 		return WrapperFunctions.entity_get_position(Handle).ToVector3d();
+	}
+
+	public string GetClass()
+	{
+		return WrapperFunctions.entity_get_class(Handle).ToStringAnsi();
+	}
+
+	public string GetParentClass()
+	{
+		return WrapperFunctions.entity_get_parent_class(Handle).ToStringAnsi();
+	}
+
+	public bool IsA(string className)
+	{
+		return WrapperFunctions.entity_is_a(Handle, className);
 	}
 }

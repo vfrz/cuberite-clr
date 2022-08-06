@@ -13,7 +13,7 @@ public unsafe class Item : InteropReference, IItem, IDisposable
 
 	public short Damage => WrapperFunctions.item_get_damage(Handle);
 
-	public string CustomName => WrapperFunctions.item_get_custom_name(Handle).ToStringAuto();
+	public string CustomName => WrapperFunctions.item_get_custom_name(Handle).ToStringAnsi();
 
 	public IEnchantments Enchantments => Core.Enchantments.Create(WrapperFunctions.item_get_enchantments(Handle));
 

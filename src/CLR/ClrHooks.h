@@ -18,6 +18,7 @@ typedef bool (*OnPlayerSpawnedDef) (cPlayer *);
 typedef bool (*OnWorldTickDef) (cWorld *, float, float);
 typedef bool (*OnBlockSpreadDef) (cWorld *, Vector3i, eSpreadSource);
 typedef bool (*OnBlockToPickupsDef) (cWorld *, Vector3i, BLOCKTYPE, NIBBLETYPE, const cBlockEntity *, const cEntity *, const cItem *, void *, int);
+typedef bool (*OnCollectingPickupDef) (cPlayer *, cPickup *);
 
 
 class ClrHooks
@@ -38,6 +39,7 @@ class ClrHooks
 	OnWorldTickDef OnWorldTick;
 	OnBlockSpreadDef OnBlockSpread;
 	OnBlockToPickupsDef OnBlockToPickups;
+	OnCollectingPickupDef OnCollectingPickup;
 
 	inline void initializeHooks(void ** hooks)
 	{
@@ -56,6 +58,7 @@ class ClrHooks
 		OnWorldTick = (bool(*)(cWorld *, float, float))(*(hooks + 12));
 		OnBlockSpread = (bool(*)(cWorld *, Vector3i, eSpreadSource))(*(hooks + 13));
 		OnBlockToPickups = (bool(*)(cWorld *, Vector3i, BLOCKTYPE, NIBBLETYPE, const cBlockEntity *, const cEntity *, const cItem *, void *, int))(*(hooks + 14));
+		OnCollectingPickup = (bool(*)(cPlayer *, cPickup *))(*(hooks + 15));
 
 	}
 };

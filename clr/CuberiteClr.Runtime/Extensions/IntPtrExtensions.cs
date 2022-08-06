@@ -8,7 +8,7 @@ namespace CuberiteClr.Runtime.Extensions;
 internal static class IntPtrExtensions
 {
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static string ToStringAuto(this IntPtr ptr)
+	public static string ToStringAnsi(this IntPtr ptr)
 	{
 		return ptr.IsNullPtr() ? null : Marshal.PtrToStringAnsi(ptr);
 	}
@@ -19,7 +19,7 @@ internal static class IntPtrExtensions
 			return Array.Empty<string>();
 		var result = new string[length];
 		for (var i = 0; i < length; i++)
-			result[i] = ToStringAuto(Marshal.ReadIntPtr(ptr + 32 * i)); //TODO Try this on 32-bits
+			result[i] = ToStringAnsi(Marshal.ReadIntPtr(ptr + 32 * i)); //TODO Try this on 32-bits
 		return result;
 	}
 

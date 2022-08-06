@@ -8,6 +8,7 @@ using CuberiteClr.Runtime.Interop;
 using CuberiteClr.Runtime.Plugins;
 using CuberiteClr.Sdk;
 using CuberiteClr.Sdk.Core;
+using CuberiteClr.Sdk.Entities;
 using CuberiteClr.Sdk.Types;
 
 namespace CuberiteClr.Runtime;
@@ -52,27 +53,35 @@ public static unsafe class CuberiteClrManager
 		CallVoidFunction(plugin => plugin.Load());
 	}
 
-	public static bool ExecuteCommandCallback(IntPtr callback, IntPtr command, IntPtr split, int splitCount, IntPtr player)
+	public static bool ExecuteCommandCallback(IntPtr callbackPtr, IntPtr commandPtr, IntPtr splitPtr, int splitCount,
+		IntPtr playerPtr)
 	{
-		var gcHandle = GCHandle.FromIntPtr(callback);
-		var commandCallback = (CommandCallback) gcHandle.Target!;
-		return commandCallback(command.ToStringAuto(), split.ToStringArrayAuto(splitCount), Entity.Create<Player>(player));
+		var callbackGCHandle = GCHandle.FromIntPtr(callbackPtr);
+		var callback = (CommandCallback) callbackGCHandle.Target!;
+		var player = Entity.Create<Player>(playerPtr);
+		var command = commandPtr.ToStringAnsi();
+		var split = splitPtr.ToStringArrayAuto(splitCount);
+		return callback(command, split, player);
 	}
 
 	// Hooks
-	public static bool OnChat(IntPtr player, IntPtr message)
+	public static bool OnChat(IntPtr playerPtr, IntPtr messagePtr)
 	{
-		return CallBooleanFunction(plugin => plugin.OnChat(Entity.Create<Player>(player), message.ToStringAuto()));
+		var player = Entity.Create<IPlayer>(playerPtr);
+		var message = messagePtr.ToStringAnsi();
+		return CallBooleanFunction(plugin => plugin.OnChat(player, message));
 	}
 
-	public static bool OnPlayerBreakingBlock(IntPtr player, Vector3i position, BlockFace face, BlockType type, byte meta)
+	public static bool OnPlayerBreakingBlock(IntPtr playerPtr, Vector3i position, BlockFace face, BlockType type, byte meta)
 	{
-		return CallBooleanFunction(plugin => plugin.OnPlayerBreakingBlock(Entity.Create<Player>(player), position, face, type, meta));
+		var player = Entity.Create<IPlayer>(playerPtr);
+		return CallBooleanFunction(plugin => plugin.OnPlayerBreakingBlock(player, position, face, type, meta));
 	}
 
-	public static bool OnPlayerBrokenBlock(IntPtr player, Vector3i position, BlockFace face, BlockType type, byte meta)
+	public static bool OnPlayerBrokenBlock(IntPtr playerPtr, Vector3i position, BlockFace face, BlockType type, byte meta)
 	{
-		return CallBooleanFunction(plugin => plugin.OnPlayerBrokenBlock(Entity.Create<Player>(player), position, face, type, meta));
+		var player = Entity.Create<IPlayer>(playerPtr);
+		return CallBooleanFunction(plugin => plugin.OnPlayerBrokenBlock(player, position, face, type, meta));
 	}
 
 	public static void OnTick(float delta)
@@ -80,60 +89,84 @@ public static unsafe class CuberiteClrManager
 		CallVoidFunction(plugin => plugin.OnTick(delta));
 	}
 
-	public static bool OnWorldTick(IntPtr world, float delta, float lastTickDuration)
+	public static bool OnWorldTick(IntPtr worldPtr, float delta, float lastTickDuration)
 	{
-		return CallBooleanFunction(plugin => plugin.OnWorldTick(World.Create(world), delta, lastTickDuration));
+		var world = World.Create(worldPtr);
+		return CallBooleanFunction(plugin => plugin.OnWorldTick(world, delta, lastTickDuration));
 	}
 
-	public static bool OnPlayerSpawned(IntPtr player)
+	public static bool OnPlayerSpawned(IntPtr playerPtr)
 	{
-		return CallBooleanFunction(plugin => plugin.OnPlayerSpawned(Entity.Create<Player>(player)));
+		var player = Entity.Create<Player>(playerPtr);
+		return CallBooleanFunction(plugin => plugin.OnPlayerSpawned(player));
 	}
 
-	public static bool OnExecuteCommand(IntPtr player, IntPtr split, int splitLength, IntPtr entireCommand, ref CommandResult result)
+	public static bool OnExecuteCommand(IntPtr playerPtr, IntPtr splitPtr, int splitLength, IntPtr entireCommandPtr, ref CommandResult result)
 	{
+		var player = Entity.Create<Player>(playerPtr);
+		var split = splitPtr.ToStringArrayAuto(splitLength);
+		var entireCommand = entireCommandPtr.ToStringAnsi();
+
 		// Can't use the CallBooleanFunction because of the ref parameter
 		for (var i = 0; i < PluginLoader.LoadedPlugins.Length; i++)
-			if (PluginLoader.LoadedPlugins[i].OnExecuteCommand(Entity.Create<Player>(player),
-				    split.ToStringArrayAuto(splitLength), entireCommand.ToStringAuto(), ref result))
+			if (PluginLoader.LoadedPlugins[i].OnExecuteCommand(player, split, entireCommand, ref result))
 				return true;
 		return false;
 	}
 
-	public static bool OnLogin(IntPtr client, uint protocolVersion, IntPtr username)
+	public static bool OnLogin(IntPtr clientPtr, uint protocolVersion, IntPtr usernamePtr)
 	{
-		return CallBooleanFunction(plugin => plugin.OnLogin(ClientHandle.Create(client), protocolVersion, username.ToStringAuto()));
+		var client = ClientHandle.Create(clientPtr);
+		var username = usernamePtr.ToStringAnsi();
+		return CallBooleanFunction(plugin => plugin.OnLogin(client, protocolVersion, username));
 	}
 
-	public static bool OnDisconnect(IntPtr client, IntPtr reason)
+	public static bool OnDisconnect(IntPtr clientPtr, IntPtr reasonPtr)
 	{
-		return CallBooleanFunction(plugin => plugin.OnDisconnect(ClientHandle.Create(client), reason.ToStringAuto()));
+		var client = ClientHandle.Create(clientPtr);
+		var reason = reasonPtr.ToStringAnsi();
+		return CallBooleanFunction(plugin => plugin.OnDisconnect(client, reason));
 	}
 
-	public static bool ExecuteForEachWorldCallback(IntPtr callback, IntPtr world)
+	public static bool ExecuteForEachWorldCallback(IntPtr callbackPtr, IntPtr worldPtr)
 	{
-		var gcHandle = GCHandle.FromIntPtr(callback);
-		var callbackDelegate = (ForEachWorldCallback) gcHandle.Target!;
-		return callbackDelegate(World.Create(world));
+		var callbackGCHandle = GCHandle.FromIntPtr(callbackPtr);
+		var callback = (ForEachWorldCallback) callbackGCHandle.Target!;
+		var world = World.Create(worldPtr);
+		return callback(world);
 	}
 
-	public static bool ExecuteForEachPlayerCallback(IntPtr callback, IntPtr player)
+	public static bool ExecuteForEachPlayerCallback(IntPtr callbackPtr, IntPtr playerPtr)
 	{
-		var gcHandle = GCHandle.FromIntPtr(callback);
-		var callbackDelegate = (ForEachPlayerCallback) gcHandle.Target!;
-		return callbackDelegate(Entity.Create<Player>(player));
+		var callbackGCHandle = GCHandle.FromIntPtr(callbackPtr);
+		var callback = (ForEachPlayerCallback) callbackGCHandle.Target!;
+		var player = Entity.Create<Player>(playerPtr);
+		return callback(player);
 	}
 
-	public static bool OnBlockSpread(IntPtr world, Vector3i position, SpreadSource source)
+	public static bool OnBlockSpread(IntPtr worldPtr, Vector3i position, SpreadSource source)
 	{
-		return CallBooleanFunction(plugin => plugin.OnBlockSpread(World.Create(world), position, source));
+		var world = World.Create(worldPtr);
+		return CallBooleanFunction(plugin => plugin.OnBlockSpread(world, position, source));
 	}
 
-	public static bool OnBlockToPickups(IntPtr world, Vector3i position, BlockType blockType, byte blockMeta,
-		IntPtr blockEntity, IntPtr digger, IntPtr tool, IntPtr pickups, int pickupsLength)
+	public static bool OnBlockToPickups(IntPtr worldPtr, Vector3i position, BlockType blockType, byte blockMeta,
+		IntPtr blockEntityPtr, IntPtr diggerPtr, IntPtr toolPtr, IntPtr pickupsPtr, int pickupsLength)
 	{
-		return CallBooleanFunction(plugin => plugin.OnBlockToPickups(World.Create(world), position, blockType,
-			blockMeta, BlockEntity.Create(blockEntity), Entity.Create(digger), Item.Create(tool),
-			pickups.ToArrayOf(pickupsLength, Item.Create)));
+		var world = World.Create(worldPtr);
+		var blockEntity = BlockEntity.Create(blockEntityPtr);
+		var digger = Entity.Create(diggerPtr);
+		var tool = Item.Create(toolPtr);
+		var pickups = pickupsPtr.ToArrayOf(pickupsLength, Item.Create);
+
+		return CallBooleanFunction(plugin => plugin.OnBlockToPickups(world, position, blockType, blockMeta, blockEntity,
+			digger, tool, pickups));
+	}
+
+	public static bool OnCollectingPickup(IntPtr playerPtr, IntPtr pickupPtr)
+	{
+		var player = Entity.Create<IPlayer>(playerPtr);
+		var pickup = Entity.Create<IPickup>(pickupPtr);
+		return CallBooleanFunction(plugin => plugin.OnCollectingPickup(player, pickup));
 	}
 }

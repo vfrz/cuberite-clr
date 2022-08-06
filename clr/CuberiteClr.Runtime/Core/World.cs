@@ -20,7 +20,7 @@ public unsafe class World : InteropReference, IWorld
 
 	public string GetName()
 	{
-		return WrapperFunctions.world_get_name(Handle).ToStringAuto();
+		return WrapperFunctions.world_get_name(Handle).ToStringAnsi();
 	}
 
 	public Weather GetWeather()

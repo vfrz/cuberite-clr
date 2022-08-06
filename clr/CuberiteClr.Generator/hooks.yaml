@@ -97,3 +97,8 @@ OnBlockToPickups:
     tool: const cItem *
     pickups: void *
     pickupsLength: int
+OnCollectingPickup:
+  return: bool
+  args:
+    player: cPlayer *
+    pickup: cPickup *

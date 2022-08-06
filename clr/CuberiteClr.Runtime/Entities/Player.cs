@@ -22,7 +22,7 @@ public unsafe class Player : Pawn, IPlayer
 
 	public string GetName()
 	{
-		return WrapperFunctions.player_get_name(Handle).ToStringAuto();
+		return WrapperFunctions.player_get_name(Handle).ToStringAnsi();
 	}
 
 	public Guid GetUUID()

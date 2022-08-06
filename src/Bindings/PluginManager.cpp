@@ -473,6 +473,9 @@ bool cPluginManager::CallHookChunkUnloading(cWorld & a_World, int a_ChunkX, int 
 
 bool cPluginManager::CallHookCollectingPickup(cPlayer & a_Player, cPickup & a_Pickup)
 {
+	if (m_ClrHooks.OnCollectingPickup(&a_Player, &a_Pickup))
+		return true;
+
 	return GenericCallHook(HOOK_COLLECTING_PICKUP, [&](cPlugin * a_Plugin)
 		{
 			return a_Plugin->OnCollectingPickup(a_Player, a_Pickup);

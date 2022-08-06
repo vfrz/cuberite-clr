@@ -65,4 +65,9 @@ public interface IClrPlugin
 	{
 		return false;
 	}
+
+	public bool OnCollectingPickup(IPlayer player, IPickup pickup)
+	{
+		return false;
+	}
 }

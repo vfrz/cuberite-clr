@@ -43,7 +43,7 @@ public unsafe class Root : IRoot
 
 	public string ItemTypeToString(short itemType)
 	{
-		return WrapperFunctions.item_type_to_string(itemType).ToStringAuto();
+		return WrapperFunctions.item_type_to_string(itemType).ToStringAnsi();
 	}
 
 	// Objects creation

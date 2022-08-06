@@ -24,4 +24,10 @@ public interface IEntity
 	public EntityType GetEntityType();
 
 	public Vector3d GetPosition();
+
+	public string GetClass();
+
+	public string GetParentClass();
+
+	public bool IsA(string className);
 }

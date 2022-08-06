@@ -106,7 +106,7 @@ entity_is_a:
   return: bool
   args:
     entity: cEntity *
-    className: const char *
+    className: char *
 entity_get_parent_class:
   return: const char *
   args:
@@ -140,6 +140,16 @@ item_get_enchantments:
   return: cEnchantments *
   args:
     item: cItem *
+
+# Pickup
+pickup_is_player_created:
+  return: bool
+  args:
+    pickup: cPickup *
+pickup_is_collected:
+  return: bool
+  args:
+    pickup: cPickup *
 
 # Player
 player_get_game_mode:

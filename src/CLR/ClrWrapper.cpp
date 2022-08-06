@@ -100,7 +100,7 @@ const char * ClrWrapper::entity_get_class(cEntity * entity)
 	return entity->GetClass();
 }
 
-bool ClrWrapper::entity_is_a(cEntity * entity, const char * className)
+bool ClrWrapper::entity_is_a(cEntity * entity, char * className)
 {
 	return entity->IsA(className);
 }
@@ -140,6 +140,17 @@ const char * ClrWrapper::item_get_custom_name(cItem * item)
 cEnchantments * ClrWrapper::item_get_enchantments(cItem * item)
 {
 	return &item->m_Enchantments;
+}
+
+// Pickup
+bool ClrWrapper::pickup_is_player_created(cPickup * pickup)
+{
+	return pickup->IsPlayerCreated();
+}
+
+bool ClrWrapper::pickup_is_collected(cPickup * pickup)
+{
+	return pickup->IsCollected();
 }
 
 // Player

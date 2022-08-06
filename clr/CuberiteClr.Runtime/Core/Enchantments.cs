@@ -18,6 +18,6 @@ public unsafe class Enchantments : InteropReference, IEnchantments
 
 	public override string ToString()
 	{
-		return WrapperFunctions.enchantments_to_string(Handle).ToStringAuto();
+		return WrapperFunctions.enchantments_to_string(Handle).ToStringAnsi();
 	}
 }
