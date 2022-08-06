@@ -150,6 +150,42 @@ pickup_is_collected:
   return: bool
   args:
     pickup: cPickup *
+pickup_can_combine:
+  return: bool
+  args:
+    pickup: cPickup *
+pickup_set_can_combine:
+  return: void
+  args:
+    pickup: cPickup *
+    canCombine: bool
+pickup_collected_by:
+  return: bool
+  args:
+    pickup: cPickup *
+    entity: cEntity *
+pickup_get_age:
+  return: int
+  args:
+    pickup: cPickup *
+pickup_set_age:
+  return: void
+  args:
+    pickup: cPickup *
+    age: int
+pickup_get_lifetime:
+  return: int
+  args:
+    pickup: cPickup *
+pickup_set_lifetime:
+  return: void
+  args:
+    pickup: cPickup *
+    lifetime: int
+pickup_get_item:
+  return: cItem *
+  args:
+    pickup: cPickup *
 
 # Player
 player_get_game_mode:
@@ -327,3 +363,16 @@ delete_item:
   return: void
   args:
     item: cItem *
+create_pickup:
+  return: const cPickup *
+  args:
+    position: Vector3d
+    item: cItem *
+    isPlayerCreated: bool
+    speed: Vector3f
+    lifetimeTicks: int
+    canCombine: bool
+delete_pickup:
+  return: void
+  args:
+    pickup: cPickup *

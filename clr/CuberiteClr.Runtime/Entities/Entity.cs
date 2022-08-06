@@ -8,13 +8,13 @@ using CuberiteClr.Sdk.Types;
 
 namespace CuberiteClr.Runtime.Entities;
 
-public unsafe class Entity : InteropReference, IEntity
+public unsafe class Entity : InteropReference, IEntity, IDisposable
 {
-	internal Entity(IntPtr handle) : base(handle)
+	internal Entity(IntPtr handle, bool createdFromManaged) : base(handle, createdFromManaged)
 	{
 	}
 
-	public static IEntity Create(IntPtr handle)
+	public static IEntity Create(IntPtr handle, bool fromManaged = false)
 	{
 		if (handle == IntPtr.Zero)
 			return null;
@@ -22,17 +22,17 @@ public unsafe class Entity : InteropReference, IEntity
 		var className = WrapperFunctions.entity_get_class(handle).ToStringAnsi();
 		return className switch
 		{
-			"cEntity" => new Entity(handle),
-			"cPawn" => new Pawn(handle),
-			"cPlayer" => new Player(handle),
-			"cPickup" => new Pickup(handle),
-			_ => new Entity(handle)
+			"cEntity" => new Entity(handle, fromManaged),
+			"cPawn" => new Pawn(handle, fromManaged),
+			"cPlayer" => new Player(handle, fromManaged),
+			"cPickup" => new Pickup(handle, fromManaged),
+			_ => new Entity(handle, fromManaged)
 		};
 	}
 
-	public static T Create<T>(IntPtr handle) where T : class, IEntity
+	public static T Create<T>(IntPtr handle, bool fromManaged = false) where T : class, IEntity
 	{
-		return Create(handle) as T;
+		return Create(handle, fromManaged) as T;
 	}
 
 	public float GetHealth()

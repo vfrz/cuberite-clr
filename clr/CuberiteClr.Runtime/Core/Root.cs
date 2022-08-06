@@ -1,8 +1,10 @@
 using System;
 using System.Runtime.InteropServices;
+using CuberiteClr.Runtime.Entities;
 using CuberiteClr.Runtime.Extensions;
 using CuberiteClr.Runtime.Interop;
 using CuberiteClr.Sdk.Core;
+using CuberiteClr.Sdk.Entities;
 using CuberiteClr.Sdk.Types;
 
 namespace CuberiteClr.Runtime.Core;
@@ -65,6 +67,15 @@ public unsafe class Root : IRoot
 		}
 
 		var itemPtr = WrapperFunctions.create_item(type, count, damage, enchantments ?? string.Empty, customName ?? string.Empty, loreTableIntPtr, loreTable?.Length ?? 0);
-		return Item.Create(itemPtr);
+		var item = Item.Create(itemPtr, true);
+		return item;
+	}
+
+	public IPickup CreatePickup(Vector3d position, IItem item, bool isPlayerCreated, Vector3f speed = default, int lifetimeTicks = 6000, bool canCombine = true)
+	{
+		var pickupPtr = WrapperFunctions.create_pickup(position, item.GetOptionalInteropHandle(), isPlayerCreated,
+			speed, lifetimeTicks, canCombine);
+		var pickup = Entity.Create<IPickup>(pickupPtr, true);
+		return pickup;
 	}
 }

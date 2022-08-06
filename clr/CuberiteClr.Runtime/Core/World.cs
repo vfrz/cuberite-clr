@@ -9,13 +9,13 @@ namespace CuberiteClr.Runtime.Core;
 
 public unsafe class World : InteropReference, IWorld
 {
-	private World(IntPtr handle) : base(handle)
+	private World(IntPtr handle, bool createdFromManaged) : base(handle, createdFromManaged)
 	{
 	}
 
-	public static IWorld Create(IntPtr handle)
+	public static IWorld Create(IntPtr handle, bool fromManaged = false)
 	{
-		return handle.IsNullPtr() ? null : new World(handle);
+		return handle.IsNullPtr() ? null : new World(handle, fromManaged);
 	}
 
 	public string GetName()

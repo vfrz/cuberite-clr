@@ -10,7 +10,7 @@ namespace CuberiteClr.Runtime.Entities;
 
 public unsafe class Player : Pawn, IPlayer
 {
-	internal Player(IntPtr handle) : base(handle)
+	internal Player(IntPtr handle, bool fromManaged) : base(handle, fromManaged)
 	{
 	}
 

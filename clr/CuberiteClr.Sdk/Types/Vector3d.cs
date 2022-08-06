@@ -95,6 +95,11 @@ public readonly struct Vector3d : IEquatable<Vector3d>, IFormattable
 		return new Vector3i((int) X, (int) Y, (int) Z);
 	}
 
+	public Vector3f ToVector3f()
+	{
+		return new Vector3f((float) X, (float) Y, (float) Z);
+	}
+
 	public bool Equals(Vector3d other)
 	{
 		return X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);

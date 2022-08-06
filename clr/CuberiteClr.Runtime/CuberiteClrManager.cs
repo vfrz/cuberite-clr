@@ -157,7 +157,7 @@ public static unsafe class CuberiteClrManager
 		var blockEntity = BlockEntity.Create(blockEntityPtr);
 		var digger = Entity.Create(diggerPtr);
 		var tool = Item.Create(toolPtr);
-		var pickups = pickupsPtr.ToArrayOf(pickupsLength, Item.Create);
+		var pickups = pickupsPtr.ToArrayOf(pickupsLength, itemPtr => Item.Create(itemPtr));
 
 		return CallBooleanFunction(plugin => plugin.OnBlockToPickups(world, position, blockType, blockMeta, blockEntity,
 			digger, tool, pickups));

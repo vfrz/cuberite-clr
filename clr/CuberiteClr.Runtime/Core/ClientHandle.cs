@@ -9,13 +9,13 @@ namespace CuberiteClr.Runtime.Core;
 
 public unsafe class ClientHandle : InteropReference, IClientHandle
 {
-	private ClientHandle(IntPtr handle) : base(handle)
+	private ClientHandle(IntPtr handle, bool createdFromManaged) : base(handle, createdFromManaged)
 	{
 	}
 
-	public static IClientHandle Create(IntPtr handle)
+	public static IClientHandle Create(IntPtr handle, bool fromManaged = false)
 	{
-		return handle.IsNullPtr() ? null : new ClientHandle(handle);
+		return handle.IsNullPtr() ? null : new ClientHandle(handle, fromManaged);
 	}
 
 	public IPlayer GetPlayer()

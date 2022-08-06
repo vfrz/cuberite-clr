@@ -17,30 +17,17 @@ public unsafe class Item : InteropReference, IItem, IDisposable
 
 	public IEnchantments Enchantments => Core.Enchantments.Create(WrapperFunctions.item_get_enchantments(Handle));
 
-	private bool _disposed;
-
-	private Item(IntPtr handle) : base(handle)
+	private Item(IntPtr handle, bool createdFromManaged) : base(handle, createdFromManaged)
 	{
 	}
 
-	public static IItem Create(IntPtr handle)
+	public static IItem Create(IntPtr handle, bool fromManaged = false)
 	{
-		return handle.IsNullPtr() ? null : new Item(handle);
+		return handle.IsNullPtr() ? null : new Item(handle, fromManaged);
 	}
 
-	~Item()
+	protected override void Delete()
 	{
-		Dispose();
-	}
-
-	public void Dispose()
-	{
-		if (_disposed)
-			return;
-
 		WrapperFunctions.delete_item(Handle);
-		_disposed = true;
-
-		GC.SuppressFinalize(this);
 	}
 }

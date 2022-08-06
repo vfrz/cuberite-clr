@@ -117,20 +117,11 @@ char ClrWrapper::inventory_add_item(cInventory * inventory, cItem * item)
 }
 
 // Item
-short ClrWrapper::item_get_type(cItem * item)
-{
-	return item->m_ItemType;
-}
+short ClrWrapper::item_get_type(cItem * item) { return item->m_ItemType; }
 
-char ClrWrapper::item_get_count(cItem * item)
-{
-	return item->m_ItemCount;
-}
+char ClrWrapper::item_get_count(cItem * item) { return item->m_ItemCount; }
 
-short ClrWrapper::item_get_damage(cItem * item)
-{
-	return item->m_ItemDamage;
-}
+short ClrWrapper::item_get_damage(cItem * item) { return item->m_ItemDamage; }
 
 const char * ClrWrapper::item_get_custom_name(cItem * item)
 {
@@ -151,6 +142,46 @@ bool ClrWrapper::pickup_is_player_created(cPickup * pickup)
 bool ClrWrapper::pickup_is_collected(cPickup * pickup)
 {
 	return pickup->IsCollected();
+}
+
+bool ClrWrapper::pickup_can_combine(cPickup * pickup)
+{
+	return pickup->CanCombine();
+}
+
+void ClrWrapper::pickup_set_can_combine(cPickup * pickup, bool canCombine)
+{
+	pickup->SetCanCombine(canCombine);
+}
+
+bool ClrWrapper::pickup_collected_by(cPickup * pickup, cEntity * entity)
+{
+	return pickup->CollectedBy(*entity);
+}
+
+int ClrWrapper::pickup_get_age(cPickup * pickup)
+{
+	return pickup->GetAge();
+}
+
+void ClrWrapper::pickup_set_age(cPickup * pickup, int age)
+{
+	pickup->SetAge(age);
+}
+
+int ClrWrapper::pickup_get_lifetime(cPickup * pickup)
+{
+	return pickup->GetLifetime();
+}
+
+void ClrWrapper::pickup_set_lifetime(cPickup * pickup, int lifetime)
+{
+	pickup->SetLifetime(lifetime);
+}
+
+cItem * ClrWrapper::pickup_get_item(cPickup * pickup)
+{
+	return &pickup->GetItem();
 }
 
 // Player
@@ -280,10 +311,12 @@ void ClrWrapper::world_dig_block(
 }
 
 void ClrWrapper::world_do_explosion_at(
-	cWorld * world, double size, Vector3d position,
-	bool canCauseFire, eExplosionSource source, void * sourceData)
+	cWorld * world, double size, Vector3d position, bool canCauseFire,
+	eExplosionSource source, void * sourceData)
 {
-	world->DoExplosionAt(size, position.x, position.y, position.z, canCauseFire, source, sourceData);
+	world->DoExplosionAt(
+		size, position.x, position.y, position.z, canCauseFire, source,
+		sourceData);
 }
 
 eGameMode ClrWrapper::world_get_game_mode(cWorld * world)
@@ -346,3 +379,13 @@ const cItem * ClrWrapper::create_item(
 }
 
 void ClrWrapper::delete_item(cItem * item) { delete item; }
+
+const cPickup * ClrWrapper::create_pickup(
+	Vector3d position, cItem * item, bool isPlayerCreated, Vector3f speed,
+	int lifetimeTicks, bool canCombine)
+{
+	const cPickup * pickup = new cPickup(
+		position, *item, isPlayerCreated, speed, lifetimeTicks, canCombine);
+	return pickup;
+}
+void ClrWrapper::delete_pickup(cPickup * pickup) { delete pickup; }

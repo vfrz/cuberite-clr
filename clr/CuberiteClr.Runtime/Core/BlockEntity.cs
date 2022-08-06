@@ -7,12 +7,12 @@ namespace CuberiteClr.Runtime.Core;
 
 public class BlockEntity : InteropReference, IBlockEntity
 {
-	private BlockEntity(IntPtr handle) : base(handle)
+	private BlockEntity(IntPtr handle, bool createdFromManaged) : base(handle, createdFromManaged)
 	{
 	}
 
-	public static IBlockEntity Create(IntPtr handle)
+	public static IBlockEntity Create(IntPtr handle, bool fromManaged = false)
 	{
-		return handle.IsNullPtr() ? null : new BlockEntity(handle);
+		return handle.IsNullPtr() ? null : new BlockEntity(handle, fromManaged);
 	}
 }

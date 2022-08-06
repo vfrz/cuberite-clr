@@ -5,7 +5,7 @@ namespace CuberiteClr.Runtime.Entities;
 
 public class Pawn : Entity, IPawn
 {
-	internal Pawn(IntPtr handle) : base(handle)
+	internal Pawn(IntPtr handle, bool fromManaged) : base(handle, fromManaged)
 	{
 	}
 }
