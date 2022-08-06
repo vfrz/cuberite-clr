@@ -95,5 +95,5 @@ OnBlockToPickups:
     blockEntity: const cBlockEntity *
     digger: const cEntity *
     tool: const cItem *
-    pickups: cItem *
+    pickups: void *
     pickupsLength: int

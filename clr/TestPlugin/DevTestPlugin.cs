@@ -126,24 +126,22 @@ internal class DevTestPlugin : IClrPlugin
 			return true;
 		}
 
-		//Root.BroadcastChat($"Command executed [{readStringArrayAuto.Length}]: {string.Join(',', readStringArrayAuto)}");
+		//_root.BroadcastChat($"Command executed [{split.Length}]: {string.Join(',', split)}");
 		return false;
 	}
 
 	public bool OnPlayerBrokenBlock(IPlayer player, Vector3i position, BlockFace face, BlockType type, byte meta)
 	{
-		_root.BroadcastChat($"Player '{player.GetName()}' has broken a block at: {position.ToString()}");
+		//_root.BroadcastChat($"Player '{player.GetName()}' has broken a block at: {position.ToString()}");
 		return false;
 	}
 
 	public bool OnBlockToPickups(IWorld world, Vector3i position, BlockType blockType, byte blockMeta,
 		IBlockEntity blockEntity, IEntity digger, IItem tool, IItem[] pickups)
 	{
-		_root.BroadcastChat("BLOCK TO PICKUPS:");
+		/*_root.BroadcastChat("BLOCK TO PICKUPS:");
 		foreach (var pickup in pickups)
-		{
-			//Console.WriteLine(pickup.Type);
-		}
+			_root.BroadcastChat(_root.ItemTypeToString(pickup.Type));*/
 		return false;
 	}
 }

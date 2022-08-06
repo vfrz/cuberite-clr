@@ -19,19 +19,17 @@ internal static class IntPtrExtensions
 			return Array.Empty<string>();
 		var result = new string[length];
 		for (var i = 0; i < length; i++)
-			result[i] = ToStringAuto(Marshal.ReadIntPtr(ptr + 32 * i));
+			result[i] = ToStringAuto(Marshal.ReadIntPtr(ptr + 32 * i)); //TODO Try this on 32-bits
 		return result;
 	}
 
 	public static T[] ToArrayOf<T>(this IntPtr ptr, int length, Func<IntPtr, T> construction)
 	{
-		//TODO Fix
-		return Array.Empty<T>();
 		if (length == 0)
 			return Array.Empty<T>();
 		var result = new T[length];
 		for (var i = 0; i < length; i++)
-			result[i] = construction(Marshal.ReadIntPtr(ptr + i * 32));
+			result[i] = construction(Marshal.ReadIntPtr(ptr + IntPtr.Size * i));
 		return result;
 	}
 

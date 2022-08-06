@@ -299,7 +299,11 @@ bool cPluginManager::CallHookBlockToPickups(
 	cItems & a_Pickups
 )
 {
-	if (m_ClrHooks.OnBlockToPickups(&a_World, a_BlockPos, a_BlockType, a_BlockMeta, a_BlockEntity, a_Digger, a_Tool, &a_Pickups[0], a_Pickups.size()))
+	std::vector<void *> pickupsPointers = std::vector<void *>();
+	for (unsigned long i = 0; i < a_Pickups.size(); ++i)
+		pickupsPointers.push_back(&a_Pickups[i]);
+
+	if (m_ClrHooks.OnBlockToPickups(&a_World, a_BlockPos, a_BlockType, a_BlockMeta, a_BlockEntity, a_Digger, a_Tool, &pickupsPointers[0], a_Pickups.size()))
 		return true;
 
 	return GenericCallHook(HOOK_BLOCK_TO_PICKUPS, [&](cPlugin * a_Plugin)
@@ -587,7 +591,7 @@ bool cPluginManager::CallHookExecuteCommand(cPlayer * a_Player, const AStringVec
 		);
 	}
 
-	if (m_ClrHooks.OnExecuteCommand(a_Player, (void*) &a_Split[0], a_Split.size(), a_EntireCommand.c_str(), a_Result))
+	if (m_ClrHooks.OnExecuteCommand(a_Player, (void *)&a_Split[0], a_Split.size(), a_EntireCommand.c_str(), a_Result))
 		return true;
 
 	return GenericCallHook(HOOK_EXECUTE_COMMAND, [&](cPlugin * a_Plugin)
