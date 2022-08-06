@@ -54,4 +54,15 @@ public interface IClrPlugin
 	{
 		return false;
 	}
+
+	public bool OnBlockSpread(IWorld world, Vector3i position, SpreadSource source)
+	{
+		return false;
+	}
+
+	public bool OnBlockToPickups(IWorld world, Vector3i position, BlockType blockType, byte blockMeta,
+		IBlockEntity blockEntity, IEntity digger, IItem tool, IItem[] pickups)
+	{
+		return false;
+	}
 }

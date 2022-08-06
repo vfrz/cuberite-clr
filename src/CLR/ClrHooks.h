@@ -16,6 +16,8 @@ typedef bool (*OnPlayerBreakingBlockDef) (cPlayer *, Vector3i, eBlockFace, BLOCK
 typedef bool (*OnPlayerBrokenBlockDef) (cPlayer *, Vector3i, eBlockFace, BLOCKTYPE, NIBBLETYPE);
 typedef bool (*OnPlayerSpawnedDef) (cPlayer *);
 typedef bool (*OnWorldTickDef) (cWorld *, float, float);
+typedef bool (*OnBlockSpreadDef) (cWorld *, Vector3i, eSpreadSource);
+typedef bool (*OnBlockToPickupsDef) (cWorld *, Vector3i, BLOCKTYPE, NIBBLETYPE, const cBlockEntity *, const cEntity *, const cItem *, cItem *, int);
 
 
 class ClrHooks
@@ -34,6 +36,8 @@ class ClrHooks
 	OnPlayerBrokenBlockDef OnPlayerBrokenBlock;
 	OnPlayerSpawnedDef OnPlayerSpawned;
 	OnWorldTickDef OnWorldTick;
+	OnBlockSpreadDef OnBlockSpread;
+	OnBlockToPickupsDef OnBlockToPickups;
 
 	inline void initializeHooks(void ** hooks)
 	{
@@ -50,6 +54,8 @@ class ClrHooks
 		OnPlayerBrokenBlock = (bool(*)(cPlayer *, Vector3i, eBlockFace, BLOCKTYPE, NIBBLETYPE))(*(hooks + 10));
 		OnPlayerSpawned = (bool(*)(cPlayer *))(*(hooks + 11));
 		OnWorldTick = (bool(*)(cWorld *, float, float))(*(hooks + 12));
+		OnBlockSpread = (bool(*)(cWorld *, Vector3i, eSpreadSource))(*(hooks + 13));
+		OnBlockToPickups = (bool(*)(cWorld *, Vector3i, BLOCKTYPE, NIBBLETYPE, const cBlockEntity *, const cEntity *, const cItem *, cItem *, int))(*(hooks + 14));
 
 	}
 };

@@ -10,19 +10,14 @@ namespace CuberiteClr.Runtime.Entities;
 
 public unsafe class Player : Pawn, IPlayer
 {
-	public Player(IntPtr handle) : base(handle)
+	internal Player(IntPtr handle) : base(handle)
 	{
-	}
-
-	internal static IPlayer CreateNullable(IntPtr handle)
-	{
-		return handle != IntPtr.Zero ? new Player(handle) : null;
 	}
 
 	public IInventory GetInventory()
 	{
 		var inventoryPtr = WrapperFunctions.player_get_inventory(Handle);
-		return new Inventory(inventoryPtr);
+		return Inventory.Create(inventoryPtr);
 	}
 
 	public string GetName()

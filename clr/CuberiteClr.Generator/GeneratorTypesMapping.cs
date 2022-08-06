@@ -25,6 +25,7 @@ public static class GeneratorTypesMapping
 
 		// Specific
 		{"eBlockFace", nameof(BlockFace)},
+		{"eSpreadSource", nameof(SpreadSource)},
 		{"eDamageType", nameof(DamageType)},
 		{"cEntity::eEntityType", nameof(EntityType)},
 		{"eExplosionSource", nameof(ExplosionSource)},

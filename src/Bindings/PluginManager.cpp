@@ -299,6 +299,9 @@ bool cPluginManager::CallHookBlockToPickups(
 	cItems & a_Pickups
 )
 {
+	if (m_ClrHooks.OnBlockToPickups(&a_World, a_BlockPos, a_BlockType, a_BlockMeta, a_BlockEntity, a_Digger, a_Tool, &a_Pickups[0], a_Pickups.size()))
+		return true;
+
 	return GenericCallHook(HOOK_BLOCK_TO_PICKUPS, [&](cPlugin * a_Plugin)
 		{
 			return a_Plugin->OnBlockToPickups(a_World, a_BlockPos, a_BlockType, a_BlockMeta, a_BlockEntity, a_Digger, a_Tool, a_Pickups);

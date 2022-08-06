@@ -79,3 +79,21 @@ OnWorldTick:
     world: cWorld *
     delta: float
     lastTickDuration: float
+OnBlockSpread:
+  return: bool
+  args:
+    world: cWorld *
+    position: Vector3i
+    source: eSpreadSource
+OnBlockToPickups:
+  return: bool
+  args:
+    world: cWorld *
+    position: Vector3i
+    blockType: BLOCKTYPE
+    blockMeta: NIBBLETYPE
+    blockEntity: const cBlockEntity *
+    digger: const cEntity *
+    tool: const cItem *
+    pickups: cItem *
+    pickupsLength: int

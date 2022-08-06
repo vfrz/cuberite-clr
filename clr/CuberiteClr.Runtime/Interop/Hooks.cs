@@ -19,6 +19,8 @@ public static class Hooks
 	private delegate bool OnPlayerBrokenBlockDelegate(IntPtr player, Vector3i position, BlockFace face, BlockType type, byte meta);
 	private delegate bool OnPlayerSpawnedDelegate(IntPtr player);
 	private delegate bool OnWorldTickDelegate(IntPtr world, float delta, float lastTickDuration);
+	private delegate bool OnBlockSpreadDelegate(IntPtr world, Vector3i position, SpreadSource source);
+	private delegate bool OnBlockToPickupsDelegate(IntPtr world, Vector3i position, BlockType blockType, byte blockMeta, IntPtr blockEntity, IntPtr digger, IntPtr tool, IntPtr pickups, int pickupsLength);
 
 	public static Delegate[] Delegates { get; } = {
 		new CallPluginsLoadDelegate(CuberiteClrManager.CallPluginsLoad),
@@ -34,6 +36,8 @@ public static class Hooks
 		new OnPlayerBrokenBlockDelegate(CuberiteClrManager.OnPlayerBrokenBlock),
 		new OnPlayerSpawnedDelegate(CuberiteClrManager.OnPlayerSpawned),
 		new OnWorldTickDelegate(CuberiteClrManager.OnWorldTick),
+		new OnBlockSpreadDelegate(CuberiteClrManager.OnBlockSpread),
+		new OnBlockToPickupsDelegate(CuberiteClrManager.OnBlockToPickups),
 
 	};
 }

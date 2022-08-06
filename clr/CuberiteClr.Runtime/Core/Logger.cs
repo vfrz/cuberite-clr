@@ -7,10 +7,6 @@ public unsafe class Logger : ILogger
 {
 	internal static ILogger Instance { get; } = new Logger();
 
-	public Logger()
-	{
-	}
-
 	public void Log(string message)
 	{
 		WrapperFunctions.log_default(message);

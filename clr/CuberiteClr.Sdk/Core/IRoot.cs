@@ -15,6 +15,8 @@ public interface IRoot
 
 	public bool ForEachPlayer(ForEachPlayerCallback callback);
 
+	public string ItemTypeToString(short itemType);
+
 	// Objects creation
 	public IItem CreateItem(short type, byte count = 1, short damage = 0, string enchantments = "",
 		string customName = "", string[] loreTable = null);

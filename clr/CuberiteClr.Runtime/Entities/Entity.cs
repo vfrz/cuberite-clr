@@ -10,8 +10,28 @@ namespace CuberiteClr.Runtime.Entities;
 
 public unsafe class Entity : InteropReference, IEntity
 {
-	public Entity(IntPtr handle) : base(handle)
+	internal Entity(IntPtr handle) : base(handle)
 	{
+	}
+
+	public static IEntity Create(IntPtr handle)
+	{
+		if (handle == IntPtr.Zero)
+			return null;
+
+		var className = WrapperFunctions.entity_get_class(handle).ToStringAuto();
+		return className switch
+		{
+			"cEntity" => new Entity(handle),
+			"cPawn" => new Pawn(handle),
+			"cPlayer" => new Player(handle),
+			_ => new Entity(handle)
+		};
+	}
+
+	public static T Create<T>(IntPtr handle) where T : class, IEntity
+	{
+		return Create(handle) as T;
 	}
 
 	public float GetHealth()
@@ -26,7 +46,7 @@ public unsafe class Entity : InteropReference, IEntity
 
 	public IWorld GetWorld()
 	{
-		return new World(WrapperFunctions.entity_get_world(Handle));
+		return World.Create(WrapperFunctions.entity_get_world(Handle));
 	}
 
 	public void TakeDamage(IEntity attacker)

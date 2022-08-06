@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
+using CuberiteClr.Runtime.Extensions;
 using CuberiteClr.Runtime.Interop;
 using CuberiteClr.Sdk.Core;
 using CuberiteClr.Sdk.Types;
@@ -23,7 +24,7 @@ public unsafe class Root : IRoot
 	public IWorld GetDefaultWorld()
 	{
 		var handle = WrapperFunctions.root_get_default_world();
-		return new World(handle);
+		return World.Create(handle);
 	}
 
 	public bool ForEachWorld(ForEachWorldCallback callback)
@@ -38,6 +39,11 @@ public unsafe class Root : IRoot
 		var gcHandle = GCHandle.Alloc(callback, GCHandleType.Normal);
 		var callbackPointer = GCHandle.ToIntPtr(gcHandle);
 		return WrapperFunctions.root_for_each_player(callbackPointer);
+	}
+
+	public string ItemTypeToString(short itemType)
+	{
+		return WrapperFunctions.item_type_to_string(itemType).ToStringAuto();
 	}
 
 	// Objects creation
@@ -59,6 +65,6 @@ public unsafe class Root : IRoot
 		}
 
 		var itemPtr = WrapperFunctions.create_item(type, count, damage, enchantments ?? string.Empty, customName ?? string.Empty, loreTableIntPtr, loreTable?.Length ?? 0);
-		return new Item(itemPtr);
+		return Item.Create(itemPtr);
 	}
 }

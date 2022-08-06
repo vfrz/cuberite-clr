@@ -26,6 +26,16 @@ bind_command:
     callback: void *
     permission: char *
     helpString: char *
+item_type_to_string:
+  return: const char *
+  args:
+    itemType: short
+
+# Enchantments
+enchantments_to_string:
+  return: const char *
+  args:
+    enchantments: cEnchantments *
 
 # Entity
 entity_get_health:
@@ -88,12 +98,47 @@ entity_get_position:
   return: const Vector3d *
   args:
     entity: cEntity *
+entity_get_class:
+  return: const char *
+  args:
+    entity: cEntity *
+entity_is_a:
+  return: bool
+  args:
+    entity: cEntity *
+    className: const char *
+entity_get_parent_class:
+  return: const char *
+  args:
+    entity: cEntity *
 
 # Inventory
 inventory_add_item:
   return: char
   args:
     inventory: cInventory *
+    item: cItem *
+
+# Item
+item_get_type:
+  return: short
+  args:
+    item: cItem *
+item_get_count:
+  return: char
+  args:
+    item: cItem *
+item_get_damage:
+  return: short
+  args:
+    item: cItem *
+item_get_custom_name:
+  return: const char *
+  args:
+    item: cItem *
+item_get_enchantments:
+  return: cEnchantments *
+  args:
     item: cItem *
 
 # Player

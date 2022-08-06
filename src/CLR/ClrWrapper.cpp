@@ -20,6 +20,19 @@ bool ClrWrapper::bind_command(
 		name, nullptr, commandHandler, permission, helpString);
 }
 
+const char * ClrWrapper::item_type_to_string(short itemType)
+{
+	auto name = std::make_shared<AString>(ItemTypeToString(itemType));
+	return name->c_str();
+}
+
+// Enchantments
+const char * ClrWrapper::enchantments_to_string(cEnchantments * enchantments)
+{
+	auto name = std::make_shared<AString>(enchantments->ToString());
+	return name->c_str();
+}
+
 // Entity
 float ClrWrapper::entity_get_health(cEntity * entity)
 {
@@ -82,11 +95,51 @@ const Vector3d * ClrWrapper::entity_get_position(cEntity * entity)
 	return &entity->GetPosition();
 }
 
+const char * ClrWrapper::entity_get_class(cEntity * entity)
+{
+	return entity->GetClass();
+}
+
+bool ClrWrapper::entity_is_a(cEntity * entity, const char * className)
+{
+	return entity->IsA(className);
+}
+
+const char * ClrWrapper::entity_get_parent_class(cEntity * entity)
+{
+	return entity->GetParentClass();
+}
 
 // Inventory
 char ClrWrapper::inventory_add_item(cInventory * inventory, cItem * item)
 {
 	return inventory->AddItem(*item);
+}
+
+// Item
+short ClrWrapper::item_get_type(cItem * item)
+{
+	return item->m_ItemType;
+}
+
+char ClrWrapper::item_get_count(cItem * item)
+{
+	return item->m_ItemCount;
+}
+
+short ClrWrapper::item_get_damage(cItem * item)
+{
+	return item->m_ItemDamage;
+}
+
+const char * ClrWrapper::item_get_custom_name(cItem * item)
+{
+	return item->m_CustomName.c_str();
+}
+
+cEnchantments * ClrWrapper::item_get_enchantments(cItem * item)
+{
+	return &item->m_Enchantments;
 }
 
 // Player
