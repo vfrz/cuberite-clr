@@ -31,11 +31,11 @@ cPluginManager::cPluginManager(cDeadlockDetect & a_DeadlockDetect) :
 	m_DeadlockDetect(a_DeadlockDetect)
 {
 	auto clrLoader = ClrLoader();
-	clrLoader.Initialize("/home/vfrz/Documents/cuberite-clr/clr/CuberiteClr.Runtime/bin/Release/net7.0/publish/CuberiteClr.Runtime.runtimeconfig.json");
+	clrLoader.Initialize("./clr/CuberiteClr.Runtime.runtimeconfig.json");
 
 	clr_initialize_fn initializeFunction = nullptr;
 	clrLoader.LoadAssemblyAndGetFunctionPointer(
-		"/home/vfrz/Documents/cuberite-clr/clr/CuberiteClr.Runtime/bin/Release/net7.0/publish/CuberiteClr.Runtime.dll",
+		"./clr/CuberiteClr.Runtime.dll",
 		"CuberiteClr.Runtime.CuberiteClrManager, CuberiteClr.Runtime",
 		"Initialize",
 		"CuberiteClr.Runtime.CuberiteClrManager+InitializeDelegate, CuberiteClr.Runtime",

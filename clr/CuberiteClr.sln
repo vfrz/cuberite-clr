@@ -8,6 +8,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPlugin", "TestPlugin\Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CuberiteClr.Generator", "CuberiteClr.Generator\CuberiteClr.Generator.csproj", "{B73D740F-8C63-440E-A105-7A2A7F613841}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{7E70C379-3A4B-4493-B901-A107EAFF8488}"
+	ProjectSection(SolutionItems) = preProject
+		publish.sh = publish.sh
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
