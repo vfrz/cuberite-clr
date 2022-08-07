@@ -5,7 +5,7 @@ using CuberiteClr.Sdk.Core;
 
 namespace CuberiteClr.Runtime.Core;
 
-public unsafe class Item : InteropReference, IItem, IDisposable
+public unsafe class Item : InteropReference, IItem
 {
 	public short Type => WrapperFunctions.item_get_type(Handle);
 

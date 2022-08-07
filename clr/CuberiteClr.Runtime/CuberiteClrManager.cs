@@ -169,4 +169,50 @@ public static unsafe class CuberiteClrManager
 		var pickup = Entity.Create<IPickup>(pickupPtr);
 		return CallBooleanFunction(plugin => plugin.OnCollectingPickup(player, pickup));
 	}
+
+	public static bool OnPlayerMoving(IntPtr playerPtr, Vector3d oldPosition, Vector3d newPosition, bool previousIsOnGround)
+	{
+		var player = Entity.Create<IPlayer>(playerPtr);
+		return CallBooleanFunction(plugin => plugin.OnPlayerMoving(player, oldPosition, newPosition, previousIsOnGround));
+	}
+
+	public static bool OnPlayerJoined(IntPtr playerPtr)
+	{
+		var player = Entity.Create<IPlayer>(playerPtr);
+		return CallBooleanFunction(plugin => plugin.OnPlayerJoined(player));
+	}
+
+	public static bool OnPlayerUsedBlock(IntPtr playerPtr, Vector3i blockPosition, BlockFace blockFace,
+		Vector3i cursorPosition, BlockType blockType, byte blockMeta)
+	{
+		var player = Entity.Create<IPlayer>(playerPtr);
+		return CallBooleanFunction(plugin => plugin.OnPlayerUsedBlock(player, blockPosition, blockFace, cursorPosition,
+			blockType, blockMeta));
+	}
+
+	public static bool OnPlayerUsedItem(IntPtr playerPtr, Vector3i blockPosition, BlockFace blockFace, Vector3i cursorPosition)
+	{
+		var player = Entity.Create<IPlayer>(playerPtr);
+		return CallBooleanFunction(plugin => plugin.OnPlayerUsedItem(player, blockPosition, blockFace, cursorPosition));
+	}
+
+	public static bool OnPlayerUsingBlock(IntPtr playerPtr, Vector3i blockPosition, BlockFace blockFace,
+		Vector3i cursorPosition, BlockType blockType, byte blockMeta)
+	{
+		var player = Entity.Create<IPlayer>(playerPtr);
+		return CallBooleanFunction(plugin => plugin.OnPlayerUsingBlock(player, blockPosition, blockFace, cursorPosition,
+			blockType, blockMeta));
+	}
+
+	public static bool OnPlayerUsingItem(IntPtr playerPtr, Vector3i blockPosition, BlockFace blockFace, Vector3i cursorPosition)
+	{
+		var player = Entity.Create<IPlayer>(playerPtr);
+		return CallBooleanFunction(plugin => plugin.OnPlayerUsingItem(player, blockPosition, blockFace, cursorPosition));
+	}
+
+	public static bool OnPlayerTossingItem(IntPtr playerPtr)
+	{
+		var player = Entity.Create<IPlayer>(playerPtr);
+		return CallBooleanFunction(plugin => plugin.OnPlayerTossingItem(player));
+	}
 }

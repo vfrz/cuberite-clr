@@ -8,7 +8,7 @@ using CuberiteClr.Sdk.Types;
 
 namespace CuberiteClr.Runtime.Entities;
 
-public unsafe class Entity : InteropReference, IEntity, IDisposable
+public unsafe class Entity : InteropReference, IEntity
 {
 	internal Entity(IntPtr handle, bool createdFromManaged) : base(handle, createdFromManaged)
 	{
@@ -98,5 +98,10 @@ public unsafe class Entity : InteropReference, IEntity, IDisposable
 	public bool IsA(string className)
 	{
 		return WrapperFunctions.entity_is_a(Handle, className);
+	}
+
+	public bool IsInvisible()
+	{
+		return WrapperFunctions.entity_is_invisible(Handle);
 	}
 }

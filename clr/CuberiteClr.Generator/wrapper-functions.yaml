@@ -235,6 +235,23 @@ player_set_respawn_location:
     player: cPlayer *
     position: Vector3i
     world: const cWorld &
+player_get_equipped_item:
+  return: const cItem *
+  args:
+    player: cPlayer *
+player_freeze:
+  return: void
+  args:
+    player: cPlayer *
+    position: Vector3d
+player_is_frozen:
+  return: bool
+  args:
+    player: cPlayer *
+player_unfreeze:
+  return: void
+  args:
+    player: cPlayer *
 
 # Root
 root_broadcast_chat:

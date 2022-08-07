@@ -44,4 +44,46 @@ public unsafe class Player : Pawn, IPlayer
 	{
 		WrapperFunctions.player_set_respawn_location(Handle, position, world.GetInteropHandle());
 	}
+
+	public IItem GetEquippedItem()
+	{
+		var itemPtr = WrapperFunctions.player_get_equipped_item(Handle);
+		return Item.Create(itemPtr);
+	}
+
+	public void Freeze(Vector3d position)
+	{
+		WrapperFunctions.player_freeze(Handle, position);
+	}
+
+	public bool IsFrozen()
+	{
+		return WrapperFunctions.player_is_frozen(Handle);
+	}
+
+	public void Unfreeze()
+	{
+		WrapperFunctions.player_unfreeze(Handle);
+	}
+
+	public GameMode GetGameMode()
+	{
+		return WrapperFunctions.player_get_game_mode(Handle);
+	}
+
+	public void SetGameMode(GameMode gameMode)
+	{
+		WrapperFunctions.player_set_game_mode(Handle, gameMode);
+	}
+
+	public void SetVisible(bool visible)
+	{
+		WrapperFunctions.player_set_visible(Handle, visible);
+	}
+
+	public IClientHandle GetClientHandle()
+	{
+		var clientHandlePtr = WrapperFunctions.player_get_client_handle(Handle);
+		return ClientHandle.Create(clientHandlePtr);
+	}
 }

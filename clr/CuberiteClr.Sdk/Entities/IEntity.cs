@@ -30,4 +30,6 @@ public interface IEntity
 	public string GetParentClass();
 
 	public bool IsA(string className);
+
+	public bool IsInvisible();
 }

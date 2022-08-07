@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace CuberiteClr.Sdk.Types;
 
 [StructLayout(LayoutKind.Sequential)]
-public class Vector3f : IEquatable<Vector3f>, IFormattable
+public readonly struct Vector3f : IEquatable<Vector3f>, IFormattable
 {
 	public readonly float X, Y, Z;
 

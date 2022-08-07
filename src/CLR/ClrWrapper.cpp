@@ -236,6 +236,25 @@ void ClrWrapper::player_set_respawn_location(
 	player->SetRespawnPosition(position, world);
 }
 
+const cItem * ClrWrapper::player_get_equipped_item(cPlayer * player)
+{
+	return &player->GetEquippedItem();
+}
+
+void ClrWrapper::player_freeze(cPlayer * player, Vector3d position)
+{
+	player->Freeze(position);
+}
+
+bool ClrWrapper::player_is_frozen(cPlayer * player)
+{
+	return player->IsFrozen();
+}
+
+void ClrWrapper::player_unfreeze(cPlayer * player)
+{
+	player->Unfreeze();
+}
 
 // Root
 void ClrWrapper::root_broadcast_chat(char * message, eMessageType messageType)

@@ -20,4 +20,20 @@ public interface IPlayer : IPawn
 	public void Feed(int food, double saturation);
 
 	public void SetRespawnLocation(Vector3i position, IWorld world);
+
+	public IItem GetEquippedItem();
+
+	public void Freeze(Vector3d position);
+
+	public bool IsFrozen();
+
+	public void Unfreeze();
+
+	public GameMode GetGameMode();
+
+	public void SetGameMode(GameMode gameMode);
+
+	public void SetVisible(bool visible);
+
+	public IClientHandle GetClientHandle();
 }

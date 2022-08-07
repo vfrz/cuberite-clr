@@ -71,6 +71,53 @@ OnPlayerSpawned:
   return: bool
   args:
     player: cPlayer *
+OnPlayerMoving:
+  return: bool
+  args:
+    player: cPlayer *
+    oldPosition: Vector3d
+    newPosition: Vector3d
+    previousIsOnGround: bool
+OnPlayerJoined:
+  return: bool
+  args:
+    player: cPlayer *
+OnPlayerUsedBlock:
+  return: bool
+  args:
+    player: cPlayer *
+    blockPosition: Vector3i
+    blockFace: eBlockFace
+    cursorPosition: Vector3i
+    blockType: BLOCKTYPE
+    blockMeta: NIBBLETYPE
+OnPlayerUsedItem:
+  return: bool
+  args:
+    player: cPlayer *
+    blockPosition: Vector3i
+    blockFace: eBlockFace
+    cursorPosition: Vector3i
+OnPlayerUsingBlock:
+  return: bool
+  args:
+    player: cPlayer *
+    blockPosition: Vector3i
+    blockFace: eBlockFace
+    cursorPosition: Vector3i
+    blockType: BLOCKTYPE
+    blockMeta: NIBBLETYPE
+OnPlayerUsingItem:
+  return: bool
+  args:
+    player: cPlayer *
+    blockPosition: Vector3i
+    blockFace: eBlockFace
+    cursorPosition: Vector3i
+OnPlayerTossingItem:
+  return: bool
+  args:
+    player: cPlayer *
 
 # World
 OnWorldTick:

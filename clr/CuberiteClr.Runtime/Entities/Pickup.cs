@@ -7,7 +7,7 @@ using CuberiteClr.Sdk.Entities;
 
 namespace CuberiteClr.Runtime.Entities;
 
-public unsafe class Pickup : Entity, IPickup, IDisposable
+public unsafe class Pickup : Entity, IPickup
 {
 	public Pickup(IntPtr handle, bool fromManaged) : base(handle, fromManaged)
 	{

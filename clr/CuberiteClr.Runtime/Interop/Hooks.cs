@@ -18,6 +18,13 @@ public static class Hooks
 	private delegate bool OnPlayerBreakingBlockDelegate(IntPtr player, Vector3i position, BlockFace face, BlockType type, byte meta);
 	private delegate bool OnPlayerBrokenBlockDelegate(IntPtr player, Vector3i position, BlockFace face, BlockType type, byte meta);
 	private delegate bool OnPlayerSpawnedDelegate(IntPtr player);
+	private delegate bool OnPlayerMovingDelegate(IntPtr player, Vector3d oldPosition, Vector3d newPosition, bool previousIsOnGround);
+	private delegate bool OnPlayerJoinedDelegate(IntPtr player);
+	private delegate bool OnPlayerUsedBlockDelegate(IntPtr player, Vector3i blockPosition, BlockFace blockFace, Vector3i cursorPosition, BlockType blockType, byte blockMeta);
+	private delegate bool OnPlayerUsedItemDelegate(IntPtr player, Vector3i blockPosition, BlockFace blockFace, Vector3i cursorPosition);
+	private delegate bool OnPlayerUsingBlockDelegate(IntPtr player, Vector3i blockPosition, BlockFace blockFace, Vector3i cursorPosition, BlockType blockType, byte blockMeta);
+	private delegate bool OnPlayerUsingItemDelegate(IntPtr player, Vector3i blockPosition, BlockFace blockFace, Vector3i cursorPosition);
+	private delegate bool OnPlayerTossingItemDelegate(IntPtr player);
 	private delegate bool OnWorldTickDelegate(IntPtr world, float delta, float lastTickDuration);
 	private delegate bool OnBlockSpreadDelegate(IntPtr world, Vector3i position, SpreadSource source);
 	private delegate bool OnBlockToPickupsDelegate(IntPtr world, Vector3i position, BlockType blockType, byte blockMeta, IntPtr blockEntity, IntPtr digger, IntPtr tool, IntPtr pickups, int pickupsLength);
@@ -36,6 +43,13 @@ public static class Hooks
 		new OnPlayerBreakingBlockDelegate(CuberiteClrManager.OnPlayerBreakingBlock),
 		new OnPlayerBrokenBlockDelegate(CuberiteClrManager.OnPlayerBrokenBlock),
 		new OnPlayerSpawnedDelegate(CuberiteClrManager.OnPlayerSpawned),
+		new OnPlayerMovingDelegate(CuberiteClrManager.OnPlayerMoving),
+		new OnPlayerJoinedDelegate(CuberiteClrManager.OnPlayerJoined),
+		new OnPlayerUsedBlockDelegate(CuberiteClrManager.OnPlayerUsedBlock),
+		new OnPlayerUsedItemDelegate(CuberiteClrManager.OnPlayerUsedItem),
+		new OnPlayerUsingBlockDelegate(CuberiteClrManager.OnPlayerUsingBlock),
+		new OnPlayerUsingItemDelegate(CuberiteClrManager.OnPlayerUsingItem),
+		new OnPlayerTossingItemDelegate(CuberiteClrManager.OnPlayerTossingItem),
 		new OnWorldTickDelegate(CuberiteClrManager.OnWorldTick),
 		new OnBlockSpreadDelegate(CuberiteClrManager.OnBlockSpread),
 		new OnBlockToPickupsDelegate(CuberiteClrManager.OnBlockToPickups),

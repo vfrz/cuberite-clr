@@ -49,6 +49,11 @@ public interface IClrPlugin
 		return false;
 	}
 
+	public bool OnPlayerMoving(IPlayer playerPtr, Vector3d oldPosition, Vector3d newPosition, bool previousIsOnGround)
+	{
+		return false;
+	}
+
 	// World
 	public bool OnWorldTick(IWorld world, float delta, float lastTickDuration)
 	{
@@ -67,6 +72,38 @@ public interface IClrPlugin
 	}
 
 	public bool OnCollectingPickup(IPlayer player, IPickup pickup)
+	{
+		return false;
+	}
+
+	public bool OnPlayerJoined(IPlayer player)
+	{
+		return false;
+	}
+
+	public bool OnPlayerUsedBlock(IPlayer player, Vector3i blockPosition, BlockFace blockFace, Vector3i cursorPosition,
+		BlockType blockType, byte blockMeta)
+	{
+		return false;
+	}
+
+	public bool OnPlayerUsedItem(IPlayer player, Vector3i blockPosition, BlockFace blockFace, Vector3i cursorPosition)
+	{
+		return false;
+	}
+
+	public bool OnPlayerUsingBlock(IPlayer player, Vector3i blockPosition, BlockFace blockFace, Vector3i cursorPosition,
+		BlockType blockType, byte blockMeta)
+	{
+		return false;
+	}
+
+	public bool OnPlayerUsingItem(IPlayer player, Vector3i blockPosition, BlockFace blockFace, Vector3i cursorPosition)
+	{
+		return false;
+	}
+
+	public bool OnPlayerTossingItem(IPlayer player)
 	{
 		return false;
 	}
