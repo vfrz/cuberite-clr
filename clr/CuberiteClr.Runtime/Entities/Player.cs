@@ -35,6 +35,66 @@ public unsafe class Player : Pawn, IPlayer
 		WrapperFunctions.player_send_message(Handle, message);
 	}
 
+	public void SendMessageInfo(string message)
+	{
+		WrapperFunctions.player_send_message_info(Handle, message);
+	}
+
+	public void SendMessageFailure(string message)
+	{
+		WrapperFunctions.player_send_message_failure(Handle, message);
+	}
+
+	public void SendMessageSuccess(string message)
+	{
+		WrapperFunctions.player_send_message_success(Handle, message);
+	}
+
+	public void SendMessageWarning(string message)
+	{
+		WrapperFunctions.player_send_message_warning(Handle, message);
+	}
+
+	public void SendMessageFatal(string message)
+	{
+		WrapperFunctions.player_send_message_fatal(Handle, message);
+	}
+
+	public void SendPrivateMessage(string message, string sender)
+	{
+		WrapperFunctions.player_send_message_private_msg(Handle, message, sender);
+	}
+
+	public void SendMessage(ICompositeChat message)
+	{
+		WrapperFunctions.player_send_message_composite(Handle, message.GetInteropHandle());
+	}
+
+	public void SendMessageRaw(string message, ChatType type = ChatType.System)
+	{
+		WrapperFunctions.player_send_message_raw(Handle, message, type);
+	}
+
+	public void SendSystemMessage(string message)
+	{
+		WrapperFunctions.player_send_system_message(Handle, message);
+	}
+
+	public void SendAboveActionBarMessage(string message)
+	{
+		WrapperFunctions.player_send_above_action_bar_message(Handle, message);
+	}
+
+	public void SendSystemMessage(ICompositeChat message)
+	{
+		WrapperFunctions.player_send_system_message_composite(Handle, message.GetInteropHandle());
+	}
+
+	public void SendAboveActionBarMessage(ICompositeChat message)
+	{
+		WrapperFunctions.player_send_above_action_bar_message_composite(Handle, message.GetInteropHandle());
+	}
+
 	public void Feed(int food, double saturation)
 	{
 		WrapperFunctions.player_feed(Handle, food, saturation);
@@ -85,5 +145,10 @@ public unsafe class Player : Pawn, IPlayer
 	{
 		var clientHandlePtr = WrapperFunctions.player_get_client_handle(Handle);
 		return ClientHandle.Create(clientHandlePtr);
+	}
+
+	public bool HasPermission(string permission)
+	{
+		return WrapperFunctions.player_has_permission(Handle, permission);
 	}
 }

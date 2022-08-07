@@ -215,4 +215,32 @@ public static unsafe class CuberiteClrManager
 		var player = Entity.Create<IPlayer>(playerPtr);
 		return CallBooleanFunction(plugin => plugin.OnPlayerTossingItem(player));
 	}
+
+	public static bool OnKilled(IntPtr victimPtr, TakeDamageInfoInternal takeDamageInfoInternal, IntPtr deathMessagePtr)
+	{
+		var victim = Entity.Create(victimPtr);
+		var takeDamageInfo = takeDamageInfoInternal.ToTakeDamageInfo();
+		var deathMessage = deathMessagePtr.ToStringAnsi();
+		return CallBooleanFunction(plugin => plugin.OnKilled(victim, takeDamageInfo, deathMessage));
+	}
+
+	public static bool OnKilling(IntPtr victimPtr, IntPtr killerPtr, TakeDamageInfoInternal takeDamageInfoInternal)
+	{
+		var victim = Entity.Create(victimPtr);
+		var killer = Entity.Create(killerPtr);
+		var takeDamageInfo = takeDamageInfoInternal.ToTakeDamageInfo();
+		return CallBooleanFunction(plugin => plugin.OnKilling(victim, killer, takeDamageInfo));
+	}
+
+	public static bool OnPlayerPlacedBlock(IntPtr playerPtr, SetBlock blockChange)
+	{
+		var player = Entity.Create<IPlayer>(playerPtr);
+		return CallBooleanFunction(plugin => plugin.OnPlayerPlacedBlock(player, blockChange));
+	}
+
+	public static bool OnPlayerPlacingBlock(IntPtr playerPtr, SetBlock blockChange)
+	{
+		var player = Entity.Create<IPlayer>(playerPtr);
+		return CallBooleanFunction(plugin => plugin.OnPlayerPlacingBlock(player, blockChange));
+	}
 }

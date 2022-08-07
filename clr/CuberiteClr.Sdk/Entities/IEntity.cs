@@ -32,4 +32,8 @@ public interface IEntity
 	public bool IsA(string className);
 
 	public bool IsInvisible();
+
+	public void TeleportToCoords(Vector3d position);
+
+	public void TeleportToEntity(IEntity entity);
 }

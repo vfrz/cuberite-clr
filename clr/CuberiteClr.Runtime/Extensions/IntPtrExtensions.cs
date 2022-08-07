@@ -34,12 +34,6 @@ internal static class IntPtrExtensions
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static Vector3d ToVector3d(this IntPtr ptr)
-	{
-		return Marshal.PtrToStructure<Vector3d>(ptr);
-	}
-
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static bool IsNullPtr(this IntPtr ptr)
 	{
 		return ptr == IntPtr.Zero;

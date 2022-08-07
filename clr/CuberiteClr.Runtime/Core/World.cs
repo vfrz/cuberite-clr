@@ -109,4 +109,9 @@ public unsafe class World : InteropReference, IWorld
 		// TODO Handle more cases here
 		WrapperFunctions.world_do_explosion_at(Handle, size, position, canCauseFire, source, sourceDataPtr);
 	}
+
+	public void CastThunderbolt(Vector3i block)
+	{
+		WrapperFunctions.world_cast_thunderbolt(Handle, block);
+	}
 }

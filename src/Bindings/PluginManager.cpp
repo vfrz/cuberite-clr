@@ -278,6 +278,9 @@ bool cPluginManager::GenericCallHook(PluginHook a_HookName, HookFunction a_HookF
 
 bool cPluginManager::CallHookBlockSpread(cWorld & a_World, Vector3i a_BlockPos, eSpreadSource a_Source)
 {
+	if (m_ClrHooks.OnBlockSpread(&a_World, a_BlockPos, a_Source))
+		return true;
+
 	return GenericCallHook(HOOK_BLOCK_SPREAD, [&](cPlugin * a_Plugin)
 		{
 			return a_Plugin->OnBlockSpread(a_World, a_BlockPos.x, a_BlockPos.y, a_BlockPos.z, a_Source);
@@ -688,6 +691,9 @@ bool cPluginManager::CallHookDropSpense(cWorld & a_World, cDropSpenserEntity & a
 
 bool cPluginManager::CallHookKilled(cEntity & a_Victim, TakeDamageInfo & a_TDI, AString & a_DeathMessage)
 {
+	if (m_ClrHooks.OnKilled(&a_Victim, a_TDI, a_DeathMessage.c_str()))
+		return true;
+
 	return GenericCallHook(HOOK_KILLED, [&](cPlugin * a_Plugin)
 		{
 			return a_Plugin->OnKilled(a_Victim, a_TDI, a_DeathMessage);
@@ -701,6 +707,9 @@ bool cPluginManager::CallHookKilled(cEntity & a_Victim, TakeDamageInfo & a_TDI, 
 
 bool cPluginManager::CallHookKilling(cEntity & a_Victim, cEntity * a_Killer, TakeDamageInfo & a_TDI)
 {
+	if (m_ClrHooks.OnKilling(&a_Victim, a_Killer, a_TDI))
+		return true;
+
 	return GenericCallHook(HOOK_KILLING, [&](cPlugin * a_Plugin)
 		{
 			return a_Plugin->OnKilling(a_Victim, a_Killer, a_TDI);
@@ -853,6 +862,9 @@ bool cPluginManager::CallHookPlayerFishing(cPlayer & a_Player, cItems & a_Reward
 
 bool cPluginManager::CallHookPlayerJoined(cPlayer & a_Player)
 {
+	if (m_ClrHooks.OnPlayerJoined(&a_Player))
+		return true;
+
 	return GenericCallHook(HOOK_PLAYER_JOINED, [&](cPlugin * a_Plugin)
 		{
 			return a_Plugin->OnPlayerJoined(a_Player);
@@ -879,6 +891,9 @@ bool cPluginManager::CallHookPlayerLeftClick(cPlayer & a_Player, Vector3i a_Bloc
 
 bool cPluginManager::CallHookPlayerMoving(cPlayer & a_Player, const Vector3d & a_OldPosition, const Vector3d & a_NewPosition, bool a_PreviousIsOnGround)
 {
+	if (m_ClrHooks.OnPlayerMoving(&a_Player, a_OldPosition, a_NewPosition, a_PreviousIsOnGround))
+		return true;
+
 	return GenericCallHook(HOOK_PLAYER_MOVING, [&](cPlugin * a_Plugin)
 		{
 			return a_Plugin->OnPlayerMoving(a_Player, a_OldPosition, a_NewPosition, a_PreviousIsOnGround);
@@ -905,6 +920,9 @@ bool cPluginManager::CallHookPlayerOpeningWindow(cPlayer & a_Player, cWindow & a
 
 bool cPluginManager::CallHookPlayerPlacedBlock(cPlayer & a_Player, const sSetBlock & a_BlockChange)
 {
+	if (m_ClrHooks.OnPlayerPlacedBlock(&a_Player, a_BlockChange))
+		return true;
+
 	return GenericCallHook(HOOK_PLAYER_PLACED_BLOCK, [&](cPlugin * a_Plugin)
 		{
 			return a_Plugin->OnPlayerPlacedBlock(a_Player, a_BlockChange);
@@ -918,6 +936,9 @@ bool cPluginManager::CallHookPlayerPlacedBlock(cPlayer & a_Player, const sSetBlo
 
 bool cPluginManager::CallHookPlayerPlacingBlock(cPlayer & a_Player, const sSetBlock & a_BlockChange)
 {
+	if (m_ClrHooks.OnPlayerPlacingBlock(&a_Player, a_BlockChange))
+		return true;
+
 	return GenericCallHook(HOOK_PLAYER_PLACING_BLOCK, [&](cPlugin * a_Plugin)
 		{
 			return a_Plugin->OnPlayerPlacingBlock(a_Player, a_BlockChange);
@@ -999,6 +1020,9 @@ bool cPluginManager::CallHookPlayerSpawned(cPlayer & a_Player)
 
 bool cPluginManager::CallHookPlayerTossingItem(cPlayer & a_Player)
 {
+	if (m_ClrHooks.OnPlayerTossingItem(&a_Player))
+		return true;
+
 	return GenericCallHook(HOOK_PLAYER_TOSSING_ITEM, [&](cPlugin * a_Plugin)
 		{
 			return a_Plugin->OnPlayerTossingItem(a_Player);
@@ -1012,6 +1036,9 @@ bool cPluginManager::CallHookPlayerTossingItem(cPlayer & a_Player)
 
 bool cPluginManager::CallHookPlayerUsedBlock(cPlayer & a_Player, Vector3i a_BlockPos, eBlockFace a_BlockFace, Vector3i a_CursorPos, BLOCKTYPE a_BlockType, NIBBLETYPE a_BlockMeta)
 {
+	if (m_ClrHooks.OnPlayerUsedBlock(&a_Player, a_BlockPos, a_BlockFace, a_CursorPos, a_BlockType, a_BlockMeta))
+		return true;
+
 	return GenericCallHook(HOOK_PLAYER_USED_BLOCK, [&](cPlugin * a_Plugin)
 		{
 			return a_Plugin->OnPlayerUsedBlock(a_Player, a_BlockPos.x, a_BlockPos.y, a_BlockPos.z, a_BlockFace, a_CursorPos.x, a_CursorPos.y, a_CursorPos.z, a_BlockType, a_BlockMeta);
@@ -1025,6 +1052,9 @@ bool cPluginManager::CallHookPlayerUsedBlock(cPlayer & a_Player, Vector3i a_Bloc
 
 bool cPluginManager::CallHookPlayerUsedItem(cPlayer & a_Player, Vector3i a_BlockPos, eBlockFace a_BlockFace, Vector3i a_CursorPos)
 {
+	if (m_ClrHooks.OnPlayerUsedItem(&a_Player, a_BlockPos, a_BlockFace, a_CursorPos))
+		return true;
+
 	return GenericCallHook(HOOK_PLAYER_USED_ITEM, [&](cPlugin * a_Plugin)
 		{
 			return a_Plugin->OnPlayerUsedItem(a_Player, a_BlockPos.x, a_BlockPos.y, a_BlockPos.z, a_BlockFace, a_CursorPos.x, a_CursorPos.y, a_CursorPos.z);
@@ -1038,6 +1068,9 @@ bool cPluginManager::CallHookPlayerUsedItem(cPlayer & a_Player, Vector3i a_Block
 
 bool cPluginManager::CallHookPlayerUsingBlock(cPlayer & a_Player, Vector3i a_BlockPos, eBlockFace a_BlockFace, Vector3i a_CursorPos, BLOCKTYPE a_BlockType, NIBBLETYPE a_BlockMeta)
 {
+	if (m_ClrHooks.OnPlayerUsingBlock(&a_Player, a_BlockPos, a_BlockFace, a_CursorPos, a_BlockType, a_BlockMeta))
+		return true;
+
 	return GenericCallHook(HOOK_PLAYER_USING_BLOCK, [&](cPlugin * a_Plugin)
 		{
 			return a_Plugin->OnPlayerUsingBlock(a_Player, a_BlockPos.x, a_BlockPos.y, a_BlockPos.z, a_BlockFace, a_CursorPos.x, a_CursorPos.y, a_CursorPos.z, a_BlockType, a_BlockMeta);
@@ -1051,6 +1084,9 @@ bool cPluginManager::CallHookPlayerUsingBlock(cPlayer & a_Player, Vector3i a_Blo
 
 bool cPluginManager::CallHookPlayerUsingItem(cPlayer & a_Player, Vector3i a_BlockPos, eBlockFace a_BlockFace, Vector3i a_CursorPos)
 {
+	if (m_ClrHooks.OnPlayerUsingItem(&a_Player, a_BlockPos, a_BlockFace, a_CursorPos))
+		return true;
+
 	return GenericCallHook(HOOK_PLAYER_USING_ITEM, [&](cPlugin * a_Plugin)
 		{
 			return a_Plugin->OnPlayerUsingItem(a_Player, a_BlockPos.x, a_BlockPos.y, a_BlockPos.z, a_BlockFace, a_CursorPos.x, a_CursorPos.y, a_CursorPos.z);

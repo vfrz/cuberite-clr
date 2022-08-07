@@ -49,6 +49,18 @@ OnDisconnect:
   args:
     client: cClientHandle &
     reason: const AString &
+OnKilled:
+  return: bool
+  args:
+    victim: cEntity *
+    takeDamageInfo: TakeDamageInfo
+    deathMessage: const char *
+OnKilling:
+  return: bool
+  args:
+    victim: cEntity *
+    killer: cEntity *
+    takeDamageInfo: TakeDamageInfo
 
 # Player
 OnPlayerBreakingBlock:
@@ -118,6 +130,16 @@ OnPlayerTossingItem:
   return: bool
   args:
     player: cPlayer *
+OnPlayerPlacedBlock:
+  return: bool
+  args:
+    player: cPlayer *
+    blockChange: sSetBlock
+OnPlayerPlacingBlock:
+  return: bool
+  args:
+    player: cPlayer *
+    blockChange: sSetBlock
 
 # World
 OnWorldTick:

@@ -1,5 +1,6 @@
 // This file is auto-generated, please do not modify manually
 using System;
+using CuberiteClr.Runtime.Core;
 using CuberiteClr.Sdk.Types;
 
 namespace CuberiteClr.Runtime.Interop;

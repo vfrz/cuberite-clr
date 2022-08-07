@@ -2,6 +2,7 @@
 #pragma once
 
 #include <vector>
+#include "CompositeChat.h"
 #include "Entities/Pickup.h"
 #include "Entities/Player.h"
 #include "Entities/Entity.h"

@@ -22,10 +22,47 @@ public unsafe class Entity : InteropReference, IEntity
 		var className = WrapperFunctions.entity_get_class(handle).ToStringAnsi();
 		return className switch
 		{
+			"cAggressiveMonster" => new AggressiveMonster(handle, fromManaged),
+			"cBat" => new Bat(handle, fromManaged),
+			"cBlaze" => new Blaze(handle, fromManaged),
+			"cCaveSpider" => new CaveSpider(handle, fromManaged),
+			"cChicken" => new Chicken(handle, fromManaged),
+			"cCow" => new Cow(handle, fromManaged),
+			"cCreeper" => new Creeper(handle, fromManaged),
+			"cEnderDragon" => new EnderDragon(handle, fromManaged),
+			"cEnderman" => new Enderman(handle, fromManaged),
 			"cEntity" => new Entity(handle, fromManaged),
+			"cGhast" => new Ghast(handle, fromManaged),
+			"cGiant" => new Giant(handle, fromManaged),
+			"cGuardian" => new Guardian(handle, fromManaged),
+			"cHorse" => new Horse(handle, fromManaged),
+			"cIronGolem" => new IronGolem(handle, fromManaged),
+			"cMagmaCube" => new MagmaCube(handle, fromManaged),
+			"cMonster" => new Monster(handle, fromManaged),
+			"cMooshroom" => new Mooshroom(handle, fromManaged),
+			"cOcelot" => new Ocelot(handle, fromManaged),
+			"cPassiveAggressiveMonster" => new PassiveAggressiveMonster(handle, fromManaged),
+			"cPassiveMonster" => new PassiveMonster(handle, fromManaged),
 			"cPawn" => new Pawn(handle, fromManaged),
-			"cPlayer" => new Player(handle, fromManaged),
 			"cPickup" => new Pickup(handle, fromManaged),
+			"cPig" => new Pig(handle, fromManaged),
+			"cPlayer" => new Player(handle, fromManaged),
+			"cRabbit" => new Rabbit(handle, fromManaged),
+			"cSheep" => new Sheep(handle, fromManaged),
+			"cSilverfish" => new Silverfish(handle, fromManaged),
+			"cSkeleton" => new Skeleton(handle, fromManaged),
+			"cSlime" => new Slime(handle, fromManaged),
+			"cSnowGolem" => new SnowGolem(handle, fromManaged),
+			"cSpider" => new Spider(handle, fromManaged),
+			"cSquid" => new Squid(handle, fromManaged),
+			"cVillager" => new Villager(handle, fromManaged),
+			"cWitch" => new Witch(handle, fromManaged),
+			"cWither" => new Wither(handle, fromManaged),
+			"cWitherSkeleton" => new WitherSkeleton(handle, fromManaged),
+			"cWolf" => new Wolf(handle, fromManaged),
+			"cZombie" => new Zombie(handle, fromManaged),
+			"cZombiePigman" => new ZombiePigman(handle, fromManaged),
+			"cZombieVillager" => new ZombieVillager(handle, fromManaged),
 			_ => new Entity(handle, fromManaged)
 		};
 	}
@@ -82,7 +119,7 @@ public unsafe class Entity : InteropReference, IEntity
 
 	public Vector3d GetPosition()
 	{
-		return WrapperFunctions.entity_get_position(Handle).ToVector3d();
+		return WrapperFunctions.entity_get_position(Handle);
 	}
 
 	public string GetClass()
@@ -103,5 +140,15 @@ public unsafe class Entity : InteropReference, IEntity
 	public bool IsInvisible()
 	{
 		return WrapperFunctions.entity_is_invisible(Handle);
+	}
+
+	public void TeleportToCoords(Vector3d position)
+	{
+		WrapperFunctions.entity_teleport_to_coords(Handle, position);
+	}
+
+	public void TeleportToEntity(IEntity entity)
+	{
+		WrapperFunctions.entity_teleport_to_entity(Handle, entity.GetInteropHandle());
 	}
 }

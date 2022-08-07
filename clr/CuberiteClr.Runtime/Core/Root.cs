@@ -78,4 +78,18 @@ public unsafe class Root : IRoot
 		var pickup = Entity.Create<IPickup>(pickupPtr, true);
 		return pickup;
 	}
+
+	public ICompositeChat CreateCompositeChat()
+	{
+		var compositeChatPtr = WrapperFunctions.create_composite_chat_1();
+		var compositeChat = CompositeChat.Create(compositeChatPtr, true);
+		return compositeChat;
+	}
+
+	public ICompositeChat CreateCompositeChat(string message, MessageType type = MessageType.Custom)
+	{
+		var compositeChatPtr = WrapperFunctions.create_composite_chat_2(message, type);
+		var compositeChat = CompositeChat.Create(compositeChatPtr, true);
+		return compositeChat;
+	}
 }

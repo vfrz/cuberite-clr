@@ -144,4 +144,17 @@ internal class DevTestPlugin : IClrPlugin
 			_root.BroadcastChat(_root.ItemTypeToString(pickup.Type));*/
 		return false;
 	}
+
+	public bool OnPlayerPlacedBlock(IPlayer player, SetBlock blockChange)
+	{
+		//_root.BroadcastChat($"Player {player.GetName()} has placed block: {blockChange.AbsolutePosition} - {blockChange.BlockType}");
+		return false;
+	}
+
+	public bool OnKilled(IEntity victim, TakeDamageInfo takeDamageInfo, string deathMessage)
+	{
+		if (takeDamageInfo.Attacker is IPlayer player)
+			_root.BroadcastChat($"Something has been killed by player: {player.GetName()}");
+		return false;
+	}
 }

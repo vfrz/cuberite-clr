@@ -6,6 +6,7 @@
     </PropertyGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\CuberiteClr.Runtime\CuberiteClr.Runtime.csproj" />
 		<ProjectReference Include="..\CuberiteClr.Sdk\CuberiteClr.Sdk.csproj" />
 	</ItemGroup>
 

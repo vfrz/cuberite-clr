@@ -38,4 +38,6 @@ public interface IWorld
 	public void DigBlock(Vector3i position, IEntity? digger = null);
 
 	public void DoExplosionAt(double size, Vector3d position, bool canCauseFire, ExplosionSource source, object sourceData);
+
+	public void CastThunderbolt(Vector3i block);
 }

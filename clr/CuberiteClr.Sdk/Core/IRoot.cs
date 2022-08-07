@@ -33,4 +33,8 @@ public interface IRoot
 
 	public IPickup CreatePickup(Vector3d position, IItem item, bool isPlayerCreated, Vector3f speed = default,
 		int lifetimeTicks = 6000, bool canCombine = true);
+
+	public ICompositeChat CreateCompositeChat();
+
+	public ICompositeChat CreateCompositeChat(string message, MessageType type = MessageType.Custom);
 }

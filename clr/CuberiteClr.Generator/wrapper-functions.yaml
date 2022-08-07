@@ -31,6 +31,30 @@ item_type_to_string:
   args:
     itemType: short
 
+# CompositeChat
+composite_chat_clear:
+  return: void
+  args:
+    compositeChat: cCompositeChat *
+composite_chat_add_text_part:
+  return: void
+  args:
+    compositeChat: cCompositeChat *
+    message: char *
+    style: char *
+composite_chat_get_message_type:
+  return: eMessageType
+  args:
+    compositeChat: cCompositeChat *
+composite_chat_get_additional_message_type_data:
+  return: const char *
+  args:
+    compositeChat: cCompositeChat *
+composite_chat_extract_text:
+  return: const char *
+  args:
+    compositeChat: cCompositeChat *
+
 # Enchantments
 enchantments_to_string:
   return: const char *
@@ -95,7 +119,7 @@ entity_get_entity_type:
   args:
     entity: cEntity *
 entity_get_position:
-  return: const Vector3d *
+  return: Vector3d
   args:
     entity: cEntity *
 entity_get_class:
@@ -111,6 +135,16 @@ entity_get_parent_class:
   return: const char *
   args:
     entity: cEntity *
+entity_teleport_to_coords:
+  return: void
+  args:
+    entity: cEntity *
+    position: Vector3d
+entity_teleport_to_entity:
+  return: void
+  args:
+    entity: cEntity *
+    target: cEntity *
 
 # Inventory
 inventory_add_item:
@@ -223,6 +257,68 @@ player_send_message:
   args:
     player: cPlayer *
     message: char *
+player_send_message_info:
+  return: void
+  args:
+    player: cPlayer *
+    message: char *
+player_send_message_failure:
+  return: void
+  args:
+    player: cPlayer *
+    message: char *
+player_send_message_success:
+  return: void
+  args:
+    player: cPlayer *
+    message: char *
+player_send_message_warning:
+  return: void
+  args:
+    player: cPlayer *
+    message: char *
+player_send_message_fatal:
+  return: void
+  args:
+    player: cPlayer *
+    message: char *
+player_send_message_private_msg:
+  return: void
+  args:
+    player: cPlayer *
+    message: char *
+    sender: char *
+player_send_message_composite:
+  return: void
+  args:
+    player: cPlayer *
+    message: cCompositeChat *
+player_send_message_raw:
+  return: void
+  args:
+    player: cPlayer *
+    message: char *
+    type: eChatType
+player_send_system_message:
+  return: void
+  args:
+    player: cPlayer *
+    message: char *
+player_send_above_action_bar_message:
+  return: void
+  args:
+    player: cPlayer *
+    message: char *
+player_send_system_message_composite:
+  return: void
+  args:
+    player: cPlayer *
+    message: cCompositeChat *
+player_send_above_action_bar_message_composite:
+  return: void
+  args:
+    player: cPlayer *
+    message: cCompositeChat *
 player_feed:
   return: bool
   args:
@@ -252,6 +348,11 @@ player_unfreeze:
   return: void
   args:
     player: cPlayer *
+player_has_permission:
+  return: bool
+  args:
+    player: cPlayer *
+    permission: char *
 
 # Root
 root_broadcast_chat:
@@ -364,6 +465,11 @@ world_for_each_player:
   args:
     world: cWorld *
     callback: void *
+world_cast_thunderbolt:
+  return: void
+  args:
+    world: cWorld *
+    block: Vector3i
 
 # Object creation
 create_item:
@@ -393,3 +499,14 @@ delete_pickup:
   return: void
   args:
     pickup: cPickup *
+create_composite_chat_1:
+  return: const cCompositeChat *
+create_composite_chat_2:
+  return: const cCompositeChat *
+  args:
+    parseText: char *
+    messageType: eMessageType
+delete_composite_chat:
+  return: void
+  args:
+    compositeChat: cCompositeChat *

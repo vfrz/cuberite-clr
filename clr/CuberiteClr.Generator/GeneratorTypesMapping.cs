@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CuberiteClr.Runtime.Core;
 using CuberiteClr.Sdk.Types;
 
 namespace CuberiteClr.Generator;
@@ -27,6 +28,7 @@ public static class GeneratorTypesMapping
 		// Specific
 		{"eBlockFace", nameof(BlockFace)},
 		{"eSpreadSource", nameof(SpreadSource)},
+		{"eChatType", nameof(ChatType)},
 		{"eDamageType", nameof(DamageType)},
 		{"cEntity::eEntityType", nameof(EntityType)},
 		{"eExplosionSource", nameof(ExplosionSource)},
@@ -35,7 +37,9 @@ public static class GeneratorTypesMapping
 		{"eWeather", nameof(Weather)},
 		{"BLOCKTYPE", nameof(BlockType)},
 		{"NIBBLETYPE", "byte"},
-		{"CommandResult &", $"ref {nameof(CommandResult)}"}
+		{"CommandResult &", $"ref {nameof(CommandResult)}"},
+		{"TakeDamageInfo", nameof(TakeDamageInfoInternal)},
+		{"sSetBlock", nameof(SetBlock)}
 	};
 
 	public static string MapCppToCsType(string type)

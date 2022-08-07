@@ -1,5 +1,6 @@
 // This file is auto-generated, please do not modify manually
 using System;
+using CuberiteClr.Runtime.Core;
 using CuberiteClr.Sdk.Types;
 
 namespace CuberiteClr.Runtime.Interop;
@@ -15,6 +16,8 @@ public static class Hooks
 	private delegate bool OnExecuteCommandDelegate(IntPtr player, IntPtr split, int splitLength, IntPtr entireCommand, ref CommandResult result);
 	private delegate bool OnLoginDelegate(IntPtr client, uint protocolVersion, IntPtr username);
 	private delegate bool OnDisconnectDelegate(IntPtr client, IntPtr reason);
+	private delegate bool OnKilledDelegate(IntPtr victim, TakeDamageInfoInternal takeDamageInfo, IntPtr deathMessage);
+	private delegate bool OnKillingDelegate(IntPtr victim, IntPtr killer, TakeDamageInfoInternal takeDamageInfo);
 	private delegate bool OnPlayerBreakingBlockDelegate(IntPtr player, Vector3i position, BlockFace face, BlockType type, byte meta);
 	private delegate bool OnPlayerBrokenBlockDelegate(IntPtr player, Vector3i position, BlockFace face, BlockType type, byte meta);
 	private delegate bool OnPlayerSpawnedDelegate(IntPtr player);
@@ -25,6 +28,8 @@ public static class Hooks
 	private delegate bool OnPlayerUsingBlockDelegate(IntPtr player, Vector3i blockPosition, BlockFace blockFace, Vector3i cursorPosition, BlockType blockType, byte blockMeta);
 	private delegate bool OnPlayerUsingItemDelegate(IntPtr player, Vector3i blockPosition, BlockFace blockFace, Vector3i cursorPosition);
 	private delegate bool OnPlayerTossingItemDelegate(IntPtr player);
+	private delegate bool OnPlayerPlacedBlockDelegate(IntPtr player, SetBlock blockChange);
+	private delegate bool OnPlayerPlacingBlockDelegate(IntPtr player, SetBlock blockChange);
 	private delegate bool OnWorldTickDelegate(IntPtr world, float delta, float lastTickDuration);
 	private delegate bool OnBlockSpreadDelegate(IntPtr world, Vector3i position, SpreadSource source);
 	private delegate bool OnBlockToPickupsDelegate(IntPtr world, Vector3i position, BlockType blockType, byte blockMeta, IntPtr blockEntity, IntPtr digger, IntPtr tool, IntPtr pickups, int pickupsLength);
@@ -40,6 +45,8 @@ public static class Hooks
 		new OnExecuteCommandDelegate(CuberiteClrManager.OnExecuteCommand),
 		new OnLoginDelegate(CuberiteClrManager.OnLogin),
 		new OnDisconnectDelegate(CuberiteClrManager.OnDisconnect),
+		new OnKilledDelegate(CuberiteClrManager.OnKilled),
+		new OnKillingDelegate(CuberiteClrManager.OnKilling),
 		new OnPlayerBreakingBlockDelegate(CuberiteClrManager.OnPlayerBreakingBlock),
 		new OnPlayerBrokenBlockDelegate(CuberiteClrManager.OnPlayerBrokenBlock),
 		new OnPlayerSpawnedDelegate(CuberiteClrManager.OnPlayerSpawned),
@@ -50,6 +57,8 @@ public static class Hooks
 		new OnPlayerUsingBlockDelegate(CuberiteClrManager.OnPlayerUsingBlock),
 		new OnPlayerUsingItemDelegate(CuberiteClrManager.OnPlayerUsingItem),
 		new OnPlayerTossingItemDelegate(CuberiteClrManager.OnPlayerTossingItem),
+		new OnPlayerPlacedBlockDelegate(CuberiteClrManager.OnPlayerPlacedBlock),
+		new OnPlayerPlacingBlockDelegate(CuberiteClrManager.OnPlayerPlacingBlock),
 		new OnWorldTickDelegate(CuberiteClrManager.OnWorldTick),
 		new OnBlockSpreadDelegate(CuberiteClrManager.OnBlockSpread),
 		new OnBlockToPickupsDelegate(CuberiteClrManager.OnBlockToPickups),

@@ -26,6 +26,39 @@ const char * ClrWrapper::item_type_to_string(short itemType)
 	return name->c_str();
 }
 
+// CompositeChat
+void ClrWrapper::composite_chat_clear(cCompositeChat * compositeChat)
+{
+	compositeChat->Clear();
+}
+
+void ClrWrapper::composite_chat_add_text_part(
+	cCompositeChat * compositeChat, char * message, char * style)
+{
+	compositeChat->AddTextPart(message, style);
+}
+
+eMessageType
+ClrWrapper::composite_chat_get_message_type(cCompositeChat * compositeChat)
+{
+	return compositeChat->GetMessageType();
+}
+
+const char * ClrWrapper::composite_chat_get_additional_message_type_data(
+	cCompositeChat * compositeChat)
+{
+	auto messageTypeData = std::make_shared<AString>(
+		compositeChat->GetAdditionalMessageTypeData());
+	return messageTypeData->c_str();
+}
+
+const char *
+ClrWrapper::composite_chat_extract_text(cCompositeChat * compositeChat)
+{
+	auto text = std::make_shared<AString>(compositeChat->ExtractText());
+	return text->c_str();
+}
+
 // Enchantments
 const char * ClrWrapper::enchantments_to_string(cEnchantments * enchantments)
 {
@@ -90,9 +123,9 @@ cEntity::eEntityType ClrWrapper::entity_get_entity_type(cEntity * entity)
 	return entity->GetEntityType();
 }
 
-const Vector3d * ClrWrapper::entity_get_position(cEntity * entity)
+Vector3d ClrWrapper::entity_get_position(cEntity * entity)
 {
-	return &entity->GetPosition();
+	return entity->GetPosition();
 }
 
 const char * ClrWrapper::entity_get_class(cEntity * entity)
@@ -108,6 +141,16 @@ bool ClrWrapper::entity_is_a(cEntity * entity, char * className)
 const char * ClrWrapper::entity_get_parent_class(cEntity * entity)
 {
 	return entity->GetParentClass();
+}
+
+void ClrWrapper::entity_teleport_to_coords(cEntity * entity, Vector3d position)
+{
+	entity->TeleportToCoords(position.x, position.y, position.z);
+}
+
+void ClrWrapper::entity_teleport_to_entity(cEntity * entity, cEntity * target)
+{
+	entity->TeleportToEntity(*target);
 }
 
 // Inventory
@@ -159,10 +202,7 @@ bool ClrWrapper::pickup_collected_by(cPickup * pickup, cEntity * entity)
 	return pickup->CollectedBy(*entity);
 }
 
-int ClrWrapper::pickup_get_age(cPickup * pickup)
-{
-	return pickup->GetAge();
-}
+int ClrWrapper::pickup_get_age(cPickup * pickup) { return pickup->GetAge(); }
 
 void ClrWrapper::pickup_set_age(cPickup * pickup, int age)
 {
@@ -251,9 +291,77 @@ bool ClrWrapper::player_is_frozen(cPlayer * player)
 	return player->IsFrozen();
 }
 
-void ClrWrapper::player_unfreeze(cPlayer * player)
+void ClrWrapper::player_unfreeze(cPlayer * player) { player->Unfreeze(); }
+
+void ClrWrapper::player_send_message_info(cPlayer * player, char * message)
 {
-	player->Unfreeze();
+	player->SendMessageInfo(message);
+}
+
+void ClrWrapper::player_send_message_failure(cPlayer * player, char * message)
+{
+	player->SendMessageFailure(message);
+}
+
+void ClrWrapper::player_send_message_success(cPlayer * player, char * message)
+{
+	player->SendMessageSuccess(message);
+}
+
+void ClrWrapper::player_send_message_warning(cPlayer * player, char * message)
+{
+	player->SendMessageWarning(message);
+}
+
+void ClrWrapper::player_send_message_fatal(cPlayer * player, char * message)
+{
+	player->SendMessageFatal(message);
+}
+
+void ClrWrapper::player_send_message_private_msg(
+	cPlayer * player, char * message, char * sender)
+{
+	player->SendMessagePrivateMsg(message, sender);
+}
+
+void ClrWrapper::player_send_message_composite(
+	cPlayer * player, cCompositeChat * message)
+{
+	player->SendMessage(*message);
+}
+
+void ClrWrapper::player_send_message_raw(
+	cPlayer * player, char * message, eChatType type)
+{
+	player->SendMessageRaw(message, type);
+}
+
+void ClrWrapper::player_send_system_message(cPlayer * player, char * message)
+{
+	player->SendSystemMessage(message);
+}
+
+void ClrWrapper::player_send_above_action_bar_message(
+	cPlayer * player, char * message)
+{
+	player->SendAboveActionBarMessage(message);
+}
+
+void ClrWrapper::player_send_system_message_composite(
+	cPlayer * player, cCompositeChat * message)
+{
+	player->SendSystemMessage(*message);
+}
+
+void ClrWrapper::player_send_above_action_bar_message_composite(
+	cPlayer * player, cCompositeChat * message)
+{
+	player->SendAboveActionBarMessage(*message);
+}
+
+bool ClrWrapper::player_has_permission(cPlayer * player, char * permission)
+{
+	return player->HasPermission(permission);
 }
 
 // Root
@@ -386,6 +494,11 @@ bool ClrWrapper::world_for_each_player(cWorld * world, void * callback)
 	});
 }
 
+void ClrWrapper::world_cast_thunderbolt(cWorld * world, Vector3i block)
+{
+	world->CastThunderbolt(block);
+}
+
 // Objects creation
 const cItem * ClrWrapper::create_item(
 	short itemType, char itemCount, short itemDamage, char * enchantments,
@@ -407,4 +520,24 @@ const cPickup * ClrWrapper::create_pickup(
 		position, *item, isPlayerCreated, speed, lifetimeTicks, canCombine);
 	return pickup;
 }
+
 void ClrWrapper::delete_pickup(cPickup * pickup) { delete pickup; }
+
+const cCompositeChat * ClrWrapper::create_composite_chat_1()
+{
+	const cCompositeChat * compositeChat = new cCompositeChat();
+	return compositeChat;
+}
+
+const cCompositeChat *
+ClrWrapper::create_composite_chat_2(char * parseText, eMessageType messageType)
+{
+	const cCompositeChat * compositeChat =
+		new cCompositeChat(parseText, messageType);
+	return compositeChat;
+}
+
+void ClrWrapper::delete_composite_chat(cCompositeChat * compositeChat)
+{
+	delete compositeChat;
+}

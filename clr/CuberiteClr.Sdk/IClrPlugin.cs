@@ -107,4 +107,24 @@ public interface IClrPlugin
 	{
 		return false;
 	}
+
+	public bool OnKilled(IEntity victim, TakeDamageInfo takeDamageInfo, string deathMessage)
+	{
+		return false;
+	}
+
+	public bool OnKilling(IEntity victim, IEntity killer, TakeDamageInfo takeDamageInfo)
+	{
+		return false;
+	}
+
+	public bool OnPlayerPlacedBlock(IPlayer player, SetBlock blockChange)
+	{
+		return false;
+	}
+
+	public bool OnPlayerPlacingBlock(IPlayer player, SetBlock blockChange)
+	{
+		return false;
+	}
 }
