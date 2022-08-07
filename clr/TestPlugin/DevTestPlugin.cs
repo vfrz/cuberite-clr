@@ -1,4 +1,5 @@
-﻿using CuberiteClr.Sdk;
+﻿using System.Runtime.InteropServices;
+using CuberiteClr.Sdk;
 using CuberiteClr.Sdk.Core;
 using CuberiteClr.Sdk.Entities;
 using CuberiteClr.Sdk.Types;
@@ -32,6 +33,18 @@ internal class DevTestPlugin : IClrPlugin
 		_root.BindCommand("/players", PlayersCallback);
 		_root.BindCommand("/pos", PositionCallback);
 		_root.BindCommand("/spawn", SpawnCallback);
+		_root.BindCommand("/items", (command, split, player) =>
+		{
+			var cactus = _root.CreateItem(BlockType.Cactus);
+			var diamond = _root.CreateItem(ItemType.Diamond, 10);
+			var items = new[]
+			{
+				cactus,
+				diamond
+			};
+			player.GetInventory().AddItems(items);
+			return true;
+		});
 		_root.BindCommand("/switch", (command, split, player) =>
 		{
 			_roleService.SwitchAdmin(player);

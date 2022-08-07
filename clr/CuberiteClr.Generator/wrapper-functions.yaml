@@ -152,6 +152,106 @@ inventory_add_item:
   args:
     inventory: cInventory *
     item: cItem *
+    allowNewStacks: bool
+inventory_add_items:
+  return: char
+  args:
+    inventory: cInventory *
+    itemStackList: cItem **
+    itemStackListLength: int
+    allowNewStacks: bool
+inventory_clear:
+  return: void
+  args:
+    inventory: cInventory *
+inventory_how_many_can_fit_1:
+  return: int
+  args:
+    inventory: cInventory *
+    itemStack: cItem *
+    considerEmptySlots: bool
+inventory_how_many_can_fit_2:
+  return: int
+  args:
+    inventory: cInventory *
+    itemStack: cItem *
+    beginSlotNum: int
+    endSlotNum: int
+    considerEmptySlots: bool
+inventory_remove_item:
+  return: int
+  args:
+    inventory: cInventory *
+    itemStack: cItem *
+inventory_find_item:
+  return: cItem *
+  args:
+    inventory: cInventory *
+    recipeItem: cItem *
+inventory_remove_one_equipped_item:
+  return: bool
+  args:
+    inventory: cInventory *
+inventory_replace_one_equipped_item:
+  return: bool
+  args:
+    inventory: cInventory *
+    item: cItem *
+    tryOtherSlots: bool
+inventory_how_many_items:
+  return: int
+  args:
+    inventory: cInventory *
+    item: cItem *
+inventory_has_items:
+  return: bool
+  args:
+    inventory: cInventory *
+    itemStack: cItem *
+inventory_get_owner:
+  return: cPlayer *
+  args:
+    inventory: cInventory *
+inventory_get_slot:
+  return: const cItem *
+  args:
+    inventory: cInventory *
+    slotNum: int
+inventory_get_armor_slot:
+  return: const cItem *
+  args:
+    inventory: cInventory *
+    armorSlotNum: int
+inventory_get_inventory_slot:
+  return: const cItem *
+  args:
+    inventory: cInventory *
+    inventorySlotNum: int
+inventory_get_hotbar_slot:
+  return: const cItem *
+  args:
+    inventory: cInventory *
+    hotbarSlotNum: int
+inventory_get_shield_slot:
+  return: const cItem *
+  args:
+    inventory: cInventory *
+inventory_get_armor_grid:
+  return: cItemGrid *
+  args:
+    inventory: cInventory *
+inventory_get_inventory_grid:
+  return: cItemGrid *
+  args:
+    inventory: cInventory *
+inventory_get_hotbar_grid:
+  return: cItemGrid *
+  args:
+    inventory: cInventory *
+inventory_get_equipped_item:
+  return: const cItem *
+  args:
+    inventory: cInventory *
 
 # Item
 item_get_type:

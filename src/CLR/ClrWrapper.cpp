@@ -154,9 +154,121 @@ void ClrWrapper::entity_teleport_to_entity(cEntity * entity, cEntity * target)
 }
 
 // Inventory
-char ClrWrapper::inventory_add_item(cInventory * inventory, cItem * item)
+char ClrWrapper::inventory_add_item(
+	cInventory * inventory, cItem * item, bool allowNewStacks)
 {
-	return inventory->AddItem(*item);
+	return inventory->AddItem(*item, allowNewStacks);
+}
+
+char ClrWrapper::inventory_add_items(
+	cInventory * inventory, cItem ** itemStackList, int itemStackListLength,
+	bool allowNewStacks)
+{
+	auto items = cItems();
+	for (int i = 0; i < itemStackListLength; ++i)
+		items.Add(*itemStackList[i]);
+	return inventory->AddItems(items, allowNewStacks);
+}
+
+void ClrWrapper::inventory_clear(cInventory * inventory) { inventory->Clear(); }
+
+int ClrWrapper::inventory_how_many_can_fit_1(
+	cInventory * inventory, cItem * itemStack, bool considerEmptySlots)
+{
+	return inventory->HowManyCanFit(*itemStack, considerEmptySlots);
+}
+
+int ClrWrapper::inventory_how_many_can_fit_2(
+	cInventory * inventory, cItem * itemStack, int beginSlotNum, int endSlotNum,
+	bool considerEmptySlots)
+{
+	return inventory->HowManyCanFit(
+		*itemStack, beginSlotNum, endSlotNum, considerEmptySlots);
+}
+
+int ClrWrapper::inventory_remove_item(cInventory * inventory, cItem * itemStack)
+{
+	return inventory->RemoveItem(*itemStack);
+}
+
+cItem *
+ClrWrapper::inventory_find_item(cInventory * inventory, cItem * recipeItem)
+{
+	return inventory->FindItem(*recipeItem);
+}
+
+bool ClrWrapper::inventory_remove_one_equipped_item(cInventory * inventory)
+{
+	return inventory->RemoveOneEquippedItem();
+}
+
+bool ClrWrapper::inventory_replace_one_equipped_item(
+	cInventory * inventory, cItem * item, bool tryOtherSlots)
+{
+	return inventory->ReplaceOneEquippedItem(*item, tryOtherSlots);
+}
+
+int ClrWrapper::inventory_how_many_items(cInventory * inventory, cItem * item)
+{
+	return inventory->HowManyItems(*item);
+}
+
+bool ClrWrapper::inventory_has_items(cInventory * inventory, cItem * itemStack)
+{
+	return inventory->HasItems(*itemStack);
+}
+
+cPlayer * ClrWrapper::inventory_get_owner(cInventory * inventory)
+{
+	return &inventory->GetOwner();
+}
+
+const cItem * ClrWrapper::inventory_get_slot(cInventory * inventory, int slotNum)
+{
+	return &inventory->GetSlot(slotNum);
+}
+
+const cItem *
+ClrWrapper::inventory_get_armor_slot(cInventory * inventory, int armorSlotNum)
+{
+	return &inventory->GetArmorSlot(armorSlotNum);
+}
+
+const cItem * ClrWrapper::inventory_get_inventory_slot(
+	cInventory * inventory, int inventorySlotNum)
+{
+	return &inventory->GetInventorySlot(inventorySlotNum);
+}
+
+const cItem *
+ClrWrapper::inventory_get_hotbar_slot(cInventory * inventory, int hotbarSlotNum)
+{
+	return &inventory->GetHotbarSlot(hotbarSlotNum);
+}
+
+const cItem * ClrWrapper::inventory_get_shield_slot(cInventory * inventory)
+{
+	return &inventory->GetShieldSlot();
+}
+
+cItemGrid * ClrWrapper::inventory_get_armor_grid(cInventory * inventory)
+{
+	return &inventory->GetArmorGrid();
+}
+
+cItemGrid * ClrWrapper::inventory_get_inventory_grid(cInventory * inventory)
+{
+	return &inventory->GetInventoryGrid();
+}
+
+cItemGrid * ClrWrapper::inventory_get_hotbar_grid(cInventory * inventory)
+{
+	return &inventory->GetHotbarGrid();
+}
+
+const cItem * ClrWrapper::inventory_get_equipped_item(cInventory * inventory)
+{
+	return &inventory->GetEquippedItem();
 }
 
 // Item

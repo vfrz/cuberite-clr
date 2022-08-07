@@ -2,7 +2,7 @@ using LiteDB;
 
 namespace TestPlugin;
 
-public class AdminRecord
+internal class AdminRecord
 {
 	[BsonId]
 	public Guid PlayerId { get; set; }
