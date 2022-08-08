@@ -72,7 +72,6 @@ Makefile
 
 *.a
 *.d
-*.so
 tests/*/*-exe
 CMakeCache.txt
 CMakeFiles
